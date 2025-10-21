@@ -8,10 +8,7 @@ public class meal_fall : MonoBehaviour
     public static float Meal_Weight = 2.5f;
 
     // ごはん出現位置
-    Vector2 feedPoinit;
-
-    // カーソル位置の取得
-    Vector2 mousePos;
+    Vector3 feedPoinit;
 
     void Start()
     {
@@ -20,18 +17,16 @@ public class meal_fall : MonoBehaviour
 
     void Update()
     {
-        mousePos = Input.mousePosition;
-        mousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
 
         // 左クリックしたとき
         if (Input.GetMouseButton(0))
         {
             Debug.Log("左クリックした");
-            // Instantiate(Meal_prefab, mousePos, Quaternion.identity);
             // 一定の時間が経過するごとに
             if (Time.frameCount % 200 == 0)
             {
-                Instantiate(Meal_prefab, feedPoinit, Quaternion.identity);
+                Instantiate(Meal_prefab);
+                // Instantiate(Meal_prefab, transform.position + feedPoinit, Quaternion.identity);
             }
         }
     }
