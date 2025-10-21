@@ -12,7 +12,7 @@ MonoImporter:
   - scottish: {fileID: 2091733222085356502, guid: f0ea5f7201261ae4987de9b5bb32c814, type: 3}
   - black: {fileID: 1584096323866629661, guid: e07bdf4be92fa3949bc78319284a2d95, type: 3}
   - white: {fileID: 6726530565398571359, guid: a6841633fa5f09b4ea1811c2d814a85e, type: 3}
-  - saba: {fileID: 2244376590116257850, guid: 5f2a3af986dc9344fa2162c06e9e2705, type: 3}
+  - sabatora: {fileID: 2244376590116257850, guid: 5f2a3af986dc9344fa2162c06e9e2705, type: 3}
   - cyatora: {fileID: 1312797360902586952, guid: 043ecd66735beed40b08fede31b99da4, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
