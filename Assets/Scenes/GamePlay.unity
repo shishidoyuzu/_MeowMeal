@@ -393,7 +393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -243, y: -140}
+  m_AnchoredPosition: {x: -278, y: -162}
   m_SizeDelta: {x: 142.95, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &448471980
@@ -447,8 +447,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 592485379}
+  - component: {fileID: 592485380}
   m_Layer: 0
-  m_Name: meal_pos
+  m_Name: feedPoint
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -462,13 +463,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 592485378}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 1.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0.7071068, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1198907165}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &592485380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592485378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332330f556f98824694e5263282bcffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Meal_prefab: {fileID: 5237713541183580386, guid: d50ce11e16796f34e8a8a39f3ad2beb1, type: 3}
+  CupPoint_pos: {fileID: 592485379}
+  mealCount: 1
+  dropInterval: 0.15
 --- !u!1 &725622295
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,7 +665,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1198907165}
   - component: {fileID: 1198907164}
-  - component: {fileID: 1198907166}
   m_Layer: 0
   m_Name: Cup
   m_TagString: Untagged
@@ -720,23 +736,9 @@ Transform:
   m_LocalPosition: {x: -0.7, y: 3, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 592485379}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 90}
---- !u!114 &1198907166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1198907163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 332330f556f98824694e5263282bcffe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Meal_prefab: {fileID: 5237713541183580386, guid: d50ce11e16796f34e8a8a39f3ad2beb1, type: 3}
 --- !u!1 &1263338368
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,7 +1146,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -244, y: -211}
+  m_AnchoredPosition: {x: -189, y: -229}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1920247358
@@ -1411,6 +1413,7 @@ SceneRoots:
   - {fileID: 67697481}
   - {fileID: 1949849985683725079}
   - {fileID: 148129351}
+  - {fileID: 592485379}
   - {fileID: 1198907165}
   - {fileID: 992910494}
   - {fileID: 2752554762013619961}

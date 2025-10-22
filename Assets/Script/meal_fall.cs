@@ -5,33 +5,77 @@ public class meal_fall : MonoBehaviour
 {
     // ごはんのプレハブ
     public GameObject Meal_prefab;
-    // ごはん出現位置
-    Vector3 feedPoinit;
+    // カップの位置
+    public Transform CupPoint_pos;
 
-    void Start()
-    {
-        feedPoinit = new Vector3(0, 2, 0);
-    }
+    public int mealCount = 10; // 一度に落とすごはんの数
+    public float dropInterval = 0.3f; // ごはんを落とす間隔（秒）
+
+    //private float timer = 0f;
 
     void Update()
     {
         // 左クリックしたとき
         if (Input.GetMouseButton(0))
         {
+            // UIの上にカーソルが乗っていなかったら
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                Debug.Log("左クリック！ごはんが出るよ！");
-                // 一定の時間が経過するごとに
-                if (Time.frameCount % 180 == 0)
-                    Instantiate(Meal_prefab, feedPoinit, Quaternion.identity);
+                /*
+                timer += Time.deltaTime;
+
+                if (timer >= dropInterval)
+                {
+                    DropMeal();
+                    timer = 0f;
+                }
             }
-            else
+        }
+        else
+        {
+            timer = 0f; // クリックしてないときはタイマーリセット
+        }
+                */
+
+                // 一定の時間が経過するごとに
+                if (Time.frameCount % 100 == 0)
+                {               
+                    Debug.Log("左クリック！ごはんが出るよ！");
+                    DropMeal();
+                }
+                else
+                {
+                    Debug.Log("UIの上だからクリック無効！");
+                }
+            }
+        }
+
+
+        void DropMeal()
+        {
+            for (int i = 0; i < mealCount; i++)
             {
-                Debug.Log("UIの上だからクリック無効！");
+                Vector3 randomOffset = new Vector3(
+                    Random.Range(-0.3f, 0.3f),
+                    Random.Range(-0.1f, 0.1f),
+                    0
+                );
+
+                Vector3 spawnPos = CupPoint_pos.position + randomOffset;
+
+                GameObject meal = Instantiate(Meal_prefab, spawnPos, Quaternion.identity);
+
+                Rigidbody2D rb = meal.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                {
+                    Vector2 force = new Vector2(Random.Range(-1f, 1f), Random.Range(-2f, -5f));
+                    rb.AddForce(force, ForceMode2D.Impulse);
+                }
             }
         }
     }
 }
+
 /*
     うまくいかなかったので今回は不使用
     RaycastHit2D raycastHit2D…レイが何かに当たった場合の

@@ -7,7 +7,7 @@ public class Plate : MonoBehaviour
     [SerializeField] Text meal_g;
 
     // ごはん1粒の重さ
-    public static float Meal_Weight = 1.25f;
+    public static float Meal_Weight = 1.0f;
 
     // 今現在のごはん量（表示する）
     private float Now_gram;
