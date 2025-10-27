@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class meal_fall : MonoBehaviour
+public class Meal_Fall : MonoBehaviour
 {
     // ‚²‚Í‚ñ‚ÌƒvƒŒƒnƒu
     public GameObject Meal_prefab;

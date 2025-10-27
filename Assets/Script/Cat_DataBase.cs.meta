@@ -1,11 +1,10 @@
 fileFormatVersion: 2
-guid: 332330f556f98824694e5263282bcffe
+guid: 79d5f3a4c2ec3544482ee2d5bb9aa511
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - Meal_prefab: {fileID: 5237713541183580386, guid: d50ce11e16796f34e8a8a39f3ad2beb1, type: 3}
-  - CupPoint_pos: {instanceID: 0}
+  - csvFile: {fileID: 4900000, guid: 64a3727e2f1a0d44e8e6fac710f2ec71, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

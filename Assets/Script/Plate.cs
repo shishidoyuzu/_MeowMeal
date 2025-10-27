@@ -7,13 +7,24 @@ public class Plate : MonoBehaviour
     [SerializeField] Text meal_g;
 
     // ごはん1粒の重さ
-    public static float Meal_Weight = 0.5f;
+    public static float Meal_weight = 0.5f;
 
     // 今現在のごはん量（表示する）
     private float Now_gram;
 
+    // ごはんの誤差
+    public float Cat_margin = 3.0f;
 
-    // Update is called once per frame
+    // 出ているネコの規定ごはん量
+    private int Target_Meal;
+
+    void Start()
+    {
+        // テスト用に固定
+        Target_Meal = Cat_DataBase.Instance.GetFoodAmount("クロネコ");
+    }
+
+
     void Update()
     {
         // グラム数を表示する
@@ -27,11 +38,32 @@ public class Plate : MonoBehaviour
         if (collision.gameObject.tag == "Meal")
         {
             // お皿に当たると、今のごはん量に１粒のグラムを足していく
-            Now_gram += Meal_Weight;
+            Now_gram += Meal_weight;
 
             // お皿に当たったらご飯が消える
             Destroy(collision.gameObject);
         }
     }
 
+    public void DecideMeal()
+    {
+        // ごはん量のズレ
+        float diff = Now_gram - Target_Meal;
+
+        if (Mathf.Abs(diff) <= Cat_margin)
+        {
+            // ぴったり
+            Debug.Log("ちょうどいい！ネコが喜んでる！");
+        }
+        else if (diff < 0)
+        {
+            // すくない
+            Debug.Log("少なかったみたい…");
+        }
+        else
+        {
+            // おおい！
+            Debug.Log("多すぎた！");
+        }
+    }
 }
