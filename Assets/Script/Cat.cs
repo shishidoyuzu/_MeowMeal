@@ -13,7 +13,7 @@ public class Cat : MonoBehaviour
     void Start()
     {
         // ランダムにネコをピックアップする
-        //string Cat_Random = catData.name[Random.Range(0, catData.)];
+
     }
 
     void Update()

@@ -6,10 +6,13 @@ public class Meal_Fall : MonoBehaviour
     // ごはんのプレハブ
     public GameObject Meal_prefab;
     // カップの位置
-    public Transform CupPoint_pos;
+    public Transform Cup_pos;
+    // ごはんを落とす間隔（秒）
+    public float dropInterval = 0.1f;
 
-    public float dropInterval = 0.3f; // ごはんを落とす間隔（秒）
+    public GameObject Decide_Button;
 
+    // 時間を測るタイマー
     private float timer = 0f;
 
     void Update()
@@ -20,6 +23,9 @@ public class Meal_Fall : MonoBehaviour
             // UIの上にカーソルが乗っていなかったら
             if (!EventSystem.current.IsPointerOverGameObject())
             {
+                // マウスの左ボタンを離したとき「これくらいにする」ボタンを非表示に
+                Decide_Button.SetActive(false);
+
                 // 経過時間を足していく
                 timer += Time.deltaTime;
                 // dropIntervalの値になると、ごはんを落としタイマーをリセット
@@ -33,9 +39,12 @@ public class Meal_Fall : MonoBehaviour
         }
         else
         {
+            //「これくらいにする」ボタンを表示
+            Decide_Button.SetActive(true);
+
             // クリックしてないときはタイマーリセット
             timer = 0f;
-        }            
+        }
     }
 
     void DropMeal()
@@ -48,7 +57,7 @@ public class Meal_Fall : MonoBehaviour
         );
 
         // 決めた座標を、ごはんをおとす座標にする
-        Vector3 spawnPos = CupPoint_pos.position + randomOffset;
+        Vector3 spawnPos = Cup_pos.position + randomOffset;
 
         // ごはんプレハブを生成
         GameObject meal = Instantiate(Meal_prefab, spawnPos, Quaternion.identity);

@@ -97,4 +97,16 @@ public class Cat_DataBase : MonoBehaviour
             return -1;
         }
     }
+
+    public int GetCatCount()
+    {
+        return catList.Count;
+    }
+
+    public CatData GetCatDataByIndex(int index)
+    {
+        if (index >= 0 && index < catList.Count)
+            return catList[index];
+        return null;
+    }
 }
