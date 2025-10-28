@@ -7,13 +7,13 @@ public class Cat : MonoBehaviour
     public int targetMeal; // ネコの規定ごはん量
     public SpriteRenderer catSprite; // ネコの見た目
 
-    Cat_DataBase catData;
-    private 
+
+    private CatData catData;
 
     void Start()
     {
         // ランダムにネコをピックアップする
-
+        //string Cat_Random = catData.name[Random.Range(0, catData.)];
     }
 
     void Update()

@@ -30,10 +30,6 @@ public class Meal_Fall : MonoBehaviour
                     timer = 0f; // 経過時間のリセット
                 }
             }
-            else
-            {
-                Debug.Log("UIの上だからクリック無効！");
-            }
         }
         else
         {

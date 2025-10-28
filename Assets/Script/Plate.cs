@@ -16,7 +16,7 @@ public class Plate : MonoBehaviour
     public float Cat_margin = 3.0f;
 
     // 出ているネコの規定ごはん量
-    private int Target_Meal;
+    private int Target_Meal = 45;
 
     // ねこの感情テキスト
     [SerializeField] TextMeshProUGUI Cat_emotion_Text;
@@ -24,7 +24,9 @@ public class Plate : MonoBehaviour
     void Start()
     {
         // テスト用に固定（今回はハチワレ）
-        Target_Meal = Cat_DataBase.Instance.GetFoodAmount("ハチワレ");
+        //Target_Meal = Cat_DataBase.Instance.GetFoodAmount("ハチワレ");
+
+        Debug.Log("目標グラム：" + Target_Meal);
     }
 
     void Update()
@@ -58,23 +60,33 @@ public class Plate : MonoBehaviour
         // ごはん量のズレ
         float diff = Now_gram - Target_Meal;
 
-        if (Mathf.Abs(diff) <= Cat_margin)
+        if (Now_gram == Target_Meal)
         {
             // ぴったり
-            Cat_emotion_Text.text = "ちょうどいい！";
+            Cat_emotion_Text.text = "ぴったり！すごい！";
+            Debug.Log("ピッタリ！ネコが喜んでる！");
+            // 満面のにゃん
+        }
+        else if (Mathf.Abs(diff) <= Cat_margin)
+        {
+            // 誤差の範囲内
+            Cat_emotion_Text.text = "ちょうどいいごはんの量！";
             Debug.Log("ちょうどいい！ネコが喜んでる！");
+            // にこにこ
         }
         else if (diff < 0)
         {
             // すくない
-            Cat_emotion_Text.text = "少ない！";
+            Cat_emotion_Text.text = "ごはんが少ない！";
             Debug.Log("少なかったみたい…");
+            // しょんぼり
         }
         else
         {
             // おおい！
-            Cat_emotion_Text.text = "多い！";
+            Cat_emotion_Text.text = "ごはんが多い！";
             Debug.Log("多すぎた！");
+            // ムッおこ
         }
     }
 }
