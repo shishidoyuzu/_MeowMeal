@@ -20,7 +20,7 @@ public class Cat_DataBase : MonoBehaviour
 {
     public static Cat_DataBase Instance;   // シングルトン（どこからでも呼び出せる）
     public TextAsset csvFile;              // cats_data.csv をここにドラッグ
-    private List<CatData> catList = new List<CatData>();
+    public List<CatData> catList = new List<CatData>();
 
     void Awake()
     {

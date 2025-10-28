@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Plate : MonoBehaviour
 {
@@ -27,7 +26,6 @@ public class Plate : MonoBehaviour
         // テスト用に固定（今回はハチワレ）
         Target_Meal = Cat_DataBase.Instance.GetFoodAmount("ハチワレ");
     }
-
 
     void Update()
     {
