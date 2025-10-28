@@ -2,7 +2,7 @@ using System.Collections.Generic; // ListやDictionaryを使用するため
 using System.IO; // (csvなどの)ファイルを読み書きするため
 using UnityEngine;
 
-// --- ねこデータクラス（１匹分）---
+// --- ねこデータクラス ---
 public class CatData
 {
     public string name;      // ネコの名前

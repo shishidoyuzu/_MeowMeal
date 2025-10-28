@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Plate : MonoBehaviour
 {
     // ごはん量テキスト
-    [SerializeField] Text meal_g;
+    [SerializeField] TextMeshProUGUI meal_g;
 
     // ごはん1粒の重さ
     public static float Meal_weight = 0.25f;
@@ -20,19 +20,19 @@ public class Plate : MonoBehaviour
     private int Target_Meal;
 
     // ねこの感情テキスト
-    public TextMeshProUGUI Cat_emotion_Text;
+    [SerializeField] TextMeshProUGUI Cat_emotion_Text;
 
     void Start()
     {
-        // テスト用に固定
-        Target_Meal = Cat_DataBase.Instance.GetFoodAmount("クロネコ");
+        // テスト用に固定（今回はハチワレ）
+        Target_Meal = Cat_DataBase.Instance.GetFoodAmount("ハチワレ");
     }
 
 
     void Update()
     {
         // グラム数を表示する
-        meal_g.text = Now_gram.ToString("N2") + "ｇ";
+        meal_g.text = Now_gram.ToString("N2") + "g";
     }
 
 
@@ -52,6 +52,11 @@ public class Plate : MonoBehaviour
 
     public void DecideMeal()
     {
+        // ゲーム内の鵜土岐では、「このくらいにする！」ボタンを押した時点で
+        // ネコがごはんを食べる描写が入り、ネコの感情表現になる。
+        // そして、そのまま次のネコへと進んでいく
+
+
         // ごはん量のズレ
         float diff = Now_gram - Target_Meal;
 
