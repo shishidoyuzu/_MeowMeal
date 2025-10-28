@@ -8,7 +8,7 @@ public class Meal_Fall : MonoBehaviour
     // カップの位置
     public Transform Cup_pos;
     // ごはんを落とす間隔（秒）
-    public float dropInterval = 0.1f;
+    public float dropInterval = 0.05f;
 
     public GameObject Decide_Button;
 
@@ -73,16 +73,3 @@ public class Meal_Fall : MonoBehaviour
         }
     }
 }
-
-/*
-    うまくいかなかったので今回は不使用
-
-    RaycastHit2D raycastHit2D…レイが何かに当たった場合の
-                               情報（位置や当たったオブジェクトなど）を格納する変数。
-
-    Physics2D.Raycast()…Unityの2D物理エンジンでレイキャストを行う関数。
-
-    ～引数～
-        (Vector2)ray.origin…レイの開始位置。
-        (Vector2)ray.direction…レイの進む方向。
- */

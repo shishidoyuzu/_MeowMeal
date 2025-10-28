@@ -4,33 +4,33 @@ using UnityEngine.UI;
 
 public class Plate : MonoBehaviour
 {
-    // ごはん量テキスト
-    [SerializeField] TextMeshProUGUI meal_g;
-
     // ごはん1粒の重さ
     public static float Meal_weight = 0.25f;
 
     // 今現在のごはん量（表示する）
     private float Now_gram;
+    // ごはん量テキスト
+    [SerializeField] TextMeshProUGUI meal_g;
 
     // ごはんの誤差
     public float Cat_margin = 3.0f;
+    // ごはんの誤差テキスト
     [SerializeField] TextMeshProUGUI Cat_margin_Text;
 
-    // 出ているネコの規定ごはん量
-    private int Target_Meal = 45;
-
-    // ねこの目標ごはん量表示テキスト
+    // ねこの理想ごはん量
+    private int Target_Meal;
+    // ねこの理想ごはん量テキスト
     [SerializeField] TextMeshProUGUI Target_Meal_Text;
 
     // ねこの感情テキスト
     [SerializeField] TextMeshProUGUI Cat_emotion_Text;
 
+    private GameManager gameManager;
 
     void Start()
     {
         // テスト用に固定（今回はハチワレ）
-        //Target_Meal = Cat_DataBase.Instance.GetFoodAmount("ハチワレ");
+        Target_Meal = Cat_DataBase.Instance.GetFoodAmount("ハチワレ");
 
         Target_Meal_Text.text = "目標グラム：" + Target_Meal + "g";
         Cat_margin_Text.text = "誤差：" + Cat_margin + "g";
@@ -72,8 +72,6 @@ public class Plate : MonoBehaviour
     {
         // ゲーム内では、「このくらいにする！」ボタンを押した時点で
         // ネコがごはんを食べる描写が入り、ネコの感情表現になる。
-        // そして、そのまま次のネコへと進んでいく
-
 
         // ごはん量のズレ
         float diff = Now_gram - Target_Meal;
@@ -105,6 +103,14 @@ public class Plate : MonoBehaviour
             Cat_emotion_Text.text = "ごはんが多い！";
             Debug.Log("多すぎた！");
             // ムッおこ
+        }
+
+        // 感情描画が終われば次のネコへ
+
+        // ネコに反応させる
+        if (gameManager != null)
+        {
+            gameManager.DecideCatMeal(diff, Cat_margin);
         }
     }
 }

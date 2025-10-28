@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5549930693849526696}
   - component: {fileID: 680770504615249545}
+  - component: {fileID: 8781778580187330686}
   m_Layer: 0
   m_Name: cat_scottish_fold
   m_TagString: Untagged
@@ -84,3 +85,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8781778580187330686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091733222085356502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a70645c67401e4d9fcce8cafaa4be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catName: "\u30B9\u30B3\u30C6\u30A3\u30C3\u30B7\u30E5"
+  targetMeal: 35
+  catSprite: {fileID: 680770504615249545}
+  catNameText: {fileID: 0}
+  happyFace: {fileID: 0}
+  sadFace: {fileID: 0}
+  normalFace: {fileID: 0}

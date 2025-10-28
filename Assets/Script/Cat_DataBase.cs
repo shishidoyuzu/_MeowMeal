@@ -83,7 +83,7 @@ public class Cat_DataBase : MonoBehaviour
     public int GetFoodAmount(string catName)
     {
         // 渡したネコの名前をListから探し出す
-        CatData cat = catList.Find(c => c.name == catName);
+        CatData cat = catList.Find(c => c.name.Trim() == catName.Trim());
 
         if (cat != null)
         {
@@ -98,15 +98,16 @@ public class Cat_DataBase : MonoBehaviour
         }
     }
 
-    public int GetCatCount()
+    public string GetRandomCatName()
     {
-        return catList.Count;
+        if (catList.Count == 0)
+        {
+            Debug.LogWarning("ネコデータが読み込まれていません。");
+            return "不明ネコ";
+        }
+
+        int index = Random.Range(0, catList.Count);
+        return catList[index].name;
     }
 
-    public CatData GetCatDataByIndex(int index)
-    {
-        if (index >= 0 && index < catList.Count)
-            return catList[index];
-        return null;
-    }
 }

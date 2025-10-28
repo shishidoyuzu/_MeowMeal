@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4848376059628032696}
   - component: {fileID: 2223379820858114481}
+  - component: {fileID: 3841311787800976862}
   m_Layer: 0
   m_Name: cat_american
   m_TagString: Untagged
@@ -84,3 +85,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3841311787800976862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8959950684894623197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a70645c67401e4d9fcce8cafaa4be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catName: "\u30A2\u30E1\u30B7\u30E7\u30FC"
+  targetMeal: 40
+  catSprite: {fileID: 2223379820858114481}
+  catNameText: {fileID: 0}
+  happyFace: {fileID: 0}
+  sadFace: {fileID: 0}
+  normalFace: {fileID: 0}

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5410622030894869087}
   - component: {fileID: 7710557354754283794}
+  - component: {fileID: 135241724252518214}
   m_Layer: 0
   m_Name: cat_bengal
   m_TagString: Untagged
@@ -84,3 +85,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &135241724252518214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4483920820885622981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a70645c67401e4d9fcce8cafaa4be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catName: "\u30D9\u30F3\u30AC\u30EB"
+  targetMeal: 50
+  catSprite: {fileID: 7710557354754283794}
+  catNameText: {fileID: 0}
+  happyFace: {fileID: 0}
+  sadFace: {fileID: 0}
+  normalFace: {fileID: 0}

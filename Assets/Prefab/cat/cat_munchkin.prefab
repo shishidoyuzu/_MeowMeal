@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7269686992823912849}
   - component: {fileID: 5560251709740321297}
+  - component: {fileID: 9057191236127987312}
   m_Layer: 0
   m_Name: cat_munchkin
   m_TagString: Untagged
@@ -84,3 +85,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &9057191236127987312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7665838117314051184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a70645c67401e4d9fcce8cafaa4be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catName: "\u30DE\u30F3\u30C1\u30AB\u30F3"
+  targetMeal: 35
+  catSprite: {fileID: 5560251709740321297}
+  catNameText: {fileID: 0}
+  happyFace: {fileID: 0}
+  sadFace: {fileID: 0}
+  normalFace: {fileID: 0}
