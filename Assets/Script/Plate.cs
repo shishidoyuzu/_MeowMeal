@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +20,7 @@ public class Plate : MonoBehaviour
     private int Target_Meal;
 
     // ねこの感情テキスト
-    public Text Cat_emotion_Text;
+    public TextMeshProUGUI Cat_emotion_Text;
 
     void Start()
     {
