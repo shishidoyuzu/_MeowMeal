@@ -25,9 +25,9 @@ public class Meal_Fall : MonoBehaviour
                 // dropIntervalの値になると、ごはんを落としタイマーをリセット
                 if (timer >= dropInterval)
                 {
-                    DropMeal();
+                    DropMeal(); // ごはんを落とす
                     Debug.Log("左クリック！ごはんが出るよ！");
-                    timer = 0f;
+                    timer = 0f; // 経過時間のリセット
                 }
             }
             else

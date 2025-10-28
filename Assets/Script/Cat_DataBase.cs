@@ -8,6 +8,7 @@ public class CatData
     public string name;      // ネコの名前
     public int foodAmount;   // ごはん量（g）
 
+    // ねこ１匹分のデータ（名前・ごはん量）
     public CatData(string name, int foodAmount)
     {
         this.name = name;
