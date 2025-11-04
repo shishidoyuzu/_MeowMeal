@@ -6,10 +6,10 @@ using UnityEngine;
 public class CatData
 {
     public string name;      // ネコの名前
-    public int foodAmount;   // ごはん量（g）
+    public float foodAmount;   // ごはん量（g）
 
     // ねこ１匹分のデータ（名前・ごはん量）
-    public CatData(string name, int foodAmount)
+    public CatData(string name, float foodAmount)
     {
         this.name = name;
         this.foodAmount = foodAmount;
@@ -68,7 +68,7 @@ public class Cat_DataBase : MonoBehaviour
                 // 前後の空白文字を削除
                 string name = values[0].Trim();
                 // 文字列を数値に変換する
-                if (int.TryParse(values[1].Trim(), out int amount))
+                if (float.TryParse(values[1].Trim(), out float amount))
                 {
                     // 数値に変換出来たら、「名前」と「ご飯量」をListに入れる
                     catList.Add(new CatData(name, amount));
@@ -80,7 +80,7 @@ public class Cat_DataBase : MonoBehaviour
     }
 
     // ネコの名前からごはん量を取得
-    public int GetFoodAmount(string catName)
+    public float GetFoodAmount(string catName)
     {
         // 渡したネコの名前をListから探し出す
         CatData cat = catList.Find(c => c.name.Trim() == catName.Trim());

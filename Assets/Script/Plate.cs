@@ -1,3 +1,4 @@
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ public class Plate : MonoBehaviour
     [SerializeField] TextMeshProUGUI Cat_margin_Text;
 
     // ねこの理想ごはん量
-    private int Target_Meal;
+    private float Target_Meal;
     // ねこの理想ごはん量テキスト
     [SerializeField] TextMeshProUGUI Target_Meal_Text;
 

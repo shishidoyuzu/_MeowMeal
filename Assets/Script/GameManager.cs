@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class GameManager : MonoBehaviour
     private Cat currentCat;
     // ネコデータベース
     private Cat_DataBase catDB;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +37,7 @@ public class GameManager : MonoBehaviour
 
         // CSVからランダムで名前とごはん量を取得
         string name = catDB.GetRandomCatName();
-        int meal = catDB.GetFoodAmount(name);
+        float meal = catDB.GetFoodAmount(name);
 
         // ネコを出現！
         currentCat = Instantiate(chosenCat, catSpawnPos.position, Quaternion.identity);
