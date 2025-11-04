@@ -38,6 +38,22 @@ public class GameManager : MonoBehaviour
     // 現在のごはん量
     private float Current_meal;
 
+    private Dictionary<string, string> nameMap = new Dictionary<string, string>
+{
+    {"ノルウェージャン", "cat_norwegian"},
+    {"ラグドール", "cat_ragdoll"},
+    {"ベンガル", "cat_bengal"},
+    {"サバトラ", "cat_sabatora"},
+    {"チャトラ", "cat_chatara"},
+    {"ハチワレ", "cat_hachiware"},
+    {"アメショー", "cat_american"},
+    {"クロネコ", "cat_black"},
+    {"シロネコ", "cat_white"},
+    {"マンチカン", "cat_munchkin"},
+    {"スコティッシュ", "cat_scottish"}
+};
+
+
 
     // シングルトン設定
     private void Awake()
@@ -68,13 +84,22 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // プレハブをランダムに選択
-        int index = Random.Range(0, catPrefabs.Length);
-        Cat chosenCat = catPrefabs[index];
-
         // CSVからランダムで名前とごはん量を取得
         string name = catDB.GetRandomCatName();
         float meal = catDB.GetFoodAmount(name);
+
+        // プレハブの中からねこの名前と一致するものを探す
+        Cat chosenCat = System.Array.Find(catPrefabs,c=>c.name== name);
+
+        if (nameMap.TryGetValue(name, out string prefabKey))
+        {
+            chosenCat = System.Array.Find(catPrefabs, c => c.name == prefabKey);
+        }
+        else
+        {
+            Debug.LogError($"「{name}」に対応する英語名が見つかりません。");
+            return;
+        }
 
         // ネコを出現！
         currentCat = Instantiate(chosenCat, catSpawnPos.position, Quaternion.identity);
@@ -83,17 +108,19 @@ public class GameManager : MonoBehaviour
         // CSVの「理想ごはん量」をゲーム内の「目標ごはん量」に
         Target_meal = meal;
 
-        // 0.00gからスタート
+        // 0.0gからスタート
         Meal_gram_Text.text = ("0.0g");
         // 誤差を3.0gに
         Cat_margin_Text.text = ($"誤差：±{Cat_margin:F0}g");
         // ネコの目標グラムを設定
         Target_meal_Text.text = ($"目標グラム：{Target_meal:F0}g");
         // ネコのお言葉
-        Cat_emotion_Text.text = ($"{name}はお腹を空かせている・・・");
+        Cat_emotion_Text.text = ($"{name}は\nお腹を空かせている・・・");
+        // ネコのお名前
+        Cat_name_Text.text = ($"{name}");
 
 
-        Debug.Log($"{name} が登場！（理想のごはん量：{meal}g）");
+        Debug.Log($"{name} が来たよ！（理想のごはん量：{meal}g）");
     }
 
     // Plate.csから今のごはん量を受け取って表示
@@ -115,8 +142,6 @@ public class GameManager : MonoBehaviour
     // 「ごはん量のズレ」によるネコの感情変化
     public void UpdateEmotion(float diff)
     {
-        Debug.Log(diff);
-
         if (Current_meal == Target_meal)
         {
             // ぴったり
@@ -131,7 +156,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("ちょうどいい！ネコが喜んでる！");
             // にこにこ
         }
-        else if (diff < Target_meal)
+        else if (Current_meal < Target_meal)
         {
             // すくない
             Cat_emotion_Text.text = "ごはんが少ない！";
