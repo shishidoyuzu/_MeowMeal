@@ -1,10 +1,14 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
+    [Header("ネコデータ関連")]
     // ネコのプレハブ
     public Cat[] catPrefabs;
     // ネコの出現位置
@@ -14,8 +18,41 @@ public class GameManager : MonoBehaviour
     // ネコデータベース
     private Cat_DataBase catDB;
 
+    [Header("テキスト")]
+    // ごはん量テキスト
+    [SerializeField] TextMeshProUGUI Meal_gram_Text;
+    // ごはんの誤差テキスト
+    [SerializeField] TextMeshProUGUI Cat_margin_Text;
+    // ねこの理想ごはん量テキスト
+    [SerializeField] TextMeshProUGUI Target_meal_Text;
+    // ねこの感情テキスト
+    [SerializeField] TextMeshProUGUI Cat_emotion_Text;
+    // ねこのお名前テキスト
+    [SerializeField] TextMeshProUGUI Cat_name_Text;
 
-    // Start is called before the first frame update
+    [Header("ごはんデータ")]
+    // ごはんの誤差
+    public float Cat_margin = 3.0f;
+    // ねこの理想ごはん量
+    private float Target_meal;
+    // 現在のごはん量
+    private float Current_meal;
+
+
+    // シングルトン設定
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         catDB = Cat_DataBase.Instance;
@@ -43,7 +80,65 @@ public class GameManager : MonoBehaviour
         currentCat = Instantiate(chosenCat, catSpawnPos.position, Quaternion.identity);
         currentCat.SetCatData(name, meal);
 
+        // CSVの「理想ごはん量」をゲーム内の「目標ごはん量」に
+        Target_meal = meal;
+
+        // 0.00gからスタート
+        Meal_gram_Text.text = ("0.00g");
+        // 誤差を3.0gに
+        Cat_margin_Text.text = ($"誤差：±{Cat_margin:F1}g");
+        // ネコの目標グラムを設定
+        Target_meal_Text.text = ($"目標グラム：{Target_meal:F1}g");
+        // ネコのお言葉
+        Cat_emotion_Text.text = ($"{name}はお腹を空かせている・・・");
+
+
         Debug.Log($"{name} が登場！（理想のごはん量：{meal}g）");
+    }
+
+    // Plate.csから今のごはん量を受け取って表示
+    public void UpdateMealAmount(float Meal_amount)
+    {
+        // Plate.csから受け取ったごはん量を代入
+        Current_meal = Meal_amount;
+        // 表示する
+        Meal_gram_Text.text = ($"{Current_meal:F2}");
+
+        // 目標ごはん量から、今のごはん量を引いた「ごはん量のズレ」
+        float diff = Mathf.Abs(Target_meal - Current_meal);
+    }
+
+    // 「ごはん量のズレ」によるネコの感情変化
+    public void UpdateEmotion(float diff)
+    {
+        if (diff == Target_meal)
+        {
+            // ぴったり
+            Cat_emotion_Text.text = "ぴったりのごはん！やった！";
+            Debug.Log("ピッタリ！ネコが喜んでる！");
+            // 満面のにゃん
+        }
+        else if (diff <= Cat_margin)
+        {
+            // 誤差の範囲内
+            Cat_emotion_Text.text = "ちょうどいいごはんの量！";
+            Debug.Log("ちょうどいい！ネコが喜んでる！");
+            // にこにこ
+        }
+        else if (diff < Target_meal)
+        {
+            // すくない
+            Cat_emotion_Text.text = "ごはんが少ない！";
+            Debug.Log("少なかったみたい…");
+            // しょんぼり
+        }
+        else
+        {
+            // おおい！
+            Cat_emotion_Text.text = "ごはんが多い！";
+            Debug.Log("多すぎた！");
+            // ムッおこ
+        }
     }
 
     // Plate から判定結果を伝える関数
