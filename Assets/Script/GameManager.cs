@@ -88,21 +88,33 @@ public class GameManager : MonoBehaviour
         string name = catDB.GetRandomCatName();
         float meal = catDB.GetFoodAmount(name);
 
-        // プレハブの中からねこの名前と一致するものを探す
-        Cat chosenCat = System.Array.Find(catPrefabs,c=>c.name== name);
-
-        if (nameMap.TryGetValue(name, out string prefabKey))
-        {
-            chosenCat = System.Array.Find(catPrefabs, c => c.name == prefabKey);
-        }
-        else
+        // Dictionary でプレハブ名に変換
+        if (!nameMap.TryGetValue(name, out string prefabKey))
         {
             Debug.LogError($"「{name}」に対応する英語名が見つかりません。");
             return;
         }
 
+        // プレハブの中からねこの名前と一致するものを探す
+        Cat chosenCat = System.Array.Find(catPrefabs, c => c.name == prefabKey);
+
+        // 見つからなかった場合、エラーを出す
+        if (chosenCat == null)
+        {
+            Debug.LogError($"「{prefabKey}」に対応するプレハブが見つかりません。");
+            return;
+        }
+
         // ネコを出現！
         currentCat = Instantiate(chosenCat, catSpawnPos.position, Quaternion.identity);
+        
+        SpriteRenderer sr = currentCat.GetComponent<SpriteRenderer>();
+        if(sr != null)
+        {
+            sr.sortingLayerName = "Cat";
+            sr.sortingOrder = 1;
+        }
+
         currentCat.SetCatData(name, meal);
 
         // CSVの「理想ごはん量」をゲーム内の「目標ごはん量」に
