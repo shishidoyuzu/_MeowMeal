@@ -671,11 +671,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff5c661a4755044280044a4425bc34e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meal_g: {fileID: 448471982}
-  Cat_margin: 3
-  Cat_margin_Text: {fileID: 270187911}
-  Target_Meal_Text: {fileID: 107060126}
-  Cat_emotion_Text: {fileID: 790090604}
 --- !u!1 &270187907
 GameObject:
   m_ObjectHideFlags: 0
@@ -2140,6 +2135,12 @@ MonoBehaviour:
   - {fileID: 8781778580187330686, guid: f0ea5f7201261ae4987de9b5bb32c814, type: 3}
   - {fileID: 9057191236127987312, guid: 7e4a3667effa039478c4c23420653862, type: 3}
   catSpawnPos: {fileID: 444417877}
+  Meal_gram_Text: {fileID: 448471982}
+  Cat_margin_Text: {fileID: 270187911}
+  Target_meal_Text: {fileID: 107060126}
+  Cat_emotion_Text: {fileID: 790090604}
+  Cat_name_Text: {fileID: 1027401715}
+  Cat_margin: 3
 --- !u!1 &1805946564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2403,9 +2404,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 148129353}
-        m_TargetAssemblyTypeName: Plate, Assembly-CSharp
-        m_MethodName: DecideMeal
+      - m_Target: {fileID: 1765513881}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnDecideButton_Click
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
