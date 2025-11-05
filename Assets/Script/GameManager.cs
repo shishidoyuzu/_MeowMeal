@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -38,21 +37,20 @@ public class GameManager : MonoBehaviour
     // 現在のごはん量
     private float Current_meal;
 
-    private Dictionary<string, string> nameMap = new Dictionary<string, string>
-{
-    {"ノルウェージャン", "cat_norwegian"},
-    {"ラグドール", "cat_ragdoll"},
-    {"ベンガル", "cat_bengal"},
-    {"サバトラ", "cat_sabatora"},
-    {"チャトラ", "cat_chatara"},
-    {"ハチワレ", "cat_hachiware"},
-    {"アメショー", "cat_american"},
-    {"クロネコ", "cat_black"},
-    {"シロネコ", "cat_white"},
-    {"マンチカン", "cat_munchkin"},
-    {"スコティッシュ", "cat_scottish"}
-};
 
+    private Dictionary<string, string> catsName = new Dictionary<string, string>() {
+        {"ノルウェージャン","cat_norwegian"},
+        {"ラグドール","cat_ragdoll"},
+        {"ベンガル","cat_bengal"},
+        {"サバトラ","cat_sabatora"},
+        {"チャトラ","cat_chatora"},
+        {"ハチワレ","cat_hachiware"},
+        {"アメショー","cat_american"},
+        {"クロネコ","cat_black"},
+        {"シロネコ","cat_white"},
+        {"マンチカン","cat_munchkin"},
+        {"スコティッシュ","cat_scottish"},
+    };
 
 
     // シングルトン設定
@@ -84,55 +82,41 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        // プレハブをランダムに選択
+        int index = Random.Range(0, catPrefabs.Length);
+
         // CSVからランダムで名前とごはん量を取得
         string name = catDB.GetRandomCatName();
         float meal = catDB.GetFoodAmount(name);
 
-        // Dictionary でプレハブ名に変換
-        if (!nameMap.TryGetValue(name, out string prefabKey))
+        // まずは Dictionary でプレハブ名に変換
+        if (!catsName.TryGetValue(name, out string prefabKey))
         {
             Debug.LogError($"「{name}」に対応する英語名が見つかりません。");
             return;
         }
 
-        // プレハブの中からねこの名前と一致するものを探す
+        // プレハブの中から対応するものを探す
         Cat chosenCat = System.Array.Find(catPrefabs, c => c.name == prefabKey);
-
-        // 見つからなかった場合、エラーを出す
-        if (chosenCat == null)
-        {
-            Debug.LogError($"「{prefabKey}」に対応するプレハブが見つかりません。");
-            return;
-        }
 
         // ネコを出現！
         currentCat = Instantiate(chosenCat, catSpawnPos.position, Quaternion.identity);
-        
-        SpriteRenderer sr = currentCat.GetComponent<SpriteRenderer>();
-        if(sr != null)
-        {
-            sr.sortingLayerName = "Cat";
-            sr.sortingOrder = 1;
-        }
-
         currentCat.SetCatData(name, meal);
 
         // CSVの「理想ごはん量」をゲーム内の「目標ごはん量」に
         Target_meal = meal;
 
-        // 0.0gからスタート
+        // 0.00gからスタート
         Meal_gram_Text.text = ("0.0g");
         // 誤差を3.0gに
         Cat_margin_Text.text = ($"誤差：±{Cat_margin:F0}g");
         // ネコの目標グラムを設定
         Target_meal_Text.text = ($"目標グラム：{Target_meal:F0}g");
         // ネコのお言葉
-        Cat_emotion_Text.text = ($"{name}は\nお腹を空かせている・・・");
-        // ネコのお名前
-        Cat_name_Text.text = ($"{name}");
+        Cat_emotion_Text.text = ($"{name}はお腹を空かせている・・・");
 
 
-        Debug.Log($"{name} が来たよ！（理想のごはん量：{meal}g）");
+        Debug.Log($"{name} が登場！（理想のごはん量：{meal}g）");
     }
 
     // Plate.csから今のごはん量を受け取って表示
@@ -149,11 +133,15 @@ public class GameManager : MonoBehaviour
         // 目標ごはん量から、今のごはん量を引いた「ごはん量のズレ」
         float diff = Mathf.Abs(Target_meal - Current_meal);
         UpdateEmotion(diff);
+
+        // 次のねこを呼び出す処理
     }
 
     // 「ごはん量のズレ」によるネコの感情変化
     public void UpdateEmotion(float diff)
     {
+        Debug.Log(diff);
+
         if (Current_meal == Target_meal)
         {
             // ぴったり

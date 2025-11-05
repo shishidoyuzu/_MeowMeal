@@ -7,9 +7,6 @@ public class Cat : MonoBehaviour
     public float targetMeal;                    // ネコの規定ごはん量
     public SpriteRenderer catSprite;            // ネコの見た目
 
-    // 表情差分（インスペクタでセット）
-    //public Sprite happyFace;
-    //public Sprite sadFace;
     public Sprite normalFace;
 
 
