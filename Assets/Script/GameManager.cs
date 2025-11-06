@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     // シングルトン設定
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
 
     // ごはん　あげ終わり
     private void FeedMeal_End()
-    {        
+    {
         // 目標ごはん量から、今のごはん量を引いた「ごはん量のズレ」
         float diff = Mathf.Abs(Target_meal - Current_meal);
 
@@ -173,19 +173,5 @@ public class GameManager : MonoBehaviour
             Cat_emotion_Text.text = "ごはんが多い！";
             // ムッおこ
         }
-    }
-
-    // Plate から判定結果を伝える関数
-    public void DecideCatMeal(float diff, float margin)
-    {
-        if (currentCat != null)
-        {
-            currentCat.ReactToMeal(diff, margin);
-        }
-    }
-
-    public Cat GetCurrentCat()
-    {
-        return currentCat;
     }
 }

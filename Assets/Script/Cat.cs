@@ -16,24 +16,4 @@ public class Cat : MonoBehaviour
         catName = name;
         targetMeal = food;
     }
-
-    // Plate → GameManager → ここに判定結果が届く
-    public void ReactToMeal(float diff, float cat_margin)
-    {
-        if (Mathf.Abs(diff) <= cat_margin)
-        {
-            //catSprite.sprite = happyFace;
-            Debug.Log($"{catName} は満足してる！");
-        }
-        else if (diff < 0)
-        {
-            //catSprite.sprite = sadFace;
-            Debug.Log($"{catName} は『まだお腹すいてる…』って顔をしてる。");
-        }
-        else
-        {
-            //catSprite.sprite = sadFace;
-            Debug.Log($"{catName} は『食べすぎたにゃ…』って顔をしてる。");
-        }
-    }
 }

@@ -8,7 +8,7 @@ public class Meal_Fall : MonoBehaviour
     // カップの位置
     public Transform Cup_pos;
     // ごはんを落とす間隔（秒）
-    public float dropInterval = 0.02f;
+    public float dropInterval = 0.025f;
 
     // ごはんを落とす時間を測るタイマー
     private float Mealtimer = 0f;

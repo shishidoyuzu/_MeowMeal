@@ -3,25 +3,23 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    /*
     [Header("ボタンUI")]
     public GameObject Menu;
     public GameObject Credit;
     public GameObject DeleteData;
-    public GameObject EndGame;
+    public GameObject EndGame_;
 
     [Header("パネルUI")]
     public GameObject MenuPanal;
+    */
 
-
-    void Start()
+    public void EndGame()
     {
-        // ゲーム開始時、非表示に
-        MenuPanal.SetActive(false);
-    }
-
-    // メニューボタンをクリック
-    public void click_MenuButton()
-    {
-        Menu.SetActive(true);
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+#else
+    Application.Quit();//ゲームプレイ終了
+#endif
     }
 }
