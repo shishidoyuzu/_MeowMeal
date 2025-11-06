@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     [Header("制限時間")]
     // ネコ１匹の制限時間
-    public float CatTImeLimit;
+    public float CatTimeLimit = 10.0f;
     // 残り時間
     private float TimeLeft;
     // タイマーのオン・オフ
@@ -133,6 +133,9 @@ public class GameManager : MonoBehaviour
         currentCat = Instantiate(chosenCat, catSpawnPos.position, Quaternion.identity);
         currentCat.SetCatData(name, meal);
 
+        TimeLeft = CatTimeLimit;
+        IsTimerActive = true;
+
         // CSVの「理想ごはん量」をゲーム内の「目標ごはん量」に
         Target_meal = meal;
 
@@ -171,13 +174,13 @@ public class GameManager : MonoBehaviour
 
     void UpdateTimerUI()
     {
-        TimeLeft_Text.text = $"残り時間：{Mathf.CeilToInt(TimeLeft)} 秒";
+        TimeLeft_Text.text = $"{Mathf.CeilToInt(TimeLeft)} 秒";
 
         // 残り5秒で赤くする演出
         if (TimeLeft <= 5f)
             TimeLeft_Text.color = Color.red;
         else
-            TimeLeft_Text.color = Color.white;
+            TimeLeft_Text.color = Color.magenta;
     }
 
     // 時間切れになったとき
