@@ -10,6 +10,9 @@ public class Meal_Fall : MonoBehaviour
     // ごはんを落とす間隔（秒）
     public float dropInterval = 0.025f;
 
+    // ごはん袋の総容量
+    public float MealCapacity = 180.0f;
+
     // ごはんを落とす時間を測るタイマー
     private float Mealtimer = 0f;
 
@@ -27,7 +30,6 @@ public class Meal_Fall : MonoBehaviour
                 if (Mealtimer >= dropInterval)
                 {
                     DropMeal(); // ごはんを落とす
-                    Debug.Log("左クリック！ごはんが出るよ！");
                     Mealtimer = 0f; // 経過時間のリセット
                 }
             }
@@ -51,7 +53,16 @@ public class Meal_Fall : MonoBehaviour
     }
 
     void DropMeal()
-    {
+    {        
+        // 袋のごはんが0gを下回ったら
+        if(MealCapacity <= 0)
+        {
+            Debug.Log("ごはんが無いよ！");
+            // 0gにして、もうごはんが出ないようにする
+            MealCapacity = 0.0f;
+            return;
+        }
+
         // ランダムにごはんを落とす座標を決める
         Vector3 randomOffset = new Vector3(
             Random.Range(-0.3f, 0.3f),
@@ -64,6 +75,12 @@ public class Meal_Fall : MonoBehaviour
 
         // ごはんプレハブを生成
         GameObject meal = Instantiate(Meal_prefab, spawnPos, Quaternion.identity);
+
+        // 袋の中からごはん１粒分の量を減らす
+        MealCapacity -= Plate.Meal_weight;
+
+        // 今のグラムをGamemanager.csに伝えて表示してもらう
+        GameManager.instance.show_CatfoodCapacity(MealCapacity);
 
         // ごはんプレハブにRigidbody2Dをつける
         Rigidbody2D rb = meal.GetComponent<Rigidbody2D>();

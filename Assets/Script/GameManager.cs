@@ -28,6 +28,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI Cat_emotion_Text;
     // ねこのお名前テキスト
     [SerializeField] TextMeshProUGUI Cat_name_Text;
+    // 袋のごはん量テキスト
+    [SerializeField] TextMeshProUGUI Catfood_Capa_Text;
+    // 制限時間表示テキスト
+    [SerializeField] TextMeshProUGUI TimeLeft_Text;
 
     [Header("ごはんデータ")]
     // ごはんの誤差
@@ -36,7 +40,16 @@ public class GameManager : MonoBehaviour
     private float Target_meal;
     // 現在のごはん量
     private float Current_meal;
+    // 袋の中のごはん量
+    private float Catfood_Capa;
 
+    [Header("制限時間")]
+    // ネコ１匹の制限時間
+    public float CatTImeLimit;
+    // 残り時間
+    private float TimeLeft;
+    // タイマーのオン・オフ
+    private bool IsTimerActive;
 
     private Dictionary<string, string> catsName = new Dictionary<string, string>() {
         {"ノルウェージャン","cat_norwegian"},
@@ -71,6 +84,23 @@ public class GameManager : MonoBehaviour
     {
         catDB = Cat_DataBase.Instance;
         RandomCatSpawn();
+    }
+
+    void Update()
+    {
+        // オフの時は、制限時間をしない
+        if (!IsTimerActive) return;
+
+        // 残り時間を減らす
+        TimeLeft -= Time.deltaTime;
+        UpdateTimerUI();
+
+        if (TimeLeft <= 0f)
+        {
+            TimeLeft = 0f;
+            IsTimerActive = false;
+            OnTimeUp(); // 時間切れ時の処理
+        }
     }
 
     // ネコをランダムに呼びだす関数
@@ -115,7 +145,9 @@ public class GameManager : MonoBehaviour
         // ネコの名前表示
         Cat_name_Text.text = ($"{name}");
         // ネコのお言葉
-        Cat_emotion_Text.text = ($"{name}はお腹を空かせている・・・");
+        Cat_emotion_Text.text = ($"{name}はお腹が\n空いている・・・");
+        // 袋の重さ表示
+        Catfood_Capa_Text.text = ($"180g");
 
 
         Debug.Log($"{name} が来た！（理想のごはん量：{meal}g）");
@@ -130,12 +162,34 @@ public class GameManager : MonoBehaviour
         Meal_gram_Text.text = ($"{Current_meal:F1}g");
     }
 
+    // ごはん袋の総グラムの表示
+    public void show_CatfoodCapacity(float food_Capa)
+    {
+        Catfood_Capa = food_Capa;
+        Catfood_Capa_Text.text = ($"{Catfood_Capa:F0}g");
+    }
+
+    void UpdateTimerUI()
+    {
+        TimeLeft_Text.text = $"残り時間：{Mathf.CeilToInt(TimeLeft)} 秒";
+
+        // 残り5秒で赤くする演出
+        if (TimeLeft <= 5f)
+            TimeLeft_Text.color = Color.red;
+        else
+            TimeLeft_Text.color = Color.white;
+    }
+
+    // 時間切れになったとき
+    private void OnTimeUp()
+    {
+        Debug.Log("制限時間終了！");
+    }
+
     // １秒後にUpdateEmotionを呼び出す
     public void Late_1s_CallEmotion()
     {
         Invoke(nameof(FeedMeal_End), 1.0f);
-
-        // 次のねこを呼び出す処理
     }
 
     // ごはん　あげ終わり
