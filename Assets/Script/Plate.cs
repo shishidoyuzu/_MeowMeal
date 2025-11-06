@@ -25,14 +25,4 @@ public class Plate : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
-
-    public void Reset_Meal()
-    {
-        Now_gram = 0.0f;
-    }
-
-    public void Meal_35()
-    {
-        Now_gram = 35.0f;
-    }
 }

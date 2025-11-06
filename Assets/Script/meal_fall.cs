@@ -8,14 +8,10 @@ public class Meal_Fall : MonoBehaviour
     // カップの位置
     public Transform Cup_pos;
     // ごはんを落とす間隔（秒）
-    public float dropInterval = 0.05f;
+    public float dropInterval = 0.02f;
 
-    public GameObject Decide_Button;
-
-
-
-    // 時間を測るタイマー
-    private float timer = 0f;
+    // ごはんを落とす時間を測るタイマー
+    private float Mealtimer = 0f;
 
     void Update()
     {
@@ -25,34 +21,32 @@ public class Meal_Fall : MonoBehaviour
             // UIの上にカーソルが乗っていなかったら
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                // マウスの左ボタンを離したとき「これくらいにする」ボタンを非表示に
-                Decide_Button.SetActive(false);
-
                 // 経過時間を足していく
-                timer += Time.deltaTime;
+                Mealtimer += Time.deltaTime;
                 // dropIntervalの値になると、ごはんを落としタイマーをリセット
-                if (timer >= dropInterval)
+                if (Mealtimer >= dropInterval)
                 {
                     DropMeal(); // ごはんを落とす
                     Debug.Log("左クリック！ごはんが出るよ！");
-                    timer = 0f; // 経過時間のリセット
+                    Mealtimer = 0f; // 経過時間のリセット
                 }
             }
         }
         else
         {
-            //「これくらいにする」ボタンを表示
-            Decide_Button.SetActive(true);
-
             // クリックしてないときはタイマーリセット
-            timer = 0f;
+            Mealtimer = 0f;
         }
 
         // マウスから手を離したとき、
         if (Input.GetMouseButtonUp(0))
         {
-            // 「ごはん量のズレ」によるネコの感情変化
-            GameManager.instance.Late_1s_CallEmotion();
+            // UIの上にカーソルが乗っていなかったら
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                // 「ごはん量のズレ」によるネコの感情変化
+                GameManager.instance.Late_1s_CallEmotion();
+            }
         }
     }
 
