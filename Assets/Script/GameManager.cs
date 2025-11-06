@@ -112,11 +112,13 @@ public class GameManager : MonoBehaviour
         Cat_margin_Text.text = ($"誤差：±{Cat_margin:F0}g");
         // ネコの目標グラムを設定
         Target_meal_Text.text = ($"目標グラム：{Target_meal:F0}g");
+        // ネコの名前表示
+        Cat_name_Text.text = ($"{name}");
         // ネコのお言葉
         Cat_emotion_Text.text = ($"{name}はお腹を空かせている・・・");
 
 
-        Debug.Log($"{name} が登場！（理想のごはん量：{meal}g）");
+        Debug.Log($"{name} が来た！（理想のごはん量：{meal}g）");
     }
 
     // Plate.csから今のごはん量を受け取って表示
@@ -128,46 +130,47 @@ public class GameManager : MonoBehaviour
         Meal_gram_Text.text = ($"{Current_meal:F1}g");
     }
 
-    public void OnDecideButton_Click()
+    // １秒後にUpdateEmotionを呼び出す
+    public void Late_1s_CallEmotion()
     {
-        // 目標ごはん量から、今のごはん量を引いた「ごはん量のズレ」
-        float diff = Mathf.Abs(Target_meal - Current_meal);
-        UpdateEmotion(diff);
+        Invoke(nameof(FeedMeal_End), 1.0f);
 
         // 次のねこを呼び出す処理
     }
 
+    // ごはん　あげ終わり
+    private void FeedMeal_End()
+    {        
+        // 目標ごはん量から、今のごはん量を引いた「ごはん量のズレ」
+        float diff = Mathf.Abs(Target_meal - Current_meal);
+
+        UpdateEmotion(diff);
+    }
     // 「ごはん量のズレ」によるネコの感情変化
     public void UpdateEmotion(float diff)
     {
-        Debug.Log(diff);
-
         if (Current_meal == Target_meal)
         {
             // ぴったり
             Cat_emotion_Text.text = "ぴったりのごはん！やった！";
-            Debug.Log("ピッタリ！ネコが喜んでる！");
             // 満面のにゃん
         }
         else if (diff <= Cat_margin)
         {
             // 誤差の範囲内
             Cat_emotion_Text.text = "ちょうどいいごはんの量！";
-            Debug.Log("ちょうどいい！ネコが喜んでる！");
             // にこにこ
         }
         else if (Current_meal < Target_meal)
         {
             // すくない
             Cat_emotion_Text.text = "ごはんが少ない！";
-            Debug.Log("少なかったみたい…");
             // しょんぼり
         }
         else
         {
             // おおい！
             Cat_emotion_Text.text = "ごはんが多い！";
-            Debug.Log("多すぎた！");
             // ムッおこ
         }
     }

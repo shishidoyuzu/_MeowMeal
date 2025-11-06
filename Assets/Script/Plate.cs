@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Plate : MonoBehaviour
 {
     // ごはん1粒の重さ
-    public static float Meal_weight = 0.5f;
+    public static float Meal_weight = 2.5f;
     // 今現在のごはん量（表示する）
     private float Now_gram;
 

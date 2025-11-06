@@ -12,6 +12,8 @@ public class Meal_Fall : MonoBehaviour
 
     public GameObject Decide_Button;
 
+
+
     // 時間を測るタイマー
     private float timer = 0f;
 
@@ -44,6 +46,13 @@ public class Meal_Fall : MonoBehaviour
 
             // クリックしてないときはタイマーリセット
             timer = 0f;
+        }
+
+        // マウスから手を離したとき、
+        if (Input.GetMouseButtonUp(0))
+        {
+            // 「ごはん量のズレ」によるネコの感情変化
+            GameManager.instance.Late_1s_CallEmotion();
         }
     }
 
