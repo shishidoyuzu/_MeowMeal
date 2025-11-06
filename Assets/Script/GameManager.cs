@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -83,7 +82,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         catDB = Cat_DataBase.Instance;
-        RandomCatSpawn();
+        RandomSpawn_NextCat();
     }
 
     void Update()
@@ -104,7 +103,7 @@ public class GameManager : MonoBehaviour
     }
 
     // ネコをランダムに呼びだす関数
-    void RandomCatSpawn()
+    void RandomSpawn_NextCat()
     {
         if (catPrefabs.Length == 0)
         {
@@ -187,6 +186,8 @@ public class GameManager : MonoBehaviour
     private void OnTimeUp()
     {
         Debug.Log("制限時間終了！");
+        // 次のネコへ進む
+        RandomSpawn_NextCat();
     }
 
     // １秒後にUpdateEmotionを呼び出す
