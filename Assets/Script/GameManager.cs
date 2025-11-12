@@ -99,11 +99,17 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // メニュー画面を開いている時
-        if (MenuClose_Button.activeSelf == true)
-            IsTimerActive = false; // タイマー停止
+        // メニューボタンがある時
+        if(MenuClose_Button != null)
+        {
+            // メニュー画面を開いている時
+            if (MenuClose_Button.activeSelf == true)
+                IsTimerActive = false; // タイマー停止
+            else
+                IsTimerActive = true;  // タイマー動く
+        }
         else
-            IsTimerActive = true;  // タイマー動く
+            return;
 
         // オフの時は、制限時間をしない
         if (!IsTimerActive) return;
