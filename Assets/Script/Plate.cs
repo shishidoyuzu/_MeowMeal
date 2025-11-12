@@ -22,4 +22,13 @@ public class Plate : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
+
+    public void ResetMealAmount()
+    {
+        // 今のごはん量をリセットする
+        Now_gram = 0.0f;
+
+        // 今のグラムをGamemanager.csに伝えて表示してもらう
+        GameManager.instance.UpdateMealAmount(Now_gram);
+    }
 }

@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour
     private Cat currentCat;
     // ネコデータベース
     private Cat_DataBase catDB;
+    // ステージ１つに出現するネコの数
+    [SerializeField] private int StageCatCount = 3;
+    // 今出ているネコが何匹目かのカウント
+    [SerializeField] private int SpawnedCatCount = 0;
 
     [Header("テキスト")]
     // ごはん量テキスト
@@ -50,6 +54,10 @@ public class GameManager : MonoBehaviour
     // タイマーのオン・オフ
     private bool IsTimerActive;
 
+    [Header("メニューUI")]
+    [SerializeField] private GameObject MenuClose_Button;
+    [SerializeField] private GameObject MenuPanal;
+
     private Dictionary<string, string> catsName = new Dictionary<string, string>() {
         {"ノルウェージャン","cat_norwegian"},
         {"ラグドール","cat_ragdoll"},
@@ -81,12 +89,22 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // 出てくるネコの数の初期化
+        SpawnedCatCount = 0;
+        // ネコの情報をCat_DataBaseから取得
         catDB = Cat_DataBase.Instance;
+        // 取得したデータをもとにネコを呼び出し！
         RandomSpawn_NextCat();
     }
 
     void Update()
     {
+        // メニュー画面を開いている時
+        if (MenuClose_Button.activeSelf == true)
+            IsTimerActive = false; // タイマー停止
+        else
+            IsTimerActive = true;  // タイマー動く
+
         // オフの時は、制限時間をしない
         if (!IsTimerActive) return;
 
@@ -94,10 +112,11 @@ public class GameManager : MonoBehaviour
         TimeLeft -= Time.deltaTime;
         UpdateTimerUI();
 
+        // 制限時間が０秒になったら
         if (TimeLeft <= 0f)
         {
-            TimeLeft = 0f;
-            IsTimerActive = false;
+            TimeLeft = 0f; // ０秒に固定
+            IsTimerActive = false; // タイマー動いてないよ！っていうフラグ
             OnTimeUp(); // 時間切れ時の処理
         }
     }
@@ -131,6 +150,9 @@ public class GameManager : MonoBehaviour
         // ネコを出現！
         currentCat = Instantiate(chosenCat, catSpawnPos.position, Quaternion.identity);
         currentCat.SetCatData(name, meal);
+
+        // ステージに出現するネコの数を増やす
+        SpawnedCatCount++;
 
         TimeLeft = CatTimeLimit;
         IsTimerActive = true;
@@ -186,8 +208,29 @@ public class GameManager : MonoBehaviour
     private void OnTimeUp()
     {
         Debug.Log("制限時間終了！");
+
+        // 出てきたネコが３匹目なら
+        if(SpawnedCatCount >= StageCatCount)
+        {
+            Debug.Log("全てのネコにごはんをあげた！");
+
+            // ChangeSceneスクリプトを探して呼び出す(非アクティブ対応)
+            ChangeScene cs = MenuPanal.GetComponentInChildren<ChangeScene>(true);
+            if (cs != null)
+            {
+                cs.GotoResult();
+            }
+            else
+            {
+                Debug.LogWarning("ChangeScene が見つかりません。");
+            }
+
+            return;
+        }
+
+
         // 次のネコへ進む
-        RandomSpawn_NextCat();
+        PrepareNextCat();
     }
 
     // １秒後にUpdateEmotionを呼び出す
@@ -231,5 +274,36 @@ public class GameManager : MonoBehaviour
             Cat_emotion_Text.text = "ごはんが多い！";
             // ムッおこ
         }
+    }
+
+    // 次のネコの準備をする
+    void PrepareNextCat()
+    {
+        // ・前のネコの削除
+        // もし、「今画面に出ているねこ」がいる場合
+        if(currentCat != null)
+        {
+            // そのネコを削除
+            Destroy(currentCat.gameObject);
+            // ネコがいない状態にする
+            currentCat = null;
+        }
+
+        // 今のごはん量のリセット（Plateから呼び出し）
+        Plate plate  = FindObjectOfType<Plate>();
+        if (plate != null)
+        {
+            plate.ResetMealAmount();
+        }
+
+        // 総ごはん量のリセット（meal_fallから呼び出し）
+        Meal_Fall meal_Fall = FindObjectOfType<Meal_Fall>();
+        if (meal_Fall != null)
+        {
+            meal_Fall.ResetMealCapacity();
+        }
+
+        // 次のネコを呼び出す
+        RandomSpawn_NextCat();
     }
 }

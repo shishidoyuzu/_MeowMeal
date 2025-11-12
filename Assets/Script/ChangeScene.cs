@@ -25,4 +25,11 @@ public class ChangeScene : MonoBehaviour
         string gameplay = "GamePlay";
         Initiate.Fade(gameplay, black, 1.0f);
     }
+
+    // ƒŠƒUƒ‹ƒg‰æ–Ê‚Ö
+    public void GotoResult()
+    {
+        string result = "Result";
+        Initiate.Fade(result, black, 1.0f);
+    }
 }

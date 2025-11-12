@@ -92,4 +92,10 @@ public class Meal_Fall : MonoBehaviour
             rb.AddForce(force, ForceMode2D.Impulse);
         }
     }
+
+    public void ResetMealCapacity()
+    {
+        // ‘Ü‚Ì‚²‚Í‚ñ—Ê‚ðƒŠƒZƒbƒg‚·‚é
+        MealCapacity = 180.0f;
+    }
 }
