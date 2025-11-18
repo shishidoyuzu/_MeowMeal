@@ -79,85 +79,13 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
-
-
-        // シーン開始時にテキストUIなどを再取得
-        // ねこの出現位置
-        if (catSpawnPos == null)
-        {
-            var catPos = GameObject.Find("Cat_SpawnPos");
-            if(catPos != null)
-                catSpawnPos = catPos.GetComponent<Transform>();
-            else
-                Debug.LogError("Cat_SpawnPosが見つからない！");
-        }
-        else
-        {
-            //Debug.LogWarning("Cat_SpawnPosはあるよ！");
-        }
-
-        // ごはん量テキスト
-        if (Meal_gram_Text == null)
-        {
-            Meal_gram_Text = GameObject.Find("Meal_Gram")?.GetComponent<TextMeshProUGUI>();
-            Debug.Log("Meal_Gramを設定！");
-        }
-            
-        // ごはんの誤差テキスト
-        if (Cat_margin_Text == null)
-        {
-            Cat_margin_Text = GameObject.Find("Catmargin")?.GetComponent<TextMeshProUGUI>();
-            Debug.Log("Catmarginを設定！");
-        }
-        // ねこの理想ごはん量テキスト
-        if (Target_meal_Text == null)
-        {
-            Target_meal_Text = GameObject.Find("targetMeal")?.GetComponent<TextMeshProUGUI>();
-            Debug.Log("targetMealを設定！");
-        }
-        // ねこの感情テキスト
-        if (Cat_emotion_Text == null)
-        {
-            Cat_emotion_Text = GameObject.Find("Cat_Emotion")?.GetComponent<TextMeshProUGUI>();
-            Debug.Log("Cat_Emotionを設定！");
-        }
-        // ねこのお名前テキスト
-        if (Cat_name_Text == null)
-        {
-            Cat_name_Text = GameObject.Find("CatName")?.GetComponent<TextMeshProUGUI>();
-            Debug.Log("CatNameを設定！");
-        }
-        // 袋のごはん量テキスト
-        if (Catfood_Capa_Text == null)
-        {
-            Catfood_Capa_Text = GameObject.Find("Catfood_Gram")?.GetComponent<TextMeshProUGUI>();
-            Debug.Log("Catfood_Gramを設定！");
-        }
-        // 制限時間表示テキスト
-        if (TimeLeft_Text == null)
-        {
-            TimeLeft_Text = GameObject.Find("CatTimeLimit")?.GetComponent<TextMeshProUGUI>();
-            Debug.Log("CatTimeLimitを設定！");
-        }
-
-        // メニューUI
-        if (MenuClose_Button == null)
-        {
-            MenuClose_Button = GameObject.Find("MenuClose_Button")?.GetComponent<GameObject>();
-            Debug.Log("MenuClose_Buttonを設定！");
-        }
-        if (MenuPanal == null)
-        {
-            MenuPanal = GameObject.Find("MenuPanal")?.GetComponent<GameObject>();
-            Debug.Log("MenuPanalを設定！");
-        }
-
     }
 
     void Start()
@@ -269,12 +197,12 @@ public class GameManager : MonoBehaviour
     public void show_CatfoodCapacity(float food_Capa)
     {
         Catfood_Capa = food_Capa;
-        Catfood_Capa_Text.text = ($"{Catfood_Capa:F0}g");
+        Catfood_Capa_Text.text = $"{Catfood_Capa:F0}g";
     }
 
     void UpdateTimerUI()
     {
-        TimeLeft_Text.text = $"{Mathf.CeilToInt(TimeLeft)} 秒";
+        TimeLeft_Text.text = $"{Mathf.CeilToInt(TimeLeft)} ";
 
         // 残り5秒で赤くする演出
         if (TimeLeft <= 5f)
@@ -306,7 +234,6 @@ public class GameManager : MonoBehaviour
 
             return;
         }
-
 
         // 次のネコへ進む
         PrepareNextCat();
