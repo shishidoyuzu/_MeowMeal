@@ -80,7 +80,7 @@ public class Meal_Fall : MonoBehaviour
         MealCapacity -= Plate.Meal_weight;
 
         // 今のグラムをGamemanager.csに伝えて表示してもらう
-        GameManager.instance.show_CatfoodCapacity(MealCapacity);
+        GameManager.instance.Show_CatfoodCapacity(MealCapacity);
 
         // ごはんプレハブにRigidbody2Dをつける
         Rigidbody2D rb = meal.GetComponent<Rigidbody2D>();

@@ -2,6 +2,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/*
+
+・ステージ1（チュートリアル）… 誤差なし、誰でもクリア可能！
+・ステージ2 … 誤差 ±5g。感覚で調整！
+・ステージ3 … ごはん量が増えた「でぶ猫」登場！
+・ステージ4 … 誤差 ±3g。より精密に！
+・ステージ5 … 出てくる猫ランダム、誤差 ±1g！
+
+*/
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -194,7 +203,7 @@ public class GameManager : MonoBehaviour
     }
 
     // ごはん袋の総グラムの表示
-    public void show_CatfoodCapacity(float food_Capa)
+    public void Show_CatfoodCapacity(float food_Capa)
     {
         Catfood_Capa = food_Capa;
         Catfood_Capa_Text.text = $"{Catfood_Capa:F0}g";
