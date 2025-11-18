@@ -5,7 +5,7 @@ using UnityEngine;
 public class StageSelectManager : MonoBehaviour
 {
     // ステージ番号
-    private int Stage_num = 0;
+    //private int Stage_num = 0;
 
     // Start is called before the first frame update
     void Start()
