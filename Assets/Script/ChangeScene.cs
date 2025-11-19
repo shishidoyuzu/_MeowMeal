@@ -19,11 +19,18 @@ public class ChangeScene : MonoBehaviour
         Initiate.Fade(stage, black, 1.0f);
     }
     
+
+    public void Game_Re_Play()
+    {
+        string replay = "GamePlay";
+        Initiate.Fade(replay, black, 1.0f);
+    }
+
     // ƒQ[ƒ€‰æ–Ê‚Ö
     public void GotoGamePlay()
     {
-        string gameplay = "GamePlay";
-        Initiate.Fade(gameplay, black, 1.0f);
+        //string gameplay = "GamePlay";
+        //Initiate.Fade(gameplay, black, 1.0f);
     }
 
     // ƒŠƒUƒ‹ƒg‰æ–Ê‚Ö

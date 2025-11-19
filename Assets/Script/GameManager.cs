@@ -187,7 +187,7 @@ public class GameManager : MonoBehaviour
         // ネコのお言葉
         Cat_emotion_Text.text = ($"{name}はお腹が\n空いている・・・");
         // 袋の重さ表示
-        Catfood_Capa_Text.text = ($"180g");
+        Catfood_Capa_Text.text = ($"{Catfood_Capa:F0}g");
 
 
         Debug.Log($"{name} が来た！（理想のごはん量：{meal}g）");
@@ -315,7 +315,7 @@ public class GameManager : MonoBehaviour
         Meal_Fall meal_Fall = FindObjectOfType<Meal_Fall>();
         if (meal_Fall != null)
         {
-            meal_Fall.ResetMealCapacity();
+            //meal_Fall.ResetMealCapacity();
         }
 
         // 次のネコを呼び出す
