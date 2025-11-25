@@ -389,6 +389,10 @@ public class GameManager : MonoBehaviour
     // 次のステージに進む時
     public static int GetNextStage()
     {
-        return ++CurrentStage; // +1して返す
+        CurrentStage++;                       // ステージ番号を進める
+        GameManager.instance.stageData =
+            GameManager.instance.allStageData[CurrentStage - 1];
+
+        return CurrentStage;
     }
 }
