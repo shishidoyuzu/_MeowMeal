@@ -10,10 +10,26 @@ using UnityEngine;
 ・ステージ4 … 誤差 ±3g。より精密に！
 ・ステージ5 … 出てくる猫ランダム、誤差 ±1g！
 
+
+各ステージのごはん量の誤差まとめ
+１：なし　　　数値的には１８０ｇ（１袋分の誤差）
+２：５ｇ　　　２粒分の余裕
+３：７．５ｇ　でぶ猫対応の３粒分
+４：３ｇ　　　１粒分ならセーフ
+５：０ｇ　　　ぴったりじゃないとダメ
 */
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
+    // 今のステージ数
+    public static int CurrentStage = 1;
+
+    // 「StageData_1」や「StageData_2」をセットする場所
+    public List<StageData> allStageData;
+
+    [SerializeField] private StageData stageData;
+
 
     [Header("ネコデータ関連")]
     // ネコのプレハブ
@@ -99,6 +115,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        var stage = allStageData[CurrentStage - 1];
+
+        Cat_margin = stage.margin;
+        TimeLeft = stage.TimeLimit;
+        StageCatCount = stage.CatCount;
+
         // 出てくるネコの数の初期化
         SpawnedCatCount = 0;
         // ネコの情報をCat_DataBaseから取得
@@ -140,6 +162,7 @@ public class GameManager : MonoBehaviour
     // ネコをランダムに呼びだす関数
     void RandomSpawn_NextCat()
     {
+        /*
         if (catPrefabs.Length == 0)
         {
             Debug.LogError("ネコのプレハブが設定されていません！");
@@ -170,7 +193,6 @@ public class GameManager : MonoBehaviour
         // ステージに出現するネコの数を増やす
         SpawnedCatCount++;
 
-        TimeLeft = CatTimeLimit;
         IsTimerActive = true;
 
         // CSVの「理想ごはん量」をゲーム内の「目標ごはん量」に
@@ -188,9 +210,71 @@ public class GameManager : MonoBehaviour
         Cat_emotion_Text.text = ($"{name}はお腹が\n空いている・・・");
         // 袋の重さ表示
         Catfood_Capa_Text.text = ($"{Catfood_Capa:F0}g");
+        */
 
+        // StageData がセットされてない場合
+        if (stageData == null)
+        {
+            Debug.LogError("StageData が設定されていません！");
+            return;
+        }
+
+        // ステージの猫リストからランダム選択
+        if (stageData.CatName.Count == 0)
+        {
+            Debug.LogError("StageData に猫リストが登録されていません！");
+            return;
+        }
+        string name = stageData.CatName[Random.Range(0, stageData.CatName.Count)];
+
+        // CSVからごはん量取得
+        float meal = catDB.GetFoodAmount(name);
+
+        // 名前 → プレハブ名 に変換
+        if (!catsName.TryGetValue(name, out string prefabKey))
+        {
+            Debug.LogError($"「{name}」に対応するプレハブ名が見つかりません");
+            return;
+        }
+
+        // プレハブ検索
+        Cat chosenCat = System.Array.Find(catPrefabs, c => c.name == prefabKey);
+        if (chosenCat == null)
+        {
+            Debug.LogError($"プレハブ「{prefabKey}」が見つかりません");
+            return;
+        }
+
+        // 生成
+        currentCat = Instantiate(chosenCat, catSpawnPos.position, Quaternion.identity);
+        currentCat.SetCatData(name, meal);
+
+        // UI更新 & タイマー開始 など
+        SetupCatUI(name, meal);
+        TimeLeft = CatTimeLimit;
+        IsTimerActive = true;
 
         Debug.Log($"{name} が来た！（理想のごはん量：{meal}g）");
+    }
+
+    public void SetupCatUI(string CatName, float CatMeal)
+    {
+        // CSVの「理想ごはん量」をゲーム内の「目標ごはん量」に
+        Target_meal = CatMeal;
+
+        // 0.00gからスタート
+        Meal_gram_Text.text = ("0.0g");
+        // 誤差を3.0gに
+        Cat_margin_Text.text = ($"誤差：±{Cat_margin:F0}g");
+        // ネコの目標グラムを設定
+        Target_meal_Text.text = ($"目標グラム：{Target_meal:F0}g");
+        // ネコの名前表示
+        Cat_name_Text.text = CatName;
+        // ネコのお言葉
+        Cat_emotion_Text.text = ($"{name}はお腹が\n空いている・・・");
+        // 袋の重さ表示
+        Catfood_Capa_Text.text = ($"{Catfood_Capa:F0}g");
+
     }
 
     // Plate.csから今のごはん量を受け取って表示

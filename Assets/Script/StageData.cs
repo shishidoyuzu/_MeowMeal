@@ -1,20 +1,16 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
+// ScriptableObject は Unity の“データ専用アセット”みたいなやつ。
+// ゲーム中で使う設定やパラメータを、コードじゃなくて外部ファイルとして保存できる箱に近い。
 
-ScriptableObject は Unity の“データ専用アセット”みたいなやつ。
-ゲーム中で使う設定やパラメータを、コードじゃなくて外部ファイルとして保存できる箱に近い。
-
- */
-
-enum CatPersonality {
-    Moody, // 気分屋
-    Nervous, // 神経質
-
-
-
+public enum CatPersonality {
+    Nervous,    // 神経質
+    Easygoing,  // 大雑把
+    Lazy,       // 怠け者
+    Moody,      // 気まぐれ
+    Greedy,     // 食いしん坊
+    Lucky       // ラッキー
 };
 
 [CreateAssetMenu(fileName = "StageData", menuName = "MyGame/StageData")]
@@ -32,10 +28,10 @@ public class StageData : ScriptableObject
         →　ゆっくり食べる猫：判定までの待ち時間が長い
         →   気まぐれ猫   　：真顔のまま帰る（評価は内部だけ）
         →   食いしん坊  　 ：常に目標量が多い
+    　　→　　ラッキー      ：誤差の判定がランダムで甘くなる
     ・制限時間
     　　→制限時間の短縮
         →「時間」ではなく、ねこの機嫌などの「ゲージ」
-
 
             など
      */
@@ -46,12 +42,16 @@ public class StageData : ScriptableObject
     [Header("ステージに出てくるねこのリスト")]
     public List<string> CatName;
 
+    [Header("ねこの性格リスト")]
+    public List<CatPersonality> Personalities;
+
     [Header("ごはんの誤差")]
     public float margin;
 
-    [Header("ねこの性格")]
-    public bool Include
+    [Header("制限時間")]
+    public float TimeLimit = 10.0f;
 
-
+    [Header("１ステージに出るねこの数")]
+    public int CatCount = 3;
 
 }
