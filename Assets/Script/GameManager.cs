@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 
 /*
-
 ・ステージ1（チュートリアル）… 誤差なし、誰でもクリア可能！
 ・ステージ2 … 誤差 ±5g。感覚で調整！
 ・ステージ3 … ごはん量が増えた「でぶ猫」登場！
@@ -22,12 +21,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    [Header("StageData")]
     // 今のステージ数
     public static int CurrentStage = 1;
-
     // 「StageData_1」や「StageData_2」をセットする場所
     public List<StageData> allStageData;
-
     [SerializeField] private StageData stageData;
 
 
@@ -83,6 +81,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject MenuClose_Button;
     [SerializeField] private GameObject MenuPanal;
 
+
     private Dictionary<string, string> catsName = new Dictionary<string, string>() {
         {"ノルウェージャン","cat_norwegian"},
         {"ラグドール","cat_ragdoll"},
@@ -123,10 +122,29 @@ public class GameManager : MonoBehaviour
 
         // 出てくるネコの数の初期化
         SpawnedCatCount = 0;
+
         // ネコの情報をCat_DataBaseから取得
         catDB = Cat_DataBase.Instance;
+        if (catDB == null)
+        {
+            catDB = FindObjectOfType<Cat_DataBase>();
+            Debug.LogError("Cat_DataBase が見つかりません！シーン内にあるか確認して！");
+            return;
+        }
+
         // 取得したデータをもとにネコを呼び出し！
         RandomSpawn_NextCat();
+
+        Debug.Log($"stageData: {stageData}");
+        Debug.Log($"catDB: {catDB}");
+        Debug.Log($"CurrentStage: {CurrentStage}");
+        if (stageData != null)
+            Debug.Log($"catNames count: {stageData.CatName.Count}");
+
+        Debug.Log("Current StageData: " + stageData.name);
+        Debug.Log("CatName List: " + string.Join(", ", stageData.CatName));
+
+        stageData = allStageData[CurrentStage - 1];
     }
 
     void Update()
@@ -162,56 +180,6 @@ public class GameManager : MonoBehaviour
     // ネコをランダムに呼びだす関数
     void RandomSpawn_NextCat()
     {
-        /*
-        if (catPrefabs.Length == 0)
-        {
-            Debug.LogError("ネコのプレハブが設定されていません！");
-            return;
-        }
-
-        // プレハブをランダムに選択
-        int index = Random.Range(0, catPrefabs.Length);
-
-        // CSVからランダムで名前とごはん量を取得
-        string name = catDB.GetRandomCatName();
-        float meal = catDB.GetFoodAmount(name);
-
-        // まずは Dictionary でプレハブ名に変換
-        if (!catsName.TryGetValue(name, out string prefabKey))
-        {
-            Debug.LogError($"「{name}」に対応する英語名が見つかりません。");
-            return;
-        }
-
-        // プレハブの中から対応するものを探す
-        Cat chosenCat = System.Array.Find(catPrefabs, c => c.name == prefabKey);
-
-        // ネコを出現！
-        currentCat = Instantiate(chosenCat, catSpawnPos.position, Quaternion.identity);
-        currentCat.SetCatData(name, meal);
-
-        // ステージに出現するネコの数を増やす
-        SpawnedCatCount++;
-
-        IsTimerActive = true;
-
-        // CSVの「理想ごはん量」をゲーム内の「目標ごはん量」に
-        Target_meal = meal;
-
-        // 0.00gからスタート
-        Meal_gram_Text.text = ("0.0g");
-        // 誤差を3.0gに
-        Cat_margin_Text.text = ($"誤差：±{Cat_margin:F0}g");
-        // ネコの目標グラムを設定
-        Target_meal_Text.text = ($"目標グラム：{Target_meal:F0}g");
-        // ネコの名前表示
-        Cat_name_Text.text = ($"{name}");
-        // ネコのお言葉
-        Cat_emotion_Text.text = ($"{name}はお腹が\n空いている・・・");
-        // 袋の重さ表示
-        Catfood_Capa_Text.text = ($"{Catfood_Capa:F0}g");
-        */
-
         // StageData がセットされてない場合
         if (stageData == null)
         {
@@ -222,9 +190,11 @@ public class GameManager : MonoBehaviour
         // ステージの猫リストからランダム選択
         if (stageData.CatName.Count == 0)
         {
-            Debug.LogError("StageData に猫リストが登録されていません！");
+            Debug.LogError("このStageData には猫リストが登録されていません！");
             return;
         }
+
+        // 登録されている猫の中からランダムに選ぶ
         string name = stageData.CatName[Random.Range(0, stageData.CatName.Count)];
 
         // CSVからごはん量取得
@@ -249,6 +219,8 @@ public class GameManager : MonoBehaviour
         currentCat = Instantiate(chosenCat, catSpawnPos.position, Quaternion.identity);
         currentCat.SetCatData(name, meal);
 
+        SpawnedCatCount++;
+
         // UI更新 & タイマー開始 など
         SetupCatUI(name, meal);
         TimeLeft = CatTimeLimit;
@@ -257,6 +229,7 @@ public class GameManager : MonoBehaviour
         Debug.Log($"{name} が来た！（理想のごはん量：{meal}g）");
     }
 
+    // ねこパネルの初期化
     public void SetupCatUI(string CatName, float CatMeal)
     {
         // CSVの「理想ごはん量」をゲーム内の「目標ごはん量」に
@@ -271,7 +244,7 @@ public class GameManager : MonoBehaviour
         // ネコの名前表示
         Cat_name_Text.text = CatName;
         // ネコのお言葉
-        Cat_emotion_Text.text = ($"{name}はお腹が\n空いている・・・");
+        Cat_emotion_Text.text = ($"{CatName}はお腹が\n空いている・・・");
         // 袋の重さ表示
         Catfood_Capa_Text.text = ($"{Catfood_Capa:F0}g");
 
@@ -307,7 +280,7 @@ public class GameManager : MonoBehaviour
     // 時間切れになったとき
     private void OnTimeUp()
     {
-        Debug.Log("制限時間終了！");
+        //Debug.Log("制限時間終了！");
 
         // 出てきたネコが３匹目なら
         if(SpawnedCatCount >= StageCatCount)
@@ -318,6 +291,7 @@ public class GameManager : MonoBehaviour
             ChangeScene cs = MenuPanal.GetComponentInChildren<ChangeScene>(true);
             if (cs != null)
             {
+                SpawnedCatCount = 0;
                 cs.GotoResult();
             }
             else
@@ -404,5 +378,17 @@ public class GameManager : MonoBehaviour
 
         // 次のネコを呼び出す
         RandomSpawn_NextCat();
+    }
+
+    // リプレイ時
+    public static int GetCurrentStageForReplay()
+    {
+        return CurrentStage; // そのまま返す
+    }
+
+    // 次のステージに進む時
+    public static int GetNextStage()
+    {
+        return ++CurrentStage; // +1して返す
     }
 }

@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbabd7ffa8ce36e47bde833ad2b354eb, type: 3}
   m_Name: StageData_5
   m_EditorClassIdentifier: 
-  StageNum: 0
-  CatName: []
+  StageNum: 5
+  CatName:
+  - "\u30CF\u30C1\u30EF\u30EC"
   Personalities: 
   margin: 0
   TimeLimit: 10
+  CatCount: 3

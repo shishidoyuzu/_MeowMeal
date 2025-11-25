@@ -19,18 +19,22 @@ public class ChangeScene : MonoBehaviour
         Initiate.Fade(stage, black, 1.0f);
     }
     
-
+    // もう一度プレイする
     public void Game_Re_Play()
     {
+        int Replay = GameManager.GetCurrentStageForReplay();
+
         string replay = "GamePlay";
         Initiate.Fade(replay, black, 1.0f);
     }
 
-    // ゲーム画面へ
+    // 次のステージへ
     public void GotoGamePlay()
     {
-        //string gameplay = "GamePlay";
-        //Initiate.Fade(gameplay, black, 1.0f);
+        int Nextstage = GameManager.GetNextStage();
+
+        string gameplay = "GamePlay";
+        Initiate.Fade(gameplay, black, 1.0f);
     }
 
     // リザルト画面へ
