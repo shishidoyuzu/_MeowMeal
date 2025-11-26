@@ -221,6 +221,8 @@ public class GameManager : MonoBehaviour
 
         SpawnedCatCount++;
 
+        Cat_margin = 5;
+
         // UI更新 & タイマー開始 など
         SetupCatUI(name, meal);
         TimeLeft = CatTimeLimit;
@@ -239,6 +241,9 @@ public class GameManager : MonoBehaviour
         Meal_gram_Text.text = ("0.0g");
         // 誤差を3.0gに
         Cat_margin_Text.text = ($"誤差：±{Cat_margin:F0}g");
+        // 「誤差の量」が「袋の中のごはん量」と同じなら
+        if (Cat_margin == Catfood_Capa)
+            Cat_margin_Text.text = ("誤差：なし"); // 誤差を無いことにする
         // ネコの目標グラムを設定
         Target_meal_Text.text = ($"目標グラム：{Target_meal:F0}g");
         // ネコの名前表示
@@ -287,6 +292,9 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("全てのネコにごはんをあげた！");
 
+            // 上のログが出た後、フェードしている間に
+            // RandomSpawn_NextCat(); が呼び出されている
+
             // ChangeSceneスクリプトを探して呼び出す(非アクティブ対応)
             ChangeScene cs = MenuPanal.GetComponentInChildren<ChangeScene>(true);
             if (cs != null)
@@ -326,7 +334,7 @@ public class GameManager : MonoBehaviour
         if (Current_meal == Target_meal)
         {
             // ぴったり
-            Cat_emotion_Text.text = "ぴったりのごはん！やった！";
+            Cat_emotion_Text.text = "ぴったりのごはん！\nやった！";
             // 満面のにゃん
         }
         else if (diff <= Cat_margin)
@@ -390,7 +398,7 @@ public class GameManager : MonoBehaviour
     public static int GetNextStage()
     {
         CurrentStage++;                       // ステージ番号を進める
-        GameManager.instance.stageData =
+        GameManager.instance.stageData = 
             GameManager.instance.allStageData[CurrentStage - 1];
 
         return CurrentStage;

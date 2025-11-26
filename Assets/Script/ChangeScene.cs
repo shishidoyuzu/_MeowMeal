@@ -37,6 +37,14 @@ public class ChangeScene : MonoBehaviour
         Initiate.Fade(gameplay, black, 1.0f);
     }
 
+    // 次のステージへ
+    public void GotoGamePlayforSelect()
+    {
+        string gameplay = "GamePlay";
+        Initiate.Fade(gameplay, black, 1.0f);
+    }
+
+
     // リザルト画面へ
     public void GotoResult()
     {
