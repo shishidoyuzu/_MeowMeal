@@ -61,17 +61,17 @@ public class GameManager : MonoBehaviour
 
     [Header("ごはんデータ")]
     // ごはんの誤差
-    public float Cat_margin = 3.0f;
+    private float Cat_margin;
     // ねこの理想ごはん量
     private float Target_meal;
     // 現在のごはん量
     private float Current_meal;
     // 袋の中のごはん量
-    private float Catfood_Capa;
+    private float Catfood_Capa = 200;
 
     [Header("制限時間")]
     // ネコ１匹の制限時間
-    public float CatTimeLimit = 10.0f;
+    private float CatTimeLimit;
     // 残り時間
     private float TimeLeft;
     // タイマーのオン・オフ
@@ -114,6 +114,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        stageData = allStageData[CurrentStage - 1];
+
         var stage = allStageData[CurrentStage - 1];
 
         Cat_margin = stage.margin;
@@ -135,16 +137,14 @@ public class GameManager : MonoBehaviour
         // 取得したデータをもとにネコを呼び出し！
         RandomSpawn_NextCat();
 
-        Debug.Log($"stageData: {stageData}");
-        Debug.Log($"catDB: {catDB}");
-        Debug.Log($"CurrentStage: {CurrentStage}");
-        if (stageData != null)
-            Debug.Log($"catNames count: {stageData.CatName.Count}");
+        //Debug.Log($"stageData: {stageData}");
+        //Debug.Log($"catDB: {catDB}");
+        //Debug.Log($"CurrentStage: {CurrentStage}");
+        //if (stageData != null)
+            //Debug.Log($"catNames count: {stageData.CatName.Count}");
 
         Debug.Log("Current StageData: " + stageData.name);
         Debug.Log("CatName List: " + string.Join(", ", stageData.CatName));
-
-        stageData = allStageData[CurrentStage - 1];
     }
 
     void Update()
@@ -221,11 +221,9 @@ public class GameManager : MonoBehaviour
 
         SpawnedCatCount++;
 
-        Cat_margin = 5;
-
         // UI更新 & タイマー開始 など
         SetupCatUI(name, meal);
-        TimeLeft = CatTimeLimit;
+        TimeLeft = stageData.TimeLimit;
         IsTimerActive = true;
 
         Debug.Log($"{name} が来た！（理想のごはん量：{meal}g）");
@@ -237,22 +235,23 @@ public class GameManager : MonoBehaviour
         // CSVの「理想ごはん量」をゲーム内の「目標ごはん量」に
         Target_meal = CatMeal;
 
-        // 0.00gからスタート
+        // 0.0gからスタート
         Meal_gram_Text.text = ("0.0g");
         // 誤差を3.0gに
         Cat_margin_Text.text = ($"誤差：±{Cat_margin:F0}g");
+        // 袋の重さ表示
+        Catfood_Capa_Text.text = ($"{Catfood_Capa:F0}g");
         // 「誤差の量」が「袋の中のごはん量」と同じなら
         if (Cat_margin == Catfood_Capa)
             Cat_margin_Text.text = ("誤差：なし"); // 誤差を無いことにする
-        // ネコの目標グラムを設定
-        Target_meal_Text.text = ($"目標グラム：{Target_meal:F0}g");
+        else
+            Cat_margin_Text.text = ("誤差：あり");
+            // ネコの目標グラムを設定
+            Target_meal_Text.text = ($"目標グラム：{Target_meal:F0}g");
         // ネコの名前表示
         Cat_name_Text.text = CatName;
         // ネコのお言葉
         Cat_emotion_Text.text = ($"{CatName}はお腹が\n空いている・・・");
-        // 袋の重さ表示
-        Catfood_Capa_Text.text = ($"{Catfood_Capa:F0}g");
-
     }
 
     // Plate.csから今のごはん量を受け取って表示
@@ -291,9 +290,6 @@ public class GameManager : MonoBehaviour
         if(SpawnedCatCount >= StageCatCount)
         {
             Debug.Log("全てのネコにごはんをあげた！");
-
-            // 上のログが出た後、フェードしている間に
-            // RandomSpawn_NextCat(); が呼び出されている
 
             // ChangeSceneスクリプトを探して呼び出す(非アクティブ対応)
             ChangeScene cs = MenuPanal.GetComponentInChildren<ChangeScene>(true);

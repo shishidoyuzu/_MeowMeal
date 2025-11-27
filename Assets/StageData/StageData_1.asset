@@ -14,18 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StageNum: 1
   CatName:
-  - "\u30A2\u30E1\u30B7\u30E7\u30FC"
-  - "\u30D9\u30F3\u30AC\u30EB"
-  - "\u30AF\u30ED\u30CD\u30B3"
-  - "\u30C1\u30E3\u30C8\u30E9"
-  - "\u30CF\u30C1\u30EF\u30EC"
-  - "\u30DE\u30F3\u30C1\u30AB\u30F3"
-  - "\u30CE\u30EB\u30A6\u30A7\u30FC\u30B8\u30E3\u30F3"
-  - "\u30E9\u30B0\u30C9\u30FC\u30EB"
   - "\u30B5\u30D0\u30C8\u30E9"
-  - "\u30B9\u30B3\u30C6\u30A3\u30C3\u30B7\u30E5"
-  - "\u30B7\u30ED\u30CD\u30B3"
   Personalities: 
-  margin: 180
-  TimeLimit: 10
+  margin: 200
+  TimeLimit: 60
   CatCount: 3

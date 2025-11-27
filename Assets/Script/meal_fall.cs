@@ -11,15 +11,15 @@ public class Meal_Fall : MonoBehaviour
     public float dropInterval = 0.025f;
 
     // ごはん袋の総容量
-    public float MealCapacity = 180.0f;
+    public float MealCapacity = 200.0f;
 
     // ごはんを落とす時間を測るタイマー
     private float Mealtimer = 0f;
 
     void Update()
     {
-        // 左クリックしたとき
-        if (Input.GetMouseButton(0))
+        // 左クリックしたとき＆ごはん袋が０ｇになっていなかったら
+        if (Input.GetMouseButton(0) && MealCapacity > 0f) 
         {
             // UIの上にカーソルが乗っていなかったら
             if (!EventSystem.current.IsPointerOverGameObject())
@@ -40,6 +40,19 @@ public class Meal_Fall : MonoBehaviour
             Mealtimer = 0f;
         }
 
+        // 右クリックしたとき
+        if (Input.GetMouseButton(1))
+        {
+            // 袋のごはんが0gのとき
+            if(MealCapacity <= 0f)
+            {
+                Debug.Log("ごはんを新しくするよ！");
+                // ごはん袋を満タンにする
+                RefillMealBag();
+                GameManager.instance.Show_CatfoodCapacity(MealCapacity);
+            }
+        }
+
         // マウスから手を離したとき、
         if (Input.GetMouseButtonUp(0))
         {
@@ -53,15 +66,17 @@ public class Meal_Fall : MonoBehaviour
     }
 
     void DropMeal()
-    {        
+    {
         // 袋のごはんが0gを下回ったら
-        if(MealCapacity <= 0)
+        if (MealCapacity <= 0f)
         {
             Debug.Log("ごはんが無いよ！");
             // 0gにして、もうごはんが出ないようにする
             MealCapacity = 0.0f;
             return;
         }
+
+        UpdateMealBag();
 
         // ランダムにごはんを落とす座標を決める
         Vector3 randomOffset = new Vector3(
@@ -76,12 +91,6 @@ public class Meal_Fall : MonoBehaviour
         // ごはんプレハブを生成
         GameObject meal = Instantiate(Meal_prefab, spawnPos, Quaternion.identity);
 
-        // 袋の中からごはん１粒分の量を減らす
-        MealCapacity -= Plate.Meal_weight;
-
-        // 今のグラムをGamemanager.csに伝えて表示してもらう
-        GameManager.instance.Show_CatfoodCapacity(MealCapacity);
-
         // ごはんプレハブにRigidbody2Dをつける
         Rigidbody2D rb = meal.GetComponent<Rigidbody2D>();
         if (rb != null)
@@ -93,9 +102,18 @@ public class Meal_Fall : MonoBehaviour
         }
     }
 
-    public void ResetMealCapacity()
+    void UpdateMealBag()
     {
-        // 袋のごはん量をリセットする
-        MealCapacity = 180.0f;
+        // 袋の中からごはん１粒分の量を減らす
+        MealCapacity -= Plate.Meal_weight;
+
+        // 今のグラムをGamemanager.csに伝えて表示してもらう
+        GameManager.instance.Show_CatfoodCapacity(MealCapacity);
+    }
+
+    void RefillMealBag()
+    {
+        if (MealCapacity <= 0)
+            MealCapacity = 200.0f;
     }
 }

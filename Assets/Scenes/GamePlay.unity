@@ -272,7 +272,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0.0g
+  m_text: 200g
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b97b863c986be564d8f729111658642a, type: 2}
   m_sharedMaterial: {fileID: 2581663872269362615, guid: b97b863c986be564d8f729111658642a, type: 2}
@@ -1180,7 +1180,7 @@ MonoBehaviour:
   Meal_prefab: {fileID: 5237713541183580386, guid: d50ce11e16796f34e8a8a39f3ad2beb1, type: 3}
   Cup_pos: {fileID: 592485379}
   dropInterval: 0.15
-  MealCapacity: 180
+  MealCapacity: 200
 --- !u!1 &676928045
 GameObject:
   m_ObjectHideFlags: 0

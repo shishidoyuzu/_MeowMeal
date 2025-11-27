@@ -97,17 +97,4 @@ public class Cat_DataBase : MonoBehaviour
             return -1;
         }
     }
-
-    public string GetRandomCatName()
-    {
-        if (catList.Count == 0)
-        {
-            Debug.LogWarning("ネコデータが読み込まれていません。");
-            return "不明ネコ";
-        }
-
-        int index = Random.Range(0, catList.Count);
-        return catList[index].name;
-    }
-
 }
