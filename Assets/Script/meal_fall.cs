@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,6 +16,9 @@ public class Meal_Fall : MonoBehaviour
 
     // ごはんを落とす時間を測るタイマー
     private float Mealtimer = 0f;
+
+    // ごはんを一度だけあげるフラグ
+    private bool hasGivenMeal = false;
 
     void Update()
     {
@@ -61,12 +65,17 @@ public class Meal_Fall : MonoBehaviour
             {
                 // 「ごはん量のズレ」によるネコの感情変化
                 GameManager.instance.Late_1s_CallEmotion();
+                // ごはんをこれ以上落とせないように
+                hasGivenMeal = true;
             }
         }
     }
 
     void DropMeal()
     {
+        // hasGivenMealがtrueのとき、ごはんを落とさない
+        if (hasGivenMeal) return;
+
         // 袋のごはんが0gを下回ったら
         if (MealCapacity <= 0f)
         {
@@ -115,5 +124,10 @@ public class Meal_Fall : MonoBehaviour
     {
         if (MealCapacity <= 0)
             MealCapacity = 200.0f;
+    }
+
+    public void ResetMealFlag()
+    {
+        hasGivenMeal = false;
     }
 }

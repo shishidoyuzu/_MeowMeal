@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -23,14 +25,48 @@ public class ScoreManager : MonoBehaviour
     // コンボした回数
     private int comboCount = 0;
 
+    [Header("リザルトUI")]
+    public TextMeshProUGUI reactionScore_text;
+    public TextMeshProUGUI mealRemainPenalty_text;
+    public TextMeshProUGUI comboBonus_text;
+    public TextMeshProUGUI totalScore_text;
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            // シーンロードを監視
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else Destroy(gameObject);
+    }
+
+    private void OnSceneLoaded(Scene scene,LoadSceneMode mode)
+    {
+        // リザルトシーンに来たらUIを探す
+        FindResultUI();
+        SetResultUI();
+    }
+
+    private void FindResultUI()
+    {
+        reactionScore_text = GameObject.Find("Cat_reaction")?.GetComponent<TextMeshProUGUI>();
+        mealRemainPenalty_text = GameObject.Find("mealRemainPenalty")?.GetComponent <TextMeshProUGUI>();
+        comboBonus_text = GameObject.Find("ComboBonus")?.GetComponent<TextMeshProUGUI>();
+        totalScore_text = GameObject.Find("TotalScore")?.GetComponent<TextMeshProUGUI>();
+    }
+
+    // UI更新
+    void SetResultUI()
+    {
+        if (!reactionScore_text) return;
+
+        reactionScore_text.text = $"{reactionScore}";
+        comboBonus_text.text = $"{comboBonus}";
+        mealRemainPenalty_text.text = ($"-{mealRemainPenalty}");
+        totalScore_text.text = ($"合計スコア：{totalScore}");
     }
 
     // ねこの反応スコア
@@ -52,6 +88,8 @@ public class ScoreManager : MonoBehaviour
     // コンボボーナス
     public void AddCombo(CatReaction reaction)
     {
+        // 要検討箇所
+
         // ねこの反応が「ぴったり」or「誤差以内」だったら
         if (reaction == CatReaction.PERFECT ||
            reaction == CatReaction.WITHIN_MARGIN)
@@ -80,10 +118,12 @@ public class ScoreManager : MonoBehaviour
     // 残ごはんペナルティ
     public void AddMealRemainPenalty(float remain)
     {
-        // 例：残ったg × 5点 減点（あとで調整可）
+        // 要検討箇所
+
+        // 例：残ったg × 5点 マイナス
         int penalty = Mathf.RoundToInt(remain * 5f);
 
-        mealRemainPenalty += penalty;
+        //mealRemainPenalty += penalty;
     }
 
     // 合計スコア更新

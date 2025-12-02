@@ -192,6 +192,12 @@ public class GameManager : MonoBehaviour
             IsTimerActive = false; // タイマー動いてないよ！っていうフラグ
             OnTimeUp(); // 時間切れ時の処理
         }
+
+        // ５ステージ終わったら
+        if(CurrentStage == 5)
+        {
+            //エンディングへ
+        }
     }
 
     // ネコをランダムに呼びだす関数
@@ -261,10 +267,12 @@ public class GameManager : MonoBehaviour
         // 「誤差の量」が「袋の中のごはん量」と同じなら
         if (Cat_margin == Catfood_Capa)
             Cat_margin_Text.text = ("誤差：なし"); // 誤差を無いことにする
-        else
-            Cat_margin_Text.text = ("誤差：あり");
-            // ネコの目標グラムを設定
-            Target_meal_Text.text = ($"目標グラム：{Target_meal:F0}g");
+
+        //else
+        //Cat_margin_Text.text = ("誤差：あり");
+
+        // ネコの目標グラムを設定
+        Target_meal_Text.text = ($"目標グラム：{Target_meal:F0}g");
         // ネコの名前表示
         Cat_name_Text.text = CatName;
         // ネコのお言葉
@@ -308,15 +316,11 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("全てのネコにごはんをあげた！");
 
-            // スコアの呼び出し
-            //ScoreManager.Instance.AddReactionScore();
-            //ScoreManager.Instance.AddMealRemainPenalty(remain);
-            ScoreManager.Instance.CalculateTotal();
-
             // ChangeSceneスクリプトを探して呼び出す(非アクティブ対応)
             ChangeScene cs = MenuPanal.GetComponentInChildren<ChangeScene>(true);
             if (cs != null)
             {
+                ScoreManager.Instance.CalculateTotal();
                 SpawnedCatCount = 0;
                 cs.GotoResult();
             }
@@ -343,6 +347,15 @@ public class GameManager : MonoBehaviour
     {
         // 目標ごはん量から、今のごはん量を引いた「ごはん量のズレ」
         float diff = Mathf.Abs(Target_meal - Current_meal);
+
+        // ネコの反応を取得
+        CatReaction reaction = GetCatReaction(diff);
+
+        // スコアマネージャーへ反応を送る
+        ScoreManager.Instance.AddReactionScore(reaction);
+
+        // 残りごはんペナルティを送る（袋の残量を渡すだけ）
+        ScoreManager.Instance.AddMealRemainPenalty(Catfood_Capa);
 
         GetCatReaction(diff);
     }
@@ -419,6 +432,9 @@ public class GameManager : MonoBehaviour
         {
             //meal_Fall.ResetMealCapacity();
         }
+
+        // ねこが変わるとき、ごはんを落とせるように
+        FindObjectOfType<Meal_Fall>()?.ResetMealFlag();
 
         // 次のネコを呼び出す
         RandomSpawn_NextCat();

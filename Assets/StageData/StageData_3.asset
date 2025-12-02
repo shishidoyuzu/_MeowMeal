@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StageNum: 3
   CatName:
-  - "\u30DE\u30F3\u30C1\u30AB\u30F3"
+  - "\u30B9\u30B3\u30C6\u30A3\u30C3\u30B7\u30E5"
+  - "\u30CF\u30C1\u30EF\u30EC"
   Personalities: 
   margin: 7
   TimeLimit: 10
