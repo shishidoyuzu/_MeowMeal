@@ -308,6 +308,11 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("全てのネコにごはんをあげた！");
 
+            // スコアの呼び出し
+            //ScoreManager.Instance.AddReactionScore();
+            //ScoreManager.Instance.AddMealRemainPenalty(remain);
+            ScoreManager.Instance.CalculateTotal();
+
             // ChangeSceneスクリプトを探して呼び出す(非アクティブ対応)
             ChangeScene cs = MenuPanal.GetComponentInChildren<ChangeScene>(true);
             if (cs != null)

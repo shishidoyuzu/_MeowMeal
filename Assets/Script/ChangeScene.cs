@@ -37,7 +37,7 @@ public class ChangeScene : MonoBehaviour
         Initiate.Fade(gameplay, black, 1.0f);
     }
 
-    // 次のステージへ
+    // ゲームシーンへ
     public void GotoGamePlayforSelect()
     {
         string gameplay = "GamePlay";
@@ -45,7 +45,7 @@ public class ChangeScene : MonoBehaviour
     }
 
 
-    // リザルト画面へ
+    // リザルトシーンへ
     public void GotoResult()
     {
         string result = "Result";
