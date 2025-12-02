@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     public List<StageData> allStageData;
     [SerializeField] private StageData stageData;
 
-    [Header("ネコデータ関連")]
+    [Header("ねこデータ")]
     // ネコのプレハブ
     public Cat[] catPrefabs;
     // ネコの出現位置
@@ -49,9 +49,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int StageCatCount = 3;
     // 今出ているネコが何匹目かのカウント
     [SerializeField] private int SpawnedCatCount = 0;
-    // 
 
-    [Header("テキスト")]
+    [Header("ごはんデータ")]
+    // ごはんの誤差
+    private float Cat_margin;
+    // ねこの理想ごはん量
+    private float Target_meal;
+    // 現在のごはん量
+    private float Current_meal;
+    // 袋の中のごはん量
+    private float Catfood_Capa = 200;
+
+    [Header("ゲーム内テキスト")]
     // ごはん量テキスト
     [SerializeField] TextMeshProUGUI Meal_gram_Text;
     // ごはんの誤差テキスト
@@ -67,16 +76,6 @@ public class GameManager : MonoBehaviour
     // 制限時間表示テキスト
     [SerializeField] TextMeshProUGUI TimeLeft_Text;
 
-    [Header("ごはんデータ")]
-    // ごはんの誤差
-    private float Cat_margin;
-    // ねこの理想ごはん量
-    private float Target_meal;
-    // 現在のごはん量
-    private float Current_meal;
-    // 袋の中のごはん量
-    private float Catfood_Capa = 200;
-
     [Header("制限時間")]
     // ネコ１匹の制限時間
     //private float CatTimeLimit;
@@ -89,19 +88,29 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject MenuClose_Button;
     [SerializeField] private GameObject MenuPanal;
 
+    [Header("ねこの感情スプライト")]
+    public Sprite cat_lovey;    // ぴったりのとき
+    public Sprite cat_happy;    // 誤差以内のとき
+    public Sprite cat_unhappy;  // 多い少ないのとき
+    public Sprite cat_angry;    // 多すぎ少なすぎのとき
+
 
     private Dictionary<string, string> catsName = new Dictionary<string, string>() {
-        {"ノルウェージャン","cat_norwegian"},
-        {"ラグドール","cat_ragdoll"},
-        {"ベンガル","cat_bengal"},
-        {"サバトラ","cat_sabatora"},
-        {"チャトラ","cat_chatora"},
-        {"ハチワレ","cat_hachiware"},
-        {"アメショー","cat_american"},
-        {"クロネコ","cat_black"},
-        {"シロネコ","cat_white"},
-        {"マンチカン","cat_munchkin"},
-        {"スコティッシュ","cat_scottish"},
+        {"ノルウェージャン" ,"cat_norwegian"},
+        {"ベンガル"         ,"cat_bengal"},
+        {"サバトラ"         ,"cat_sabatora"},
+        {"チャトラ"         ,"cat_chatora"},
+        {"ハチワレ"         ,"cat_hachiware"},
+        {"アメショー"       ,"cat_american"},
+        {"クロネコ"         ,"cat_black"},
+        {"シロネコ"         ,"cat_white"},
+        {"マンチカン"       ,"cat_munchkin"},
+        {"スコティッシュ"   ,"cat_scottish"},
+        {"でぶサバトラ"     ,"cat_fat_sabatora"},
+        {"でぶチャトラ"     ,"cat_fat_chatora"},
+        {"でぶハチワレ"     ,"cat_fat_hachiware"},
+        {"でぶクロネコ"     ,"cat_fat_black"},
+        {"でぶシロネコ"     ,"cat_fat_white"},
     };
 
 
