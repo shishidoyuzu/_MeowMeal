@@ -7,6 +7,7 @@ public class Cat : MonoBehaviour
     public SpriteRenderer catSprite;            // ネコの見た目
 
     public Sprite normalFace;
+    public Sprite meowFace;
 
 
     // GameManagerから呼ばれる：データ設定
