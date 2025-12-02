@@ -17,5 +17,5 @@ MonoBehaviour:
   - "\u30B5\u30D0\u30C8\u30E9"
   Personalities: 
   margin: 200
-  TimeLimit: 60
+  TimeLimit: 10
   CatCount: 3

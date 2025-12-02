@@ -17,6 +17,14 @@ using UnityEngine;
 ４：３ｇ　　　１粒分ならセーフ
 ５：０ｇ　　　ぴったりじゃないとダメ
 */
+
+public enum CatReaction {
+    PERFECT,        // ぴったり
+    WITHIN_MARGIN,  // 誤差の範囲内
+    FEW_MANY,       // 少ない・多い
+    LESS_MORE       // とても少ない・とても多い
+};
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -27,7 +35,6 @@ public class GameManager : MonoBehaviour
     // 「StageData_1」や「StageData_2」をセットする場所
     public List<StageData> allStageData;
     [SerializeField] private StageData stageData;
-
 
     [Header("ネコデータ関連")]
     // ネコのプレハブ
@@ -42,6 +49,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int StageCatCount = 3;
     // 今出ているネコが何匹目かのカウント
     [SerializeField] private int SpawnedCatCount = 0;
+    // 
 
     [Header("テキスト")]
     // ごはん量テキスト
@@ -71,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     [Header("制限時間")]
     // ネコ１匹の制限時間
-    private float CatTimeLimit;
+    //private float CatTimeLimit;
     // 残り時間
     private float TimeLeft;
     // タイマーのオン・オフ
@@ -322,41 +330,59 @@ public class GameManager : MonoBehaviour
         // 目標ごはん量から、今のごはん量を引いた「ごはん量のズレ」
         float diff = Mathf.Abs(Target_meal - Current_meal);
 
-        UpdateEmotion(diff);
+        GetCatReaction(diff);
     }
     // 「ごはん量のズレ」によるネコの感情変化
-    public void UpdateEmotion(float diff)
+    public CatReaction GetCatReaction(float diff)
     {
+        // Current_meal は「今のごはん量」、Target_meal  は「ねこの目標量」
+
         if (Current_meal == Target_meal)
         {
             // ぴったり
-            Cat_emotion_Text.text = "ぴったりのごはん！\nやった！";
+            Cat_emotion_Text.text = "ごはんがぴったり！\nやったね！";
             // 満面のにゃん
+            return CatReaction.PERFECT;
         }
         else if (diff <= Cat_margin)
         {
             // 誤差の範囲内
             Cat_emotion_Text.text = "ちょうどいいごはんの量！";
             // にこにこ
+            return CatReaction.WITHIN_MARGIN;
         }
         else if (Current_meal < Target_meal)
         {
             // すくない
             Cat_emotion_Text.text = "ごはんが少ない！";
             // しょんぼり
+            return CatReaction.FEW_MANY;
         }
-        else
+        else if (Current_meal > Target_meal)
         {
-            // おおい！
+            // おおい
             Cat_emotion_Text.text = "ごはんが多い！";
             // ムッおこ
+            return CatReaction.FEW_MANY;
         }
+        else if (diff < 20.0f)
+        {
+            Cat_emotion_Text.text = "とてもごはんが少ない！";
+            return CatReaction.LESS_MORE;
+        }
+        else if (diff > 20.0f)
+        {
+            Cat_emotion_Text.text = "とてもごはんが多い！";
+            return CatReaction.LESS_MORE;
+        }
+
+        return CatReaction.WITHIN_MARGIN; // ←保険
     }
 
     // 次のネコの準備をする
     void PrepareNextCat()
     {
-        // ・前のネコの削除
+        // 前のネコの削除
         // もし、「今画面に出ているねこ」がいる場合
         if(currentCat != null)
         {
