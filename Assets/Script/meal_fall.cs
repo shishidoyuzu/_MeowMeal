@@ -57,8 +57,8 @@ public class Meal_Fall : MonoBehaviour
             }
         }
 
-        // マウスから手を離したとき、
-        if (Input.GetMouseButtonUp(0))
+        // マウスから手を離したとき＆ごはんをあげてなかったら
+        if (Input.GetMouseButtonUp(0) && !hasGivenMeal)
         {
             // UIの上にカーソルが乗っていなかったら
             if (!EventSystem.current.IsPointerOverGameObject())

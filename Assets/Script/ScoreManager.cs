@@ -50,6 +50,7 @@ public class ScoreManager : MonoBehaviour
         SetResultUI();
     }
 
+    // リザルトUIを探す
     private void FindResultUI()
     {
         reactionScore_text = GameObject.Find("Cat_reaction")?.GetComponent<TextMeshProUGUI>();
@@ -95,15 +96,15 @@ public class ScoreManager : MonoBehaviour
            reaction == CatReaction.WITHIN_MARGIN)
         {
             comboCount++;
-            
+
+            Debug.Log($"{comboCount}");
+
             // コンボが２回のとき
-            if (comboCount == 2)
-                // ボーナススコア＋150
-                comboBonus += 150;
+            if (comboCount == 3)
+                comboBonus = 300;  // ボーナススコア＋300
             // コンボが３回のとき
-            else if (comboCount == 3)
-                // ボーナススコア＋300
-                comboBonus += 300;
+            else if (comboCount == 2)
+                comboBonus = 150;  // ボーナススコア＋150
         }
         else
         {

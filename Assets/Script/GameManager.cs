@@ -309,8 +309,6 @@ public class GameManager : MonoBehaviour
     // 時間切れになったとき
     private void OnTimeUp()
     {
-        //Debug.Log("制限時間終了！");
-
         // 出てきたネコが３匹目なら
         if(SpawnedCatCount >= StageCatCount)
         {
@@ -321,7 +319,6 @@ public class GameManager : MonoBehaviour
             if (cs != null)
             {
                 ScoreManager.Instance.CalculateTotal();
-                SpawnedCatCount = 0;
                 cs.GotoResult();
             }
             else
@@ -353,6 +350,7 @@ public class GameManager : MonoBehaviour
 
         // スコアマネージャーへ反応を送る
         ScoreManager.Instance.AddReactionScore(reaction);
+        ScoreManager.Instance.AddCombo(reaction);
 
         // 残りごはんペナルティを送る（袋の残量を渡すだけ）
         ScoreManager.Instance.AddMealRemainPenalty(Catfood_Capa);
@@ -409,6 +407,10 @@ public class GameManager : MonoBehaviour
     // 次のネコの準備をする
     void PrepareNextCat()
     {
+        // ねこが３匹目の場合
+        if (SpawnedCatCount >= StageCatCount)
+            return;
+
         // 前のネコの削除
         // もし、「今画面に出ているねこ」がいる場合
         if(currentCat != null)
@@ -449,7 +451,7 @@ public class GameManager : MonoBehaviour
     // 次のステージに進む時
     public static int GetNextStage()
     {
-        CurrentStage++;                       // ステージ番号を進める
+        CurrentStage++; // ステージ番号を進める
         GameManager.instance.stageData = 
             GameManager.instance.allStageData[CurrentStage - 1];
 
