@@ -11,7 +11,7 @@ using UnityEngine;
 
 
 各ステージのごはん量の誤差まとめ
-１：なし　　　数値的には１８０ｇ（１袋分の誤差）
+１：なし　　　数値的には200ｇ（１袋分の誤差）
 ２：５ｇ　　　２粒分の余裕
 ３：７．５ｇ　でぶ猫対応の３粒分
 ４：３ｇ　　　１粒分ならセーフ
@@ -88,11 +88,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject MenuClose_Button;
     [SerializeField] private GameObject MenuPanal;
 
-    [Header("ねこの感情スプライト")]
-    public Sprite cat_lovey;    // ぴったりのとき
-    public Sprite cat_happy;    // 誤差以内のとき
-    public Sprite cat_unhappy;  // 多い少ないのとき
-    public Sprite cat_angry;    // 多すぎ少なすぎのとき
+    [Header("ねこの感情画像")]
+    public GameObject cat_lovey;    // ぴったりのとき
+    public GameObject cat_happy;    // 誤差以内のとき
+    public GameObject cat_unhappy;  // 多い少ないのとき
+    public GameObject cat_angry;    // 多すぎ少なすぎのとき
 
 
     private Dictionary<string, string> catsName = new Dictionary<string, string>() {
@@ -367,6 +367,8 @@ public class GameManager : MonoBehaviour
             // ぴったり
             Cat_emotion_Text.text = "ごはんがぴったり！\nやったね！";
             // 満面のにゃん
+            cat_lovey.SetActive(true);
+
             return CatReaction.PERFECT;
         }
         else if (diff <= Cat_margin)
@@ -374,6 +376,8 @@ public class GameManager : MonoBehaviour
             // 誤差の範囲内
             Cat_emotion_Text.text = "ちょうどいいごはんの量！";
             // にこにこ
+            cat_happy.SetActive(true);
+            
             return CatReaction.WITHIN_MARGIN;
         }
         else if (Current_meal < Target_meal)
@@ -381,23 +385,35 @@ public class GameManager : MonoBehaviour
             // すくない
             Cat_emotion_Text.text = "ごはんが少ない！";
             // しょんぼり
+            cat_unhappy.SetActive(true);
+
             return CatReaction.FEW_MANY;
         }
         else if (Current_meal > Target_meal)
         {
             // おおい
             Cat_emotion_Text.text = "ごはんが多い！";
-            // ムッおこ
+            // しょんぼり
+            cat_unhappy.SetActive(true);
+
             return CatReaction.FEW_MANY;
         }
         else if (diff < 20.0f)
         {
+            // とてもすくない
             Cat_emotion_Text.text = "とてもごはんが少ない！";
+            // ムッおこ
+            cat_angry.SetActive(true);
+
             return CatReaction.LESS_MORE;
         }
         else if (diff > 20.0f)
         {
+            // とてもおおい
             Cat_emotion_Text.text = "とてもごはんが多い！";
+            // ムッおこ
+            cat_angry.SetActive(true);
+
             return CatReaction.LESS_MORE;
         }
 

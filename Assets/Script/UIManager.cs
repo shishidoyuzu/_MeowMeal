@@ -14,6 +14,10 @@ public class UIManager : MonoBehaviour
     public GameObject MenuPanal;
     */
 
+    private StageData StageData;
+    private StageSelectManager StageSelectManager;
+    private int StageNum = 0;
+
     public void EndGame()
     {
 #if UNITY_EDITOR
@@ -22,4 +26,49 @@ public class UIManager : MonoBehaviour
     Application.Quit();//ゲームプレイ終了
 #endif
     }
+
+    //-----------------------セレクトシーン------------------------------------
+    // 右にある選択UI(黄色いの)を押したとき
+    void PushNEXT_UI()
+    {
+        StageNum = StageData.StageNum;
+
+        if (StageNum < StageSelectManager.AllStageData.Count - 1)
+        {
+            StageNum++;
+            StageSelectManager.SetStageUI();
+        }
+
+        /*
+        StageNum = StageData.StageNum;
+        // 選択しているステージ番号が５より下＆０より上なら
+        if (StageNum < 5 && StageNum > 0)
+        {
+            StageNum++;
+            StageSelectManager.SetStageUI();
+        }
+        */
+    }
+    // 左にある選択UI(黄色いの)を押したとき
+    void PushPREV_UI()
+    {
+        StageNum = StageData.StageNum;
+
+        if (StageNum > 0)
+        {
+            StageNum--;
+            StageSelectManager.SetStageUI();
+        }
+
+        /*
+        StageNum = StageData.StageNum;
+        // 選択しているステージ番号が０より上＆６より下なら
+        if (StageNum > 0 && StageNum < 6)
+        {
+            StageNum--;
+            StageSelectManager.SetStageUI();
+        }
+        */
+    }
+    //-------------------------------------------------------------------------
 }

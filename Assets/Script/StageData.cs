@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 // ScriptableObject は Unity の“データ専用アセット”みたいなやつ。
@@ -53,5 +54,8 @@ public class StageData : ScriptableObject
 
     [Header("１ステージに出るねこの数")]
     public int CatCount = 3;
+
+    [Header("ステージ説明")]
+    public string StageExplanation;
 
 }
