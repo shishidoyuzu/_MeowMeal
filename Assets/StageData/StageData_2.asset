@@ -22,3 +22,4 @@ MonoBehaviour:
   margin: 5
   TimeLimit: 10
   CatCount: 3
+  StageExplanation: "\u4ECA\u65E5\u3082\u306D\u3053\u304C\u3084\u3063\u3066\u304D\u305F\u3002\n\n\u306D\u3053\u9054\u306E\u5E0C\u671B\u306B\u5FDC\u3048\u3088\u3046\uFF01"

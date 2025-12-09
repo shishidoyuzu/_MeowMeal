@@ -4,6 +4,25 @@ using UnityEngine;
 
 public class StageSelectManager : MonoBehaviour
 {
+    /*
+    ～ステージアイコンの動き～
+    ・選択UIの真ん中（x座標：230程度）に選択状態のアイコンを配置
+    ・選択状態になればふわふわするアニメーションをつける
+    ・選択状態になっていないアイコンはScaleを少し小さく（0.7くらい）し
+    ・まだプレイしたことない（解放されていない）ステージは「鍵」を表示し、暗くする
+
+    ～選択UIの動き～
+    ・クリックするとStageDataのStageNumを参照して、SetStageUI()を呼び出し
+    ・
+
+    ～ステージパネルの動き～
+    ・選択されているアイコンによってパネルの情報が切り替わる（StageDataに連動）
+    ・変わるのは「ｘ日目」テキスト・ステージ説明テキスト・出てくるねこの種類テキストの３つ
+    ・選択状態かつ解放済みなら「プレイ！」ボタンが光る。
+    
+    */
+
+
     [Header("各ステージデータ")]
     // ステージデータ
     [SerializeField] private StageData StageData;
@@ -17,6 +36,12 @@ public class StageSelectManager : MonoBehaviour
     public TextMeshProUGUI Date_Text;
     // ステージ説明テキスト
     public TextMeshProUGUI StageDescription_Text;
+    // やって来るねこ
+    public TextMeshProUGUI CatList_Text;
+
+    [Header("ステージアイコン")]
+    public List<StageIcon> StageIcons;
+
 
     // Start is called before the first frame update
     void Start()
@@ -25,55 +50,29 @@ public class StageSelectManager : MonoBehaviour
         SetStageUI();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateStageIcons()
     {
-        
+        for(int i = 0;i< StageIcons.Count; i++)
+        {
+            var icon = StageIcons[i];
+
+            bool isSelected = (i == SelectStageNum);
+            //bool isUnlocked = UnlockFlags[i];
+        }
     }
+
 
     public void SetStageUI()
     {
-        Date_Text.text = ($"{SelectStageNum}日目");
-        StageDescription_Text.text = StageData.StageExplanation;
-        StageData = AllStageData[SelectStageNum];
+        // SelectStageNumの更新
+        var data = AllStageData[SelectStageNum];
+        // UIの更新
+        Date_Text.text = ($"{SelectStageNum + 1}日目");
+        StageDescription_Text.text = data.StageExplanation;
+        CatList_Text.text = string.Join(",", data.name);
     }
 
     //----------------------ボタン専用-----------------------------------
-    // 右にある選択UI(黄色いの)を押したとき
-    void PushNEXT_UI()
-    {
-        if(SelectStageNum < AllStageData.Count - 1)
-        {
-            SelectStageNum++;
-            SetStageUI();
-        }
 
-        /*
-        // 選択しているステージ番号が５より下＆０より上なら
-        if (SelectStageNum < 5 && SelectStageNum > 0)
-        {
-            SelectStageNum++;
-            SetStageUI();
-        }
-        */
-    }
-    // 左にある選択UI(黄色いの)を押したとき
-    void PushPREV_UI()
-    {
-        if(SelectStageNum > 0)
-        {
-            SelectStageNum--;
-            SetStageUI();
-        }
-
-        /*
-        // 選択しているステージ番号が０より上＆６より下なら
-        if (SelectStageNum > 0 && SelectStageNum < 6)
-        {
-            SelectStageNum--;
-            SetStageUI();
-        }
-        */
-    }
     //-------------------------------------------------------------------
 }

@@ -3,21 +3,11 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    /*
-    [Header("ボタンUI")]
-    public GameObject Menu;
-    public GameObject Credit;
-    public GameObject DeleteData;
-    public GameObject EndGame_;
-
-    [Header("パネルUI")]
-    public GameObject MenuPanal;
-    */
-
     private StageData StageData;
     private StageSelectManager StageSelectManager;
     private int StageNum = 0;
 
+    // メニューで使用するゲーム終了ボタン
     public void EndGame()
     {
 #if UNITY_EDITOR
@@ -29,7 +19,7 @@ public class UIManager : MonoBehaviour
 
     //-----------------------セレクトシーン------------------------------------
     // 右にある選択UI(黄色いの)を押したとき
-    void PushNEXT_UI()
+    public void PushNEXT_UI()
     {
         StageNum = StageData.StageNum;
 
@@ -50,7 +40,7 @@ public class UIManager : MonoBehaviour
         */
     }
     // 左にある選択UI(黄色いの)を押したとき
-    void PushPREV_UI()
+    public void PushPREV_UI()
     {
         StageNum = StageData.StageNum;
 

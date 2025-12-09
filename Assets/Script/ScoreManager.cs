@@ -124,7 +124,7 @@ public class ScoreManager : MonoBehaviour
         // 例：残ったg × 5点 マイナス
         int penalty = Mathf.RoundToInt(remain * 5f);
 
-        //mealRemainPenalty += penalty;
+        mealRemainPenalty += penalty;
     }
 
     // 合計スコア更新

@@ -29,7 +29,7 @@ public class ChangeScene : MonoBehaviour
     }
 
     // 次のステージへ
-    public void GotoGamePlay()
+    public void GotoNextStage()
     {
         int Nextstage = GameManager.GetNextStage();
 

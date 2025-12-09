@@ -18,7 +18,6 @@ public enum CatPersonality {
 public class StageData : ScriptableObject
 {
     /*
-
     ステージごとに変える要素
     ・今のステージ数
     ・ねこの出現する種類
@@ -56,6 +55,7 @@ public class StageData : ScriptableObject
     public int CatCount = 3;
 
     [Header("ステージ説明")]
+    [TextArea]
     public string StageExplanation;
 
 }
