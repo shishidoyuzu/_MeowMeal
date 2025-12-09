@@ -1438,8 +1438,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u306D\u3053\u306F\u304A\u8179\u304C\n\u7A7A\u3044\u3066\u3044\u308B\u30FB\u30FB\u30FB"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c9c848cc31a5ede4ca9ca7a0c5c1d6b8, type: 2}
-  m_sharedMaterial: {fileID: -3843040246314008281, guid: c9c848cc31a5ede4ca9ca7a0c5c1d6b8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 10a59955d40dc87449d3fbe2d6a7a429, type: 2}
+  m_sharedMaterial: {fileID: 5896957379014295910, guid: 10a59955d40dc87449d3fbe2d6a7a429, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2860,14 +2860,11 @@ MonoBehaviour:
   stageData: {fileID: 11400000, guid: 775da2522538b2b43952ea994b31fada, type: 2}
   catPrefabs:
   - {fileID: 5465997748965990657, guid: e39a28494c2546943ab5f750f3a7a8ba, type: 3}
-  - {fileID: 7340734839781227850, guid: 1c8431fc8538e0040ba02f1bf37ffde8, type: 3}
   - {fileID: 2250944096190876728, guid: 3d4900466468446439d83f48f5a9e3de, type: 3}
   - {fileID: 6915144293870279936, guid: 3d9f96c0b39824e45ae674d202998e54, type: 3}
   - {fileID: 428279809240689002, guid: f7df6b84c061a494999bc3b3bf1aaf3b, type: 3}
   - {fileID: 8080996453653120980, guid: e71a1bf8d23608642a9d64d555413285, type: 3}
   - {fileID: 2414210223566061595, guid: 7b28755fc2f42e74487c60a6cb0c9c3d, type: 3}
-  - {fileID: 3642409021874852712, guid: 979f2906b72f28b479a1bb18d015c385, type: 3}
-  - {fileID: 3236279915994502079, guid: e2fa733b5183f384eac29b1dd3df88ed, type: 3}
   - {fileID: 6827279669861732310, guid: 00c3fe72be9bcfd49b8e7ab06ea71f08, type: 3}
   - {fileID: 7882381876931126224, guid: fdd36e089250ec543b2037bba36ba7e7, type: 3}
   catSpawnPos: {fileID: 444417877}
@@ -2882,10 +2879,6 @@ MonoBehaviour:
   TimeLeft_Text: {fileID: 1872140593}
   MenuClose_Button: {fileID: 1475774714}
   MenuPanal: {fileID: 1829799648}
-  cat_lovey: {fileID: 0}
-  cat_happy: {fileID: 0}
-  cat_unhappy: {fileID: 0}
-  cat_angry: {fileID: 0}
 --- !u!1 &1829799648
 GameObject:
   m_ObjectHideFlags: 0

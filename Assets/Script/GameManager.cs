@@ -59,6 +59,9 @@ public class GameManager : MonoBehaviour
     private float Current_meal;
     // 袋の中のごはん量
     private float Catfood_Capa = 200;
+    // 袋の中の最大ごはん量
+    private float Catfood_MaxCapa = 200;
+
 
     [Header("ゲーム内テキスト")]
     // ごはん量テキスト
@@ -89,10 +92,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject MenuPanal;
 
     [Header("ねこの感情画像")]
-    public GameObject cat_lovey;    // ぴったりのとき
-    public GameObject cat_happy;    // 誤差以内のとき
-    public GameObject cat_unhappy;  // 多い少ないのとき
-    public GameObject cat_angry;    // 多すぎ少なすぎのとき
+    //public GameObject cat_lovey;    // ぴったりのとき
+    //public GameObject cat_happy;    // 誤差以内のとき
+    //public GameObject cat_unhappy;  // 多い少ないのとき
+    //public GameObject cat_angry;    // 多すぎ少なすぎのとき
 
 
     private Dictionary<string, string> catsName = new Dictionary<string, string>() {
@@ -102,15 +105,11 @@ public class GameManager : MonoBehaviour
         {"チャトラ"         ,"cat_chatora"},
         {"ハチワレ"         ,"cat_hachiware"},
         {"アメショー"       ,"cat_american"},
-        {"クロネコ"         ,"cat_black"},
-        {"シロネコ"         ,"cat_white"},
         {"マンチカン"       ,"cat_munchkin"},
         {"スコティッシュ"   ,"cat_scottish"},
         {"でぶサバトラ"     ,"cat_fat_sabatora"},
         {"でぶチャトラ"     ,"cat_fat_chatora"},
         {"でぶハチワレ"     ,"cat_fat_hachiware"},
-        {"でぶクロネコ"     ,"cat_fat_black"},
-        {"でぶシロネコ"     ,"cat_fat_white"},
     };
 
 
@@ -265,18 +264,14 @@ public class GameManager : MonoBehaviour
         // 袋の重さ表示
         Catfood_Capa_Text.text = ($"{Catfood_Capa:F0}g");
         // 「誤差の量」が「袋の中のごはん量」と同じなら
-        if (Cat_margin == Catfood_Capa)
+        if (Cat_margin == Catfood_MaxCapa)
             Cat_margin_Text.text = ("誤差：なし"); // 誤差を無いことにする
-
-        //else
-        //Cat_margin_Text.text = ("誤差：あり");
-
         // ネコの目標グラムを設定
         Target_meal_Text.text = ($"目標グラム：{Target_meal:F0}g");
         // ネコの名前表示
         Cat_name_Text.text = CatName;
         // ネコのお言葉
-        Cat_emotion_Text.text = ($"{CatName}はお腹が\n空いている・・・");
+        Cat_emotion_Text.text = ($"{CatName}はお腹が\n空いているみたい・・・");
     }
 
     // Plate.csから今のごはん量を受け取って表示
@@ -367,7 +362,7 @@ public class GameManager : MonoBehaviour
             // ぴったり
             Cat_emotion_Text.text = "ごはんがぴったり！\nやったね！";
             // 満面のにゃん
-            cat_lovey.SetActive(true);
+            //cat_lovey.SetActive(true);
 
             return CatReaction.PERFECT;
         }
@@ -376,7 +371,7 @@ public class GameManager : MonoBehaviour
             // 誤差の範囲内
             Cat_emotion_Text.text = "ちょうどいいごはんの量！";
             // にこにこ
-            cat_happy.SetActive(true);
+            //cat_happy.SetActive(true);
             
             return CatReaction.WITHIN_MARGIN;
         }
@@ -385,7 +380,7 @@ public class GameManager : MonoBehaviour
             // すくない
             Cat_emotion_Text.text = "ごはんが少ない！";
             // しょんぼり
-            cat_unhappy.SetActive(true);
+            //cat_unhappy.SetActive(true);
 
             return CatReaction.FEW_MANY;
         }
@@ -394,7 +389,7 @@ public class GameManager : MonoBehaviour
             // おおい
             Cat_emotion_Text.text = "ごはんが多い！";
             // しょんぼり
-            cat_unhappy.SetActive(true);
+            //cat_unhappy.SetActive(true);
 
             return CatReaction.FEW_MANY;
         }
@@ -403,7 +398,7 @@ public class GameManager : MonoBehaviour
             // とてもすくない
             Cat_emotion_Text.text = "とてもごはんが少ない！";
             // ムッおこ
-            cat_angry.SetActive(true);
+            //cat_angry.SetActive(true);
 
             return CatReaction.LESS_MORE;
         }
@@ -412,7 +407,7 @@ public class GameManager : MonoBehaviour
             // とてもおおい
             Cat_emotion_Text.text = "とてもごはんが多い！";
             // ムッおこ
-            cat_angry.SetActive(true);
+            //cat_angry.SetActive(true);
 
             return CatReaction.LESS_MORE;
         }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
@@ -15,15 +16,24 @@ public class ChangeScene : MonoBehaviour
     // ステージ選択シーンへ
     public void GotoSelectStage()
     {
+        // 前のシーンがリザルトシーンのとき
+        if(SceneManager.GetActiveScene().name == "Result")
+        {
+            StageSelectManager.SelectStageNum++;
+        }
         string stage = "StageSelect";
         Initiate.Fade(stage, black, 1.0f);
     }
     
     // もう一度プレイする
-    public void Game_Re_Play()
+    public void GotoGamePlay()
     {
-        int Replay = GameManager.GetCurrentStageForReplay();
-
+        // 前のシーンがゲームシーンorリザルトシーンのとき
+        if (SceneManager.GetActiveScene().name == "GamePlay" ||
+            SceneManager.GetActiveScene().name == "GamePlay")
+        {
+            int Replay = GameManager.GetCurrentStageForReplay();
+        }
         string replay = "GamePlay";
         Initiate.Fade(replay, black, 1.0f);
     }
@@ -36,14 +46,6 @@ public class ChangeScene : MonoBehaviour
         string gameplay = "GamePlay";
         Initiate.Fade(gameplay, black, 1.0f);
     }
-
-    // ゲームシーンへ
-    public void GotoGamePlayforSelect()
-    {
-        string gameplay = "GamePlay";
-        Initiate.Fade(gameplay, black, 1.0f);
-    }
-
 
     // リザルトシーンへ
     public void GotoResult()

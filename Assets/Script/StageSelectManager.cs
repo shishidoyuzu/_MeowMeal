@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StageSelectManager : MonoBehaviour
 {
@@ -38,41 +39,51 @@ public class StageSelectManager : MonoBehaviour
     public TextMeshProUGUI StageDescription_Text;
     // やって来るねこ
     public TextMeshProUGUI CatList_Text;
+    // 「プレイ！」ボタン
+    public Button PlayButton;
 
     [Header("ステージアイコン")]
     public List<StageIcon> StageIcons;
+
+    [Header("アンロック情報（解放フラグ）")]
+    public List<bool> UnlockFlags = new List<bool>() { true, false, false, false, false };
 
 
     // Start is called before the first frame update
     void Start()
     {
-        // UIの用意
         SetStageUI();
+        UpdateStageIcons();
     }
 
     public void UpdateStageIcons()
     {
-        for(int i = 0;i< StageIcons.Count; i++)
+        for (int i = 0; i < StageIcons.Count; i++)
         {
             var icon = StageIcons[i];
 
             bool isSelected = (i == SelectStageNum);
-            //bool isUnlocked = UnlockFlags[i];
+            bool isUnlocked = UnlockFlags[i];
+
+            StageIcons[i].Setup(isSelected, isUnlocked);
         }
     }
-
 
     public void SetStageUI()
     {
         // SelectStageNumの更新
         var data = AllStageData[SelectStageNum];
+
+        Debug.Log($"{SelectStageNum + 1}");
+
         // UIの更新
+        // ｘ日目のテキスト
         Date_Text.text = ($"{SelectStageNum + 1}日目");
+        // ステージ説明テキスト
         StageDescription_Text.text = data.StageExplanation;
-        CatList_Text.text = string.Join(",", data.name);
+        // 出現するネコ一覧
+        CatList_Text.text = string.Join("\n", data.CatName);
+        // 解放されてるなら PLAY ボタン可
+        PlayButton.interactable = UnlockFlags[SelectStageNum];
     }
-
-    //----------------------ボタン専用-----------------------------------
-
-    //-------------------------------------------------------------------
 }
