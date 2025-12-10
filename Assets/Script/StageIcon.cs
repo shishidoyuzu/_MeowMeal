@@ -2,12 +2,16 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class StageIcon : MonoBehaviour
 {
     public Image iconImage;
     public GameObject lockIcon;
     // 未開放確認パネル
     public GameObject LockedPopup_Panal;
+
+    // 選択されているステージ番号
+    private int stage_Num;
 
     // 選択状態でフワフワさせる
     public bool animate = false;

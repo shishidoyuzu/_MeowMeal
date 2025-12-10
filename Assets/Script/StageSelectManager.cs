@@ -45,45 +45,45 @@ public class StageSelectManager : MonoBehaviour
     [Header("ステージアイコン")]
     public List<StageIcon> StageIcons;
 
-    [Header("アンロック情報（解放フラグ）")]
+    [Header("アンロック情報")]
     public List<bool> UnlockFlags = new List<bool>() { true, false, false, false, false };
 
 
     // Start is called before the first frame update
     void Start()
     {
-        SetStageUI();
-        UpdateStageIcons();
+        SetStageUI(SelectStageNum);
+        UpdateStageIcons(SelectStageNum);
     }
 
-    public void UpdateStageIcons()
+    public void UpdateStageIcons(int sNum)
     {
         for (int i = 0; i < StageIcons.Count; i++)
         {
             var icon = StageIcons[i];
 
-            bool isSelected = (i == SelectStageNum);
+            bool isSelected = (i == sNum);
             bool isUnlocked = UnlockFlags[i];
 
             StageIcons[i].Setup(isSelected, isUnlocked);
         }
     }
 
-    public void SetStageUI()
+    public void SetStageUI(int sNum)
     {
         // SelectStageNumの更新
-        var data = AllStageData[SelectStageNum];
+        var data = AllStageData[sNum];
 
-        Debug.Log($"{SelectStageNum + 1}");
+        Debug.Log($"{sNum + 1}");
 
         // UIの更新
         // ｘ日目のテキスト
-        Date_Text.text = ($"{SelectStageNum + 1}日目");
+        Date_Text.text = ($"{sNum + 1}日目");
         // ステージ説明テキスト
         StageDescription_Text.text = data.StageExplanation;
         // 出現するネコ一覧
         CatList_Text.text = string.Join("\n", data.CatName);
         // 解放されてるなら PLAY ボタン可
-        PlayButton.interactable = UnlockFlags[SelectStageNum];
+        PlayButton.interactable = UnlockFlags[sNum];
     }
 }
