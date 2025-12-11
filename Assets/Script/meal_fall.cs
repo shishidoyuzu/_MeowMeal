@@ -47,14 +47,10 @@ public class Meal_Fall : MonoBehaviour
         // 右クリックしたとき
         if (Input.GetMouseButton(1))
         {
-            // 袋のごはんが0gのとき
-            if(MealCapacity <= 0f)
-            {
-                Debug.Log("ごはんを新しくするよ！");
-                // ごはん袋を満タンにする
-                RefillMealBag();
-                GameManager.instance.Show_CatfoodCapacity(MealCapacity);
-            }
+            Debug.Log("ごはんを新しくするよ！");
+            // ごはん袋を満タンにする
+            RefillMealBag();
+            GameManager.instance.Show_CatfoodCapacity(MealCapacity);
         }
 
         // マウスから手を離したとき＆ごはんをあげてなかったら
@@ -122,8 +118,7 @@ public class Meal_Fall : MonoBehaviour
 
     void RefillMealBag()
     {
-        if (MealCapacity <= 0)
-            MealCapacity = 200.0f;
+        MealCapacity = 200.0f;
     }
 
     public void ResetMealFlag()
