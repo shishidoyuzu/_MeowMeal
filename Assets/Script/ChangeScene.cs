@@ -1,18 +1,12 @@
+using Unity.Android.Types;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
-    private StageSelectManager ssm;
-
     // フェードの色を黒色に
     private Color black = Color.black;
 
-    private void Start()
-    {
-        // リザルトしーんに存在しないのが原因
-        ssm = GameObject.FindObjectOfType<StageSelectManager>();
-    }
 
     // タイトルシーンへ
     public void GotoTitle()
@@ -27,23 +21,19 @@ public class ChangeScene : MonoBehaviour
         // 前のシーンがリザルトシーンのとき
         if(SceneManager.GetActiveScene().name == "Result")
         {
-            int s_Num = StageSelectManager.SelectStageNum;
-            s_Num++;
-            ssm.UnlockFlagList[s_Num] = true;
+            int next = StageSelectManager.SelectStageNum + 1;
+            // 次のステージを開放する
+            ProgressManager.instance.UnlockStage(next);
+            // そして、フォーカスする（中央へ）
+            StageSelectManager.SelectStageNum = next;
         }
         string stage = "StageSelect";
         Initiate.Fade(stage, black, 1.0f);
     }
     
-    // もう一度プレイする
+    // ゲームシーンへ
     public void GotoGamePlay()
     {
-        // 前のシーンがゲームシーンorリザルトシーンのとき
-        if (SceneManager.GetActiveScene().name == "GamePlay" ||
-            SceneManager.GetActiveScene().name == "Result")
-        {
-            int Replay = GameManager.GetCurrentStageForReplay();
-        }
         string replay = "GamePlay";
         Initiate.Fade(replay, black, 1.0f);
     }

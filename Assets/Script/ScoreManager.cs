@@ -131,6 +131,7 @@ public class ScoreManager : MonoBehaviour
     {
         //totalScore = reactionScore + comboBonus - mealRemainPenalty;
         totalScore = reactionScore + comboBonus;
+
     }
 
     // スコアリセット

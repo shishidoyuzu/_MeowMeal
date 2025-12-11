@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     public static int CurrentStage = 1;
     // 「StageData_1」や「StageData_2」をセットする場所
     public List<StageData> allStageData;
-    [SerializeField] private StageData stageData;
+    public StageData stageData;
 
     [Header("ねこデータ")]
     // ネコのプレハブ
@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour
     private float Catfood_Capa = 200;
     // 袋の中の最大ごはん量
     private float Catfood_MaxCapa = 200;
-
 
     [Header("ゲーム内テキスト")]
     // ごはん量テキスト
@@ -97,7 +96,6 @@ public class GameManager : MonoBehaviour
     //public GameObject cat_unhappy;  // 多い少ないのとき
     //public GameObject cat_angry;    // 多すぎ少なすぎのとき
 
-
     private Dictionary<string, string> catsName = new Dictionary<string, string>() {
         {"ノルウェージャン" ,"cat_norwegian"},
         {"ベンガル"         ,"cat_bengal"},
@@ -130,16 +128,16 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        stageData = allStageData[CurrentStage - 1];
+        int stage = StageSelectManager.SelectStageNum;
+        stageData = allStageData[stage];
 
-        var stage = allStageData[CurrentStage - 1];
-
-        Cat_margin = stage.margin;
-        TimeLeft = stage.TimeLimit;
-        StageCatCount = stage.CatCount;
+        ApplyStage(stageData);
 
         // 出てくるネコの数の初期化
         SpawnedCatCount = 0;
+
+        // スコアの初期化
+        ScoreManager.Instance.ResetScore();
 
         // ネコの情報をCat_DataBaseから取得
         catDB = Cat_DataBase.Instance;
@@ -153,14 +151,15 @@ public class GameManager : MonoBehaviour
         // 取得したデータをもとにネコを呼び出し！
         RandomSpawn_NextCat();
 
-        //Debug.Log($"stageData: {stageData}");
-        //Debug.Log($"catDB: {catDB}");
-        //Debug.Log($"CurrentStage: {CurrentStage}");
-        //if (stageData != null)
-            //Debug.Log($"catNames count: {stageData.CatName.Count}");
-
         Debug.Log("Current StageData: " + stageData.name);
         Debug.Log("CatName List: " + string.Join(", ", stageData.CatName));
+    }
+
+    void ApplyStage(StageData stage)
+    {
+        Cat_margin = stage.margin;
+        TimeLeft = stage.TimeLimit;
+        StageCatCount = stage.CatCount;
     }
 
     void Update()
@@ -456,7 +455,7 @@ public class GameManager : MonoBehaviour
     // リプレイ時
     public static int GetCurrentStageForReplay()
     {
-        return CurrentStage; // そのまま返す
+        return StageSelectManager.SelectStageNum; // そのまま返す
     }
 
     // 次のステージに進む時

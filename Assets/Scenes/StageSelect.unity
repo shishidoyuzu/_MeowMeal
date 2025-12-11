@@ -305,7 +305,6 @@ MonoBehaviour:
   - {fileID: 718891346}
   - {fileID: 703599026}
   - {fileID: 1820103187}
-  UnlockFlagList: 0100000000
   isSelected: 0
   isUnlocked: 0
   DisplayTime: 1.5

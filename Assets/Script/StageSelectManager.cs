@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,24 +52,23 @@ public class StageSelectManager : MonoBehaviour
     // スクロールビュー（ステージアイコン）
     private Scrollbar scrollbar;
 
-    [Header("アンロック情報")]
-    public List<bool> UnlockFlagList = new List<bool>() { true, false, false, false, false };
-
-    [Header("フラグ情報")]
-    public bool isSelected;
-    public bool isUnlocked;
-
     [Header("開放パネルの表示時間")]
     // 開放パネルの表示時間
     public float DisplayTime = 1.5f;
     // 計測時間
     private float timer;
-    
 
-    void Start()
+
+    IEnumerator Start()
     {
+        yield return null;  // 1 フレーム待つ
+
+        int stage = SelectStageNum;
+
         // スクロールバーの捜索＆取得
         scrollbar = GameObject.Find("Scrollbar Horizontal").GetComponent<Scrollbar>();
+
+        MoveScrollview();
 
         // UIのセット＆更新
         SetStageUI(SelectStageNum);
@@ -88,7 +89,6 @@ public class StageSelectManager : MonoBehaviour
                 // タイマーを初期化
                 timer = 0.0f;
             }
-
         }
     }
     
@@ -100,10 +100,9 @@ public class StageSelectManager : MonoBehaviour
             var icon = StageIcons[i];
             
             // 選択されているステージと値が同じとき、「選択」されている
-            isSelected = (i == sNum);
+            bool isSelected = (i == sNum);
             // tureがあれば「開放」されている
-            isUnlocked = UnlockFlagList[i];
-
+            bool isUnlocked = ProgressManager.instance.IsUnlocked(i);
             StageIcons[i].Setup(isSelected, isUnlocked);
         }
     }
@@ -123,48 +122,7 @@ public class StageSelectManager : MonoBehaviour
         // 出現するネコ一覧
         CatList_Text.text = string.Join("\n", data.CatName);
         // 解放されてるなら PLAY ボタン可
-        PlayButton.interactable = UnlockFlagList[sNum];
-    }
-
-    // 右にある選択UI(黄色いの)を押したとき
-    public void PushNEXT_UI()
-    {
-        // 選択しているステージ番号が５より下なら
-        if (SelectStageNum < AllStageData.Count - 1)
-        {
-            // 開放されてなかったら
-            if (!isUnlocked)
-            {
-                LockedPopup_Panel.SetActive(true);
-                return;
-            }
-
-            SelectStageNum++;
-            Debug.Log($"{SelectStageNum}");
-
-            Debug.Log("次のステージに進む");
-            MoveScrollview();
-            SetStageUI(SelectStageNum);
-            UpdateStageIcons(SelectStageNum);
-
-        }
-    }
-    // 左にある選択UI(黄色いの)を押したとき
-    public void PushPREV_UI()
-    {
-        SelectStageNum = StageData.StageNum;
-
-        // 選択しているステージ番号が０より上なら
-        if (SelectStageNum > 0)
-        {
-            SelectStageNum--;
-            Debug.Log($"{SelectStageNum}");
-
-            Debug.Log("前のステージに進む");
-            MoveScrollview();
-            SetStageUI(SelectStageNum);
-            UpdateStageIcons(SelectStageNum);
-        }
+        PlayButton.interactable = ProgressManager.instance.IsUnlocked(sNum);
     }
 
     public void TryMoveStage(int direction)
@@ -176,7 +134,7 @@ public class StageSelectManager : MonoBehaviour
             return;
 
         // 次のステージがロックされてるならポップアップ
-        if (!UnlockFlagList[next])
+        if (!ProgressManager.instance.IsUnlocked(next))
         {
             LockedPopup_Panel.SetActive(true);
             return;
