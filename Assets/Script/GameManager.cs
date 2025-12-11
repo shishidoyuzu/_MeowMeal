@@ -307,7 +307,7 @@ public class GameManager : MonoBehaviour
         // 出てきたネコが３匹目なら
         if(SpawnedCatCount >= StageCatCount)
         {
-            Debug.Log("全てのネコにごはんをあげた！");
+            //Debug.Log("全てのネコにごはんをあげた！");
 
             // ChangeSceneスクリプトを探して呼び出す(非アクティブ対応)
             ChangeScene cs = MenuPanal.GetComponentInChildren<ChangeScene>(true);

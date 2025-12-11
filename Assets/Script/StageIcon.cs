@@ -7,11 +7,6 @@ public class StageIcon : MonoBehaviour
 {
     public Image iconImage;
     public GameObject lockIcon;
-    // 未開放確認パネル
-    public GameObject LockedPopup_Panal;
-
-    // 選択されているステージ番号
-    private int stage_Num;
 
     // 選択状態でフワフワさせる
     public bool animate = false;
@@ -26,16 +21,6 @@ public class StageIcon : MonoBehaviour
         // --- アンロックされてる？ ---
         iconImage.color = isUnlocked ? Color.white : new Color(0.6f, 0.6f, 0.6f);
         lockIcon.SetActive(!isUnlocked);
-
-        if (!isUnlocked)
-        {
-            //LockedPopup_Panal.SetActive(true);
-            return;
-        }
-
-        // 開放済みならステージ変更
-        //StageSelectManager.SelectStageNum = myIndex;
-        //StageSelectManager.instance.SetStageUI();
     }
 
     void Update()

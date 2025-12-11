@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour
     // ねこの反応スコア
     int reactionScore = 0;
     // 袋の残ごはんペナルティ
-    int mealRemainPenalty = 0;
+    //int mealRemainPenalty = 0;
     // コンボボーナス
     int comboBonus = 0;
     // 合計スコア
@@ -53,7 +53,7 @@ public class ScoreManager : MonoBehaviour
     private void FindResultUI()
     {
         reactionScore_text = GameObject.Find("Cat_reaction")?.GetComponent<TextMeshProUGUI>();
-        mealRemainPenalty_text = GameObject.Find("mealRemainPenalty")?.GetComponent <TextMeshProUGUI>();
+        //mealRemainPenalty_text = GameObject.Find("mealRemainPenalty")?.GetComponent <TextMeshProUGUI>();
         comboBonus_text = GameObject.Find("ComboBonus")?.GetComponent<TextMeshProUGUI>();
         totalScore_text = GameObject.Find("TotalScore")?.GetComponent<TextMeshProUGUI>();
     }
@@ -65,7 +65,7 @@ public class ScoreManager : MonoBehaviour
 
         reactionScore_text.text = $"{reactionScore}";
         comboBonus_text.text = $"{comboBonus}";
-        mealRemainPenalty_text.text = ($"-{mealRemainPenalty}");
+        //mealRemainPenalty_text.text = ($"-{mealRemainPenalty}");
         totalScore_text.text = ($"合計スコア：{totalScore}");
     }
 
@@ -129,7 +129,8 @@ public class ScoreManager : MonoBehaviour
     // 合計スコア更新
     public void CalculateTotal()
     {
-        totalScore = reactionScore + comboBonus - mealRemainPenalty;
+        //totalScore = reactionScore + comboBonus - mealRemainPenalty;
+        totalScore = reactionScore + comboBonus;
     }
 
     // スコアリセット
@@ -137,7 +138,7 @@ public class ScoreManager : MonoBehaviour
     {
         reactionScore = 0;
         comboBonus = 0;
-        mealRemainPenalty = 0;
+        //mealRemainPenalty = 0;
         totalScore = 0;
 
         lastReaction = CatReaction.WITHIN_MARGIN;

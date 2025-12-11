@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -41,29 +42,67 @@ public class StageSelectManager : MonoBehaviour
     public TextMeshProUGUI CatList_Text;
     // 「プレイ！」ボタン
     public Button PlayButton;
+    // 未開放確認パネル
+    public GameObject LockedPopup_Panel;
 
     [Header("ステージアイコン")]
     public List<StageIcon> StageIcons;
+    // スクロールビュー（ステージアイコン）
+    private Scrollbar scrollbar;
 
     [Header("アンロック情報")]
-    public List<bool> UnlockFlags = new List<bool>() { true, false, false, false, false };
+    public List<bool> UnlockFlagList = new List<bool>() { true, false, false, false, false };
 
+    [Header("フラグ情報")]
+    public bool isSelected;
+    public bool isUnlocked;
 
-    // Start is called before the first frame update
+    [Header("開放パネルの表示時間")]
+    // 開放パネルの表示時間
+    public float DisplayTime = 1.5f;
+    // 計測時間
+    private float timer;
+    
+
     void Start()
     {
+        // スクロールバーの捜索＆取得
+        scrollbar = GameObject.Find("Scrollbar Horizontal").GetComponent<Scrollbar>();
+
+        // UIのセット＆更新
         SetStageUI(SelectStageNum);
         UpdateStageIcons(SelectStageNum);
+
+        // タイマーの初期化
+        timer = 0.0f;
     }
+    void Update()
+    {
+        if (LockedPopup_Panel.activeSelf)
+        {
+            timer += Time.deltaTime; // 計測開始
+            if (timer >= DisplayTime)
+            {
+                // 開放パネルの非表示
+                LockedPopup_Panel.SetActive(false);
+                // タイマーを初期化
+                timer = 0.0f;
+            }
+
+        }
+    }
+    
 
     public void UpdateStageIcons(int sNum)
     {
         for (int i = 0; i < StageIcons.Count; i++)
         {
             var icon = StageIcons[i];
-
-            bool isSelected = (i == sNum);
-            bool isUnlocked = UnlockFlags[i];
+            
+            // 選択されているステージと値が同じとき、「選択」されている
+            isSelected = (i == sNum);
+            // tureがあれば「開放」されている
+            isUnlocked = UnlockFlagList[i];
 
             StageIcons[i].Setup(isSelected, isUnlocked);
         }
@@ -74,7 +113,7 @@ public class StageSelectManager : MonoBehaviour
         // SelectStageNumの更新
         var data = AllStageData[sNum];
 
-        Debug.Log($"{sNum + 1}");
+        //Debug.Log($"{sNum + 1}");
 
         // UIの更新
         // ｘ日目のテキスト
@@ -84,6 +123,96 @@ public class StageSelectManager : MonoBehaviour
         // 出現するネコ一覧
         CatList_Text.text = string.Join("\n", data.CatName);
         // 解放されてるなら PLAY ボタン可
-        PlayButton.interactable = UnlockFlags[sNum];
+        PlayButton.interactable = UnlockFlagList[sNum];
+    }
+
+    // 右にある選択UI(黄色いの)を押したとき
+    public void PushNEXT_UI()
+    {
+        // 選択しているステージ番号が５より下なら
+        if (SelectStageNum < AllStageData.Count - 1)
+        {
+            // 開放されてなかったら
+            if (!isUnlocked)
+            {
+                LockedPopup_Panel.SetActive(true);
+                return;
+            }
+
+            SelectStageNum++;
+            Debug.Log($"{SelectStageNum}");
+
+            Debug.Log("次のステージに進む");
+            MoveScrollview();
+            SetStageUI(SelectStageNum);
+            UpdateStageIcons(SelectStageNum);
+
+        }
+    }
+    // 左にある選択UI(黄色いの)を押したとき
+    public void PushPREV_UI()
+    {
+        SelectStageNum = StageData.StageNum;
+
+        // 選択しているステージ番号が０より上なら
+        if (SelectStageNum > 0)
+        {
+            SelectStageNum--;
+            Debug.Log($"{SelectStageNum}");
+
+            Debug.Log("前のステージに進む");
+            MoveScrollview();
+            SetStageUI(SelectStageNum);
+            UpdateStageIcons(SelectStageNum);
+        }
+    }
+
+    public void TryMoveStage(int direction)
+    {
+        int next = SelectStageNum + direction;
+
+        // 範囲外なら無視
+        if (next < 0 || next >= AllStageData.Count)
+            return;
+
+        // 次のステージがロックされてるならポップアップ
+        if (!UnlockFlagList[next])
+        {
+            LockedPopup_Panel.SetActive(true);
+            return;
+        }
+
+        // ロックされていないなら移動
+        SelectStageNum = next;
+        SetStageUI(SelectStageNum);
+        UpdateStageIcons(SelectStageNum);
+        MoveScrollview();
+    }
+
+    public void MoveScrollview()
+    {
+        switch ((SelectStageNum + 1))
+        {   
+            case 1:
+                Debug.Log("ステージ１を選択中");
+                scrollbar.value = 0.0f;
+                break;
+            case 2:
+                Debug.Log("ステージ２を選択中");
+                scrollbar.value = 0.25f;
+                break;
+            case 3:
+                Debug.Log("ステージ３を選択中");
+                scrollbar.value = 0.5f;
+                break;
+            case 4:
+                Debug.Log("ステージ４を選択中");
+                scrollbar.value = 0.75f;
+                break;
+            case 5:
+                Debug.Log("ステージ５を選択中");
+                scrollbar.value = 1.0f;
+                break;
+        }
     }
 }
