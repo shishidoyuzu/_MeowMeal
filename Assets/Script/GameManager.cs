@@ -45,9 +45,9 @@ public class GameManager : MonoBehaviour
     private Cat currentCat;
     // ネコデータベース
     private Cat_DataBase catDB;
-    // ステージ１つに出現するネコの数
+    [Tooltip("ステージ１つに出現するネコの数")]
     [SerializeField] private int StageCatCount = 3;
-    // 今出ているネコが何匹目かのカウント
+    [Tooltip("今出ているネコが何匹目かのカウント")]
     [SerializeField] private int SpawnedCatCount = 0;
 
     [Header("ごはんデータ")]
