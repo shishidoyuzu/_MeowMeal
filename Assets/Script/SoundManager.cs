@@ -27,12 +27,14 @@ public class SoundManager : MonoBehaviour
     public AudioClip SE_UIclose;
     [Tooltip("‚¨M‚É‚²‚Í‚ñ‚ª“–‚½‚é‰¹")]
     public AudioClip SE_fallPlate;
-    [Tooltip("‚Ë‚±‚Ì–Â‚«º‚P")]
+    [Tooltip("‚Ë‚±‚Ì–Â‚«º‚PFLovey")]
     public AudioClip SE_meow1;
-    [Tooltip("‚Ë‚±‚Ì–Â‚«º‚Q")]
+    [Tooltip("‚Ë‚±‚Ì–Â‚«º‚QFHappy")]
     public AudioClip SE_meow2;
-    [Tooltip("‚Ë‚±‚Ì–Â‚«º‚R")]
+    [Tooltip("‚Ë‚±‚Ì–Â‚«º‚RFUnHappy")]
     public AudioClip SE_meow3;
+    [Tooltip("‚Ë‚±‚Ì–Â‚«º‚SFAngry")]
+    public AudioClip SE_meow4;
     [Tooltip("ƒXƒRƒA•\¦")]
     public AudioClip SE_score;
     GameObject SEobj;
@@ -57,8 +59,8 @@ public class SoundManager : MonoBehaviour
         SEobj  = transform.GetChild(1).gameObject;
 
         // AudioSource‚Ìæ“¾
-        BGM_audioSource = gameObject.GetComponent<AudioSource>();
-        SE_audioSource  = gameObject.GetComponent<AudioSource>();
+        BGM_audioSource = BGMobj.GetComponent<AudioSource>();
+        SE_audioSource  = SEobj.GetComponent<AudioSource>();
 
         // BGM‚ÌÄ¶
         //BGM_audioSource.clip = BGM;

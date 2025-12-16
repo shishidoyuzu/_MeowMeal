@@ -26,11 +26,21 @@ public class UIManager : MonoBehaviour
     public void PushNEXT_UI()
     {
         StageSelectManager.TryMoveStage(+1);
+        // SEの再生
+        if (SoundManager.instance != null)
+            SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_UIclick);
+        else
+            Debug.LogWarning("SoundManagerが見つからないよ！");
     }
     // 左にある選択UI(黄色いの)を押したとき
     public void PushPREV_UI()
     {
         StageSelectManager.TryMoveStage(-1);
+        // SEの再生
+        if (SoundManager.instance != null)
+            SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_UIclick);
+        else
+            Debug.LogWarning("SoundManagerが見つからないよ！");
     }
     //-------------------------------------------------------------------------
 }

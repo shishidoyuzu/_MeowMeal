@@ -23,7 +23,7 @@ public class Meal_Fall : MonoBehaviour
     void Update()
     {
         // 左クリックしたとき＆ごはん袋が０ｇになっていなかったら
-        if (Input.GetMouseButton(0) && MealCapacity > 0f) 
+        if (Input.GetMouseButton(0) && MealCapacity > 0f)
         {
             // UIの上にカーソルが乗っていなかったら
             if (!EventSystem.current.IsPointerOverGameObject())
