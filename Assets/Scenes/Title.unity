@@ -743,15 +743,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BGMvol_Bar: {fileID: 1421720208}
   BGM_audioSource: {fileID: 41422281}
-  BGM: {fileID: 0}
+  BGM: {fileID: 8300000, guid: a14d31f34280ea8408babfe2e6ef9336, type: 3}
   SEvol_Bar: {fileID: 767589641}
   SE_audioSource: {fileID: 2005887635}
   SE_UIclick: {fileID: 0}
   SE_UIclose: {fileID: 0}
   SE_fallPlate: {fileID: 0}
-  SE_meow1: {fileID: 0}
-  SE_meow2: {fileID: 0}
-  SE_meow3: {fileID: 0}
+  SE_meow1: {fileID: 8300000, guid: 15e24d30be8c54f4ea0a369d75907127, type: 3}
+  SE_meow2: {fileID: 8300000, guid: ce60b8708ff1cf840bc0700d6de4e923, type: 3}
+  SE_meow3: {fileID: 8300000, guid: d89238d453619f347883e885a90e9141, type: 3}
+  SE_meow4: {fileID: 8300000, guid: d2573e7890e2b8c44b1c9c7086e6be41, type: 3}
   SE_score: {fileID: 0}
   audioMixer: {fileID: 24100000, guid: 637da207c17ce05479b84e47e9cd583a, type: 2}
 --- !u!4 &646907137
