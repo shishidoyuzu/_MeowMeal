@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 1849500899
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: caba1a4019febde47a8075616470884b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f998c216c69465446b85f9fdc15d697c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,4 +100,5 @@ MonoBehaviour:
   catName: "\u30CF\u30C1\u30EF\u30EC"
   targetMeal: 45
   catSprite: {fileID: 8027414447781663222}
-  normalFace: {fileID: 21300000, guid: caba1a4019febde47a8075616470884b, type: 3}
+  normalFace: {fileID: 21300000, guid: f998c216c69465446b85f9fdc15d697c, type: 3}
+  meowFace: {fileID: 0}

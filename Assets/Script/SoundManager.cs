@@ -63,8 +63,8 @@ public class SoundManager : MonoBehaviour
         SE_audioSource  = SEobj.GetComponent<AudioSource>();
 
         // BGMの再生
-        //BGM_audioSource.clip = BGM;
-        //BGM_audioSource.Play();
+        BGM_audioSource.clip = BGM;
+        BGM_audioSource.Play();
 
         // スライダーの値をBGM・SEの音量に設定
         SetBGMVolume(BGMvol_Bar.value);

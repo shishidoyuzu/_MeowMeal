@@ -68,7 +68,7 @@ public class ScoreManager : MonoBehaviour
 
         reactionScore_text.text = $"{reactionScore}";
         comboBonus_text.text = $"{comboBonus}";
-        mealRemainPenalty_text.text = ($"-{mealRemainPenalty}");
+        mealRemainPenalty_text.text = ($"{mealRemainPenalty}");
         totalScore_text.text = ($"合計スコア：{totalScore}");
     }
 
@@ -125,7 +125,7 @@ public class ScoreManager : MonoBehaviour
     // 合計スコア更新
     public void CalculateTotal()
     {
-        totalScore = reactionScore + comboBonus - mealRemainPenalty;
+        totalScore = reactionScore + comboBonus + mealRemainPenalty;
     }
 
     // スコアリセット

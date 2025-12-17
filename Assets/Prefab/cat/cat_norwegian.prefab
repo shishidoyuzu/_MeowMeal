@@ -27,9 +27,9 @@ Transform:
   m_GameObject: {fileID: 6911069223642962669}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.038290024, y: -2.0774002, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -74,12 +74,12 @@ SpriteRenderer:
   m_SortingLayerID: 1849500899
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b71df4fa2898c6248aa28783bb7702ca, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 74b43dea04226cc4b941689df0982e64, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.81, y: 4}
+  m_Size: {x: 12.56, y: 13.82}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -100,4 +100,5 @@ MonoBehaviour:
   catName: "\u30CE\u30EB\u30A6\u30A7\u30FC\u30B8\u30E3\u30F3"
   targetMeal: 60
   catSprite: {fileID: 7395867204991451330}
-  normalFace: {fileID: 21300000, guid: b71df4fa2898c6248aa28783bb7702ca, type: 3}
+  normalFace: {fileID: 21300000, guid: 74b43dea04226cc4b941689df0982e64, type: 3}
+  meowFace: {fileID: 0}

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 /*
 ・ステージ1（チュートリアル）… 誤差なし、誰でもクリア可能！
@@ -363,6 +364,12 @@ public class GameManager : MonoBehaviour
             // 満面のにゃん
             //cat_lovey.SetActive(true);
 
+            // SEの再生
+            if (SoundManager.instance != null)
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow1);
+            else
+                Debug.LogWarning("SoundManagerが見つからないよ！");
+
             return CatReaction.PERFECT;
         }
         else if (diff <= Cat_margin)
@@ -371,7 +378,13 @@ public class GameManager : MonoBehaviour
             Cat_emotion_Text.text = "ちょうどいいごはんの量！";
             // にこにこ
             //cat_happy.SetActive(true);
-            
+
+            // SEの再生
+            if (SoundManager.instance != null)
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow2);
+            else
+                Debug.LogWarning("SoundManagerが見つからないよ！");
+
             return CatReaction.WITHIN_MARGIN;
         }
         else if (Current_meal < Target_meal)
@@ -380,6 +393,12 @@ public class GameManager : MonoBehaviour
             Cat_emotion_Text.text = "ごはんが少ない！";
             // しょんぼり
             //cat_unhappy.SetActive(true);
+
+            // SEの再生
+            if (SoundManager.instance != null)
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow3);
+            else
+                Debug.LogWarning("SoundManagerが見つからないよ！");
 
             return CatReaction.FEW_MANY;
         }
@@ -390,6 +409,13 @@ public class GameManager : MonoBehaviour
             // しょんぼり
             //cat_unhappy.SetActive(true);
 
+            // SEの再生
+            if (SoundManager.instance != null)
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow3);
+            else
+                Debug.LogWarning("SoundManagerが見つからないよ！");
+
+
             return CatReaction.FEW_MANY;
         }
         else if (diff < 20.0f)
@@ -399,6 +425,12 @@ public class GameManager : MonoBehaviour
             // ムッおこ
             //cat_angry.SetActive(true);
 
+            // SEの再生
+            if (SoundManager.instance != null)
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow4);
+            else
+                Debug.LogWarning("SoundManagerが見つからないよ！");
+
             return CatReaction.LESS_MORE;
         }
         else if (diff > 20.0f)
@@ -407,6 +439,12 @@ public class GameManager : MonoBehaviour
             Cat_emotion_Text.text = "とてもごはんが多い！";
             // ムッおこ
             //cat_angry.SetActive(true);
+
+            // SEの再生
+            if (SoundManager.instance != null)
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow4);
+            else
+                Debug.LogWarning("SoundManagerが見つからないよ！");
 
             return CatReaction.LESS_MORE;
         }
