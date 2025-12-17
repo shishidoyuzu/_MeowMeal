@@ -17,8 +17,6 @@ public class ScoreManager : MonoBehaviour
     int totalScore = 0;
 
     [Header("コンボ判定用")]
-    // 全てのねこの反応を記録しておくメモ帳
-    //public List<CatReaction> reactionHistory = new List<CatReaction>();
     // 直前のねこの反応1つだけ覚える
     private CatReaction lastReaction = CatReaction.WITHIN_MARGIN;
     // コンボした回数

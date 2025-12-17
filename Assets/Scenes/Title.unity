@@ -5255,6 +5255,34 @@ PrefabInstance:
       propertyPath: BGMvol_Bar
       value: 
       objectReference: {fileID: 1421720208}
+    - target: {fileID: 66747012353818984, guid: 8400a731850bd8246b66660571859a9d, type: 3}
+      propertyPath: SE_meowHappy
+      value: 
+      objectReference: {fileID: 8300000, guid: bab7f0f625d4a204a86ace6714a7b558, type: 3}
+    - target: {fileID: 66747012353818984, guid: 8400a731850bd8246b66660571859a9d, type: 3}
+      propertyPath: SE_meowLovey
+      value: 
+      objectReference: {fileID: 8300000, guid: 37c508fd436597c41866140977b2b420, type: 3}
+    - target: {fileID: 66747012353818984, guid: 8400a731850bd8246b66660571859a9d, type: 3}
+      propertyPath: SE_meowUnhappy
+      value: 
+      objectReference: {fileID: 8300000, guid: 902afe8e9189fc04d9fdca35d57cb1cf, type: 3}
+    - target: {fileID: 66747012353818984, guid: 8400a731850bd8246b66660571859a9d, type: 3}
+      propertyPath: Cat_meow.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 66747012353818984, guid: 8400a731850bd8246b66660571859a9d, type: 3}
+      propertyPath: Cat_meow.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: c1e3ebafaac783a46986ee6e654a07e1, type: 3}
+    - target: {fileID: 66747012353818984, guid: 8400a731850bd8246b66660571859a9d, type: 3}
+      propertyPath: Cat_meow.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: ffe33531ca2c0854a9266266abdf95a6, type: 3}
+    - target: {fileID: 66747012353818984, guid: 8400a731850bd8246b66660571859a9d, type: 3}
+      propertyPath: Cat_meow.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: d88dcb918e804c846be64efcbabb2ee5, type: 3}
     - target: {fileID: 404929861102935108, guid: 8400a731850bd8246b66660571859a9d, type: 3}
       propertyPath: m_Name
       value: SoundManager

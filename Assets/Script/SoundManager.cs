@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -27,16 +28,27 @@ public class SoundManager : MonoBehaviour
     public AudioClip SE_UIclose;
     [Tooltip("お皿にごはんが当たる音")]
     public AudioClip SE_fallPlate;
-    [Tooltip("ねこの鳴き声１：Lovey")]
-    public AudioClip SE_meow1;
-    [Tooltip("ねこの鳴き声２：Happy")]
-    public AudioClip SE_meow2;
-    [Tooltip("ねこの鳴き声３：UnHappy")]
-    public AudioClip SE_meow3;
-    [Tooltip("ねこの鳴き声４：Angry")]
-    public AudioClip SE_meow4;
+    [Tooltip("ねこリアクション：Lovey")]
+    public AudioClip SE_meowLovey;
+    [Tooltip("ねこリアクション：Happy")]
+    public AudioClip SE_meowHappy;
+    [Tooltip("ねこリアクション：UnHappy")]
+    public AudioClip SE_meowUnhappy;
+    [Tooltip("ねこリアクション：Angry")]
+    public AudioClip SE_meowAngry;
+    [Tooltip("ねこの鳴き声")]
+    public AudioClip SE_meowVer1;
+    [Tooltip("ねこの鳴き声")]
+    public AudioClip SE_meowVer2;
+    [Tooltip("ねこの鳴き声")]
+    public AudioClip SE_meowVer3;
+    [Tooltip("ねこの鳴き声")]
+    public AudioClip SE_meowVer4;
+
     [Tooltip("スコア表示")]
     public AudioClip SE_score;
+
+
     GameObject SEobj;
 
     [Header("AudioMixer")]

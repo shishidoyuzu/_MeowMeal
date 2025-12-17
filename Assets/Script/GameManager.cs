@@ -63,6 +63,10 @@ public class GameManager : MonoBehaviour
     // 袋の中の最大ごはん量
     private float Catfood_MaxCapa = 200;
 
+    [Header("ねこSE")]
+    
+
+
     [Header("ゲーム内テキスト")]
     // ごはん量テキスト
     [SerializeField] TextMeshProUGUI Meal_gram_Text;
@@ -80,8 +84,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI TimeLeft_Text;
 
     [Header("制限時間")]
-    // ネコ１匹の制限時間
-    //private float CatTimeLimit;
     // 残り時間
     private float TimeLeft;
     // タイマーのオン・オフ
@@ -348,7 +350,9 @@ public class GameManager : MonoBehaviour
         ScoreManager.Instance.AddCombo(reaction);
 
         // 残りごはんペナルティを送る（袋の残量を渡すだけ）
-        ScoreManager.Instance.AddMealRemainPenalty(Catfood_Capa);
+
+        // 値が大きすぎるので要調査
+        ScoreManager.Instance.AddMealRemainPenalty(Catfood_MaxCapa-Catfood_Capa);
 
         GetCatReaction(diff);
     }
@@ -366,7 +370,7 @@ public class GameManager : MonoBehaviour
 
             // SEの再生
             if (SoundManager.instance != null)
-                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow1);
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meowLovey);
             else
                 Debug.LogWarning("SoundManagerが見つからないよ！");
 
@@ -381,42 +385,11 @@ public class GameManager : MonoBehaviour
 
             // SEの再生
             if (SoundManager.instance != null)
-                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow2);
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meowHappy);
             else
                 Debug.LogWarning("SoundManagerが見つからないよ！");
 
             return CatReaction.WITHIN_MARGIN;
-        }
-        else if (Current_meal < Target_meal)
-        {
-            // すくない
-            Cat_emotion_Text.text = "ごはんが少ない！";
-            // しょんぼり
-            //cat_unhappy.SetActive(true);
-
-            // SEの再生
-            if (SoundManager.instance != null)
-                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow3);
-            else
-                Debug.LogWarning("SoundManagerが見つからないよ！");
-
-            return CatReaction.FEW_MANY;
-        }
-        else if (Current_meal > Target_meal)
-        {
-            // おおい
-            Cat_emotion_Text.text = "ごはんが多い！";
-            // しょんぼり
-            //cat_unhappy.SetActive(true);
-
-            // SEの再生
-            if (SoundManager.instance != null)
-                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow3);
-            else
-                Debug.LogWarning("SoundManagerが見つからないよ！");
-
-
-            return CatReaction.FEW_MANY;
         }
         else if (diff < 20.0f)
         {
@@ -427,7 +400,7 @@ public class GameManager : MonoBehaviour
 
             // SEの再生
             if (SoundManager.instance != null)
-                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow4);
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meowAngry);
             else
                 Debug.LogWarning("SoundManagerが見つからないよ！");
 
@@ -442,11 +415,42 @@ public class GameManager : MonoBehaviour
 
             // SEの再生
             if (SoundManager.instance != null)
-                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meow4);
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meowAngry);
             else
                 Debug.LogWarning("SoundManagerが見つからないよ！");
 
             return CatReaction.LESS_MORE;
+        }
+        else if (Current_meal < Target_meal)
+        {
+            // すくない
+            Cat_emotion_Text.text = "ごはんが少ない！";
+            // しょんぼり
+            //cat_unhappy.SetActive(true);
+
+            // SEの再生
+            if (SoundManager.instance != null)
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meowUnhappy);
+            else
+                Debug.LogWarning("SoundManagerが見つからないよ！");
+
+            return CatReaction.FEW_MANY;
+        }
+        else if (Current_meal > Target_meal)
+        {
+            // おおい
+            Cat_emotion_Text.text = "ごはんが多い！";
+            // しょんぼり
+            //cat_unhappy.SetActive(true);
+
+            // SEの再生
+            if (SoundManager.instance != null)
+                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_meowUnhappy);
+            else
+                Debug.LogWarning("SoundManagerが見つからないよ！");
+
+
+            return CatReaction.FEW_MANY;
         }
 
         return CatReaction.WITHIN_MARGIN; // ←保険

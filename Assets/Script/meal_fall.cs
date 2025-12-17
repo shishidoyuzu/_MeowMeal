@@ -50,6 +50,7 @@ public class Meal_Fall : MonoBehaviour
             Debug.Log("ごはんを新しくするよ！");
             // ごはん袋を満タンにする
             RefillMealBag();
+            // 表示を更新
             GameManager.instance.Show_CatfoodCapacity(MealCapacity);
         }
 
