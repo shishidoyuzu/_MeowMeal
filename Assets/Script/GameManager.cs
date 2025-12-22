@@ -352,7 +352,7 @@ public class GameManager : MonoBehaviour
         // 残りごはんペナルティを送る（袋の残量を渡すだけ）
 
         // 値が大きすぎるので要調査
-        ScoreManager.Instance.AddMealRemainPenalty(Catfood_MaxCapa-Catfood_Capa);
+        ScoreManager.Instance.AddMealRemainPenalty(diff);
 
         GetCatReaction(diff);
     }

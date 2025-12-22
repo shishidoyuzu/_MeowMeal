@@ -114,10 +114,17 @@ public class ScoreManager : MonoBehaviour
     }
 
     // 残ごはんペナルティ
-    public void AddMealRemainPenalty(float remain)
+    public void AddMealRemainPenalty(float diff)
     {
-        // 1gにつき-1
-        mealRemainPenalty += -(int)remain;
+        if (diff != 0)
+            mealRemainPenalty += -(int)diff * 10; // ー「ごはん量の差」* 10
+        else
+            mealRemainPenalty += 0; // ペナルティなし
+
+        // 変な値になる
+        //mealRemainPenalty += -Mathf.CeilToInt(diff) * 10; // ー「ごはん量の差」* 10
+
+        Debug.Log($"ごはん量の差：{(int)diff}");
     }
 
     // 合計スコア更新
