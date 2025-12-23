@@ -96,10 +96,10 @@ public class ScoreManager : MonoBehaviour
 
             Debug.Log($"{comboCount}");
 
-            // コンボが２回のとき
+            // コンボが３回のとき
             if (comboCount == 3)
                 comboBonus = 300;  // ボーナススコア＋300
-            // コンボが３回のとき
+            // コンボが２回のとき
             else if (comboCount == 2)
                 comboBonus = 150;  // ボーナススコア＋150
         }
@@ -117,14 +117,11 @@ public class ScoreManager : MonoBehaviour
     public void AddMealRemainPenalty(float diff)
     {
         if (diff != 0)
-            mealRemainPenalty += -(int)diff * 10; // ー「ごはん量の差」* 10
+            mealRemainPenalty += -Mathf.CeilToInt(diff * 10); // ー「ごはん量の差」* 10
         else
             mealRemainPenalty += 0; // ペナルティなし
 
-        // 変な値になる
-        //mealRemainPenalty += -Mathf.CeilToInt(diff) * 10; // ー「ごはん量の差」* 10
-
-        Debug.Log($"ごはん量の差：{(int)diff}");
+        Debug.Log($"ごはん量の差：{Mathf.CeilToInt(diff)}");
     }
 
     // 合計スコア更新

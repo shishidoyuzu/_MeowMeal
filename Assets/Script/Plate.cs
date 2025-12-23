@@ -12,14 +12,14 @@ public class Plate : MonoBehaviour
         // ごはんにあたった時
         if (collision.gameObject.tag == "Meal")
         {
-            // お皿に当たると、今のごはん量に１粒のグラムを足していく
-            Now_gram += Meal_weight;
-
             // SEの再生
             if (SoundManager.instance != null)
                 SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_fallPlate);
             else
                 Debug.LogWarning("SoundManagerが見つからないよ！");
+
+            // お皿に当たると、今のごはん量に１粒のグラムを足していく
+            Now_gram += Meal_weight;
 
             // 今のグラムをGamemanager.csに伝えて表示してもらう
             GameManager.instance.UpdateMealAmount(Now_gram);
