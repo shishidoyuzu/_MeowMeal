@@ -316,6 +316,18 @@ public class GameManager : MonoBehaviour
             if (cs != null)
             {
                 ScoreManager.Instance.CalculateTotal();
+
+                // ‚±‚±‚Å•Û‘¶
+                ProgressManager.instance.SaveStageHighScore(
+                    GameManager.CurrentStage,
+                    ScoreManager.Instance.GetTotalScore()
+                );
+
+                // –³‘Ê‚É‚µ‚½‚²‚Í‚ñ—Ê‚à‚±‚±
+                ProgressManager.instance.SaveTotalWastedMeal(
+                    ScoreManager.Instance.GetTotalWastedMeal()
+                );
+
                 cs.GotoResult();
             }
             else

@@ -4716,6 +4716,9 @@ MonoBehaviour:
   - {fileID: 2414210223566061595, guid: 7b28755fc2f42e74487c60a6cb0c9c3d, type: 3}
   - {fileID: 6827279669861732310, guid: 00c3fe72be9bcfd49b8e7ab06ea71f08, type: 3}
   - {fileID: 7882381876931126224, guid: fdd36e089250ec543b2037bba36ba7e7, type: 3}
+  - {fileID: 8080996453653120980, guid: 67e664116ed810645ad9eeb2ca17e92c, type: 3}
+  - {fileID: 6915144293870279936, guid: 4af6e4b3938d9d849b599062b375e606, type: 3}
+  - {fileID: 7882381876931126224, guid: fdd36e089250ec543b2037bba36ba7e7, type: 3}
   catSpawnPos: {fileID: 444417877}
   StageCatCount: 3
   SpawnedCatCount: 0

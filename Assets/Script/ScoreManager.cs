@@ -15,6 +15,8 @@ public class ScoreManager : MonoBehaviour
     int comboBonus = 0;
     // 合計スコア
     int totalScore = 0;
+    // 無駄にしたごはん量
+    float wastedMeal = 0f;
 
     [Header("コンボ判定用")]
     // 直前のねこの反応1つだけ覚える
@@ -117,7 +119,11 @@ public class ScoreManager : MonoBehaviour
     public void AddMealAmountPenalty(float diff)
     {
         if (diff != 0)
-            mealDifferencePenalty += -Mathf.CeilToInt(diff * 10); // ー「ごはん量の差」* 10
+        {
+            int penalty = Mathf.CeilToInt(diff * 10);
+            mealDifferencePenalty -= penalty; // ー「ごはん量の差」* 10
+            wastedMeal += penalty;
+        }
         else
             mealDifferencePenalty += 0; // ペナルティなし
 
@@ -142,5 +148,15 @@ public class ScoreManager : MonoBehaviour
 
         lastReaction = CatReaction.WITHIN_MARGIN;
         comboCount = 0;
+    }
+
+    public int GetTotalScore()
+    {
+        return totalScore;
+    }
+
+    public float GetTotalWastedMeal()
+    {
+        return wastedMeal;
     }
 }

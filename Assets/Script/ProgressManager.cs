@@ -25,7 +25,7 @@ public class ProgressManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
 
-            LoadUnlockFlags();
+            //LoadUnlockFlags();
         }
         else
         {
