@@ -58,4 +58,7 @@ public class StageData : ScriptableObject
     [TextArea]
     public string StageExplanation;
 
+    [Header("保存スコア値")]
+    private int HighScore;
+
 }

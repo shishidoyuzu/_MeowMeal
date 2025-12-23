@@ -8,7 +8,11 @@ public class ProgressManager : MonoBehaviour
     [Header("ƒAƒ“ƒƒbƒNî•ñ")]
     public List<bool> UnlockFlagList = new List<bool>() { true, false, false, false, false };
 
-    private const string UnlockKey = "_UnlockStage";
+    private const string UnlockKey = "UnlockStagekey_";
+
+    private const string StageHighScoreKey = "StageHighScorekey_";
+
+    private const string TotalWastedMeal = "TotalWastedMealkey";
 
     private void Awake()
     {
@@ -48,6 +52,27 @@ public class ProgressManager : MonoBehaviour
     void SaveUnlockFlag(int stageNum)
     {
         PlayerPrefs.SetInt(UnlockKey + stageNum, UnlockFlagList[stageNum] ? 1 : 0);
+    }
+
+    void SeveStageHighScore(int stageNum, int score)
+    {
+
+    }
+
+    void SaveTotalWastedMeal()
+    {
+
+    }
+
+    // “Ç‚İ‚İŠÖ”
+    int LoadStageHighScore(int stageNum)
+    {
+        return PlayerPrefs.GetInt(StageHighScoreKey + stageNum, 0);
+    }
+
+    void LoadTotalWastedMeal()
+    {
+
     }
 
     void LoadUnlockFlags()

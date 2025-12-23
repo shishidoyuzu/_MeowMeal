@@ -1,6 +1,6 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Meal_Fall : MonoBehaviour
 {
@@ -19,6 +19,18 @@ public class Meal_Fall : MonoBehaviour
 
     // ごはんを一度だけあげるフラグ
     private bool hasGivenMeal = false;
+
+    [SerializeField] Slider s_MealCapacity;
+
+    void Start()
+    {
+
+        // 値の初期化
+        s_MealCapacity.minValue = 0f;
+        s_MealCapacity.maxValue = 200f;
+        s_MealCapacity.value = MealCapacity;
+
+    }
 
     void Update()
     {
@@ -47,11 +59,16 @@ public class Meal_Fall : MonoBehaviour
         // 右クリックしたとき
         if (Input.GetMouseButton(1))
         {
-            Debug.Log("ごはんを新しくするよ！");
-            // ごはん袋を満タンにする
-            RefillMealBag();
-            // 表示を更新
-            GameManager.instance.Show_CatfoodCapacity(MealCapacity);
+            if (MealCapacity == 0f)
+            {
+                Debug.Log("ごはんを新しくするよ！");
+                // ごはん袋を満タンにする
+                RefillMealBag();
+                // 表示を更新
+                GameManager.instance.Show_CatfoodCapacity(MealCapacity);
+            }
+            else
+                Debug.LogWarning("まだごはんがあるよ！");
         }
 
         // マウスから手を離したとき＆ごはんをあげてなかったら
@@ -113,6 +130,11 @@ public class Meal_Fall : MonoBehaviour
         // 袋の中からごはん１粒分の量を減らす
         MealCapacity -= Plate.Meal_weight;
 
+        if(s_MealCapacity != null)
+        {
+            s_MealCapacity.value = MealCapacity;
+        }
+
         // 今のグラムをGamemanager.csに伝えて表示してもらう
         GameManager.instance.Show_CatfoodCapacity(MealCapacity);
     }
@@ -120,6 +142,11 @@ public class Meal_Fall : MonoBehaviour
     void RefillMealBag()
     {
         MealCapacity = 200.0f;
+
+        if (s_MealCapacity != null)
+        {
+            s_MealCapacity.value = MealCapacity;
+        }
     }
 
     public void ResetMealFlag()
