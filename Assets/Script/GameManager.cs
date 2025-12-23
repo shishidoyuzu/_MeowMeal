@@ -349,12 +349,8 @@ public class GameManager : MonoBehaviour
         ScoreManager.Instance.AddReactionScore(reaction);
         ScoreManager.Instance.AddCombo(reaction);
 
-        // 残りごはんペナルティを送る（袋の残量を渡すだけ）
-
-        // 値が大きすぎるので要調査
-        ScoreManager.Instance.AddMealRemainPenalty(diff);
-
-        GetCatReaction(diff);
+        // 残りごはんペナルティを送る
+        ScoreManager.Instance.AddMealAmountPenalty(diff);
     }
     // 「ごはん量のズレ」によるネコの感情変化
     public CatReaction GetCatReaction(float diff)

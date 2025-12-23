@@ -8,11 +8,11 @@ public class ProgressManager : MonoBehaviour
     [Header("アンロック情報")]
     public List<bool> UnlockFlagList = new List<bool>() { true, false, false, false, false };
 
-    private const string UnlockKey = "UnlockStagekey_";
+    private const string UnlockKey = "UnlockStage_";
 
-    private const string StageHighScoreKey = "StageHighScorekey_";
+    private const string StageHighScoreKey = "StageHighScore_";
 
-    private const string TotalWastedMeal = "TotalWastedMealkey";
+    private const string TotalWastedMealKey = "TotalWastedMeal";
 
     private void Awake()
     {
@@ -24,6 +24,8 @@ public class ProgressManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+
+            LoadUnlockFlags();
         }
         else
         {
@@ -54,27 +56,6 @@ public class ProgressManager : MonoBehaviour
         PlayerPrefs.SetInt(UnlockKey + stageNum, UnlockFlagList[stageNum] ? 1 : 0);
     }
 
-    void SeveStageHighScore(int stageNum, int score)
-    {
-
-    }
-
-    void SaveTotalWastedMeal()
-    {
-
-    }
-
-    // 読み込み関数
-    int LoadStageHighScore(int stageNum)
-    {
-        return PlayerPrefs.GetInt(StageHighScoreKey + stageNum, 0);
-    }
-
-    void LoadTotalWastedMeal()
-    {
-
-    }
-
     void LoadUnlockFlags()
     {
         for (int i = 0; i < UnlockFlagList.Count; i++)
@@ -82,4 +63,47 @@ public class ProgressManager : MonoBehaviour
             UnlockFlagList[i] = PlayerPrefs.GetInt(UnlockKey + i, i == 0 ? 1 : 0) == 1;
         }
     }
+
+
+    public void SaveStageHighScore(int stageNum, int score)
+    {
+        // スコアのロード
+        int currentHighScore = LoadStageHighScore(stageNum);
+
+        // スコアが高い場合
+        if(score > currentHighScore)
+        {
+            //ハイスコア更新
+            PlayerPrefs.SetInt(StageHighScoreKey + stageNum, score);
+            // セーブする
+            SaveAll();
+        }
+    }
+    public int LoadStageHighScore(int stageNum)
+    {
+        // 0 は保存されていないときの値
+        return PlayerPrefs.GetInt(StageHighScoreKey + stageNum, 0);
+    }
+
+    public void SaveTotalWastedMeal(float wastedMeal)
+    {
+        // 無駄にしたごはん量をロード
+        float current = LoadTotalWastedMeal();
+        // 無駄にしたごはん量を加算していく
+        PlayerPrefs.SetFloat(TotalWastedMealKey, current + wastedMeal);
+        // セーブする
+        SaveAll();
+    }
+    public float LoadTotalWastedMeal()
+    {
+        // 0 は保存されていないときの値
+        return PlayerPrefs.GetFloat(TotalWastedMealKey, 0);
+    }
+
+    public void SaveAll()
+    {
+        PlayerPrefs.Save();
+    }
+
+
 }
