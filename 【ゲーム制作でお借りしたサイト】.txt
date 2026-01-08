@@ -1,0 +1,27 @@
+【ゲーム制作でお借りしたサイト】
+
+
+【音源】
+ーーーーーーーＢＧＭーーーーーーー
+
+・かまタマゴ
+https://kamatamago.com/
+
+ーーーーーーー ＳＥ ーーーーーーー
+
+・効果音ラボ
+https://soundeffect-lab.info/
+
+・On-Jin ～音人～
+https://on-jin.com/
+ーーーーーーーーーーーーーーーーー
+
+
+【使用したアセット】
+～シーン移動の際のフェード～
+・Simple Fade Scene Transition System
+https://assetstore.unity.com/packages/tools/particles-effects/simple-fade-scene-transition-system-81753
+
+【使用したフォント】
+・無心
+https://modi.jpn.org/font_mushin.php

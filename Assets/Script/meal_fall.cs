@@ -12,7 +12,7 @@ public class Meal_Fall : MonoBehaviour
     public float dropInterval = 0.025f;
 
     // ごはん袋の総容量
-    public float MealCapacity = 200.0f;
+    public float MealCapacity = 100.0f;
 
     // ごはんを落とす時間を測るタイマー
     private float Mealtimer = 0f;
@@ -22,12 +22,15 @@ public class Meal_Fall : MonoBehaviour
 
     [SerializeField] Slider s_MealCapacity;
 
+    UpDown updown;
+
     void Start()
     {
+        updown = FindObjectOfType<UpDown>();
 
         // 値の初期化
         s_MealCapacity.minValue = 0f;
-        s_MealCapacity.maxValue = 200f;
+        s_MealCapacity.maxValue = 100f;
         s_MealCapacity.value = MealCapacity;
 
     }
@@ -57,18 +60,15 @@ public class Meal_Fall : MonoBehaviour
         }
 
         // 右クリックしたとき
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButtonDown(1))
         {
-            if (MealCapacity == 0f)
-            {
-                Debug.Log("ごはんを新しくするよ！");
-                // ごはん袋を満タンにする
-                RefillMealBag();
-                // 表示を更新
-                GameManager.instance.Show_CatfoodCapacity(MealCapacity);
-            }
-            else
-                Debug.LogWarning("まだごはんがあるよ！");
+            Debug.Log("ごはんを新しくするよ！");
+            // 残っているごはんをGameManagerに送る
+            GameManager.instance.Count_CatfoodWasted(MealCapacity);
+            // ごはん袋を満タンにする
+            RefillMealBag();
+            // 表示を更新
+            GameManager.instance.Show_CatfoodCapacity(MealCapacity);
         }
 
         // マウスから手を離したとき＆ごはんをあげてなかったら
@@ -89,6 +89,9 @@ public class Meal_Fall : MonoBehaviour
     {
         // hasGivenMealがtrueのとき、ごはんを落とさない
         if (hasGivenMeal) return;
+
+        // ごはん袋が動いていたら、落とさない
+        if(updown.isMoving) return;
 
         // 袋のごはんが0gを下回ったら
         if (MealCapacity <= 0f)
@@ -141,7 +144,7 @@ public class Meal_Fall : MonoBehaviour
 
     void RefillMealBag()
     {
-        MealCapacity = 200.0f;
+        MealCapacity = 100.0f;
 
         if (s_MealCapacity != null)
         {

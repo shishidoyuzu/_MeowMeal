@@ -59,9 +59,11 @@ public class GameManager : MonoBehaviour
     // 現在のごはん量
     private float Current_meal;
     // 袋の中のごはん量
-    private float Catfood_Capa = 200;
+    private float Catfood_Capa = 100;
     // 袋の中の最大ごはん量
-    private float Catfood_MaxCapa = 200;
+    private float Catfood_MaxCapa = 100;
+    // 無駄にしたごはん量
+    private float Catfood_Wasted;
 
     [Header("ねこSE")]
     
@@ -292,6 +294,13 @@ public class GameManager : MonoBehaviour
         Catfood_Capa_Text.text = $"{Catfood_Capa:F0}g";
     }
 
+    // 無駄にしたごはん量のカウント
+    public void Count_CatfoodWasted(float food_Capa)
+    {
+        Catfood_Wasted += food_Capa;
+        Debug.Log($"無駄にしたごはん：{Catfood_Wasted}");
+    }
+
     void UpdateTimerUI()
     {
         TimeLeft_Text.text = $"{Mathf.CeilToInt(TimeLeft)} ";
@@ -478,13 +487,6 @@ public class GameManager : MonoBehaviour
         if (plate != null)
         {
             plate.ResetMealAmount();
-        }
-
-        // 総ごはん量のリセット（meal_fallから呼び出し）
-        Meal_Fall meal_Fall = FindObjectOfType<Meal_Fall>();
-        if (meal_Fall != null)
-        {
-            //meal_Fall.ResetMealCapacity();
         }
 
         // ねこが変わるとき、ごはんを落とせるように
