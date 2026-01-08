@@ -325,6 +325,18 @@ public class GameManager : MonoBehaviour
             if (cs != null)
             {
                 ScoreManager.Instance.CalculateTotal();
+
+                // ここで保存
+                ProgressManager.instance.SaveStageHighScore(
+                    GameManager.CurrentStage,
+                    ScoreManager.Instance.GetTotalScore()
+                );
+
+                // 無駄にしたごはん量もここ
+                ProgressManager.instance.SaveTotalWastedMeal(
+                    ScoreManager.Instance.GetTotalWastedMeal()
+                );
+
                 cs.GotoResult();
             }
             else
@@ -358,12 +370,8 @@ public class GameManager : MonoBehaviour
         ScoreManager.Instance.AddReactionScore(reaction);
         ScoreManager.Instance.AddCombo(reaction);
 
-        // 残りごはんペナルティを送る（袋の残量を渡すだけ）
-
-        // 値が大きすぎるので要調査
-        ScoreManager.Instance.AddMealRemainPenalty(diff);
-
-        GetCatReaction(diff);
+        // 残りごはんペナルティを送る
+        ScoreManager.Instance.AddMealAmountPenalty(diff);
     }
     // 「ごはん量のズレ」によるネコの感情変化
     public CatReaction GetCatReaction(float diff)

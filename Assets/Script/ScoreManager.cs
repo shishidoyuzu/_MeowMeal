@@ -10,11 +10,13 @@ public class ScoreManager : MonoBehaviour
     // ねこの反応スコア
     int reactionScore = 0;
     // 袋の残ごはんペナルティ
-    int mealRemainPenalty = 0;
+    int mealDifferencePenalty;
     // コンボボーナス
     int comboBonus = 0;
     // 合計スコア
     int totalScore = 0;
+    // 無駄にしたごはん量
+    float wastedMeal = 0f;
 
     [Header("コンボ判定用")]
     // 直前のねこの反応1つだけ覚える
@@ -66,7 +68,7 @@ public class ScoreManager : MonoBehaviour
 
         reactionScore_text.text = $"{reactionScore}";
         comboBonus_text.text = $"{comboBonus}";
-        mealRemainPenalty_text.text = ($"{mealRemainPenalty}");
+        mealRemainPenalty_text.text = ($"{mealDifferencePenalty}");
         totalScore_text.text = ($"合計スコア：{totalScore}");
     }
 
@@ -113,13 +115,17 @@ public class ScoreManager : MonoBehaviour
         lastReaction = reaction;
     }
 
-    // 残ごはんペナルティ
-    public void AddMealRemainPenalty(float diff)
+    // ごはん量の差による減点
+    public void AddMealAmountPenalty(float diff)
     {
         if (diff != 0)
-            mealRemainPenalty += -Mathf.CeilToInt(diff * 10); // ー「ごはん量の差」* 10
+        {
+            int penalty = Mathf.CeilToInt(diff * 10);
+            mealDifferencePenalty -= penalty; // ー「ごはん量の差」* 10
+            wastedMeal += penalty;
+        }
         else
-            mealRemainPenalty += 0; // ペナルティなし
+            mealDifferencePenalty += 0; // ペナルティなし
 
         Debug.Log($"ごはん量の差：{Mathf.CeilToInt(diff)}");
     }
@@ -127,7 +133,9 @@ public class ScoreManager : MonoBehaviour
     // 合計スコア更新
     public void CalculateTotal()
     {
-        totalScore = reactionScore + comboBonus + mealRemainPenalty;
+        totalScore = reactionScore + comboBonus + mealDifferencePenalty;
+
+        //ProgressManager.instance.SaveStageHighScore(GameManager.CurrentStage,totalScore);
     }
 
     // スコアリセット
@@ -135,10 +143,20 @@ public class ScoreManager : MonoBehaviour
     {
         reactionScore = 0;
         comboBonus = 0;
-        mealRemainPenalty = 0;
+        mealDifferencePenalty = 0;
         totalScore = 0;
 
         lastReaction = CatReaction.WITHIN_MARGIN;
         comboCount = 0;
+    }
+
+    public int GetTotalScore()
+    {
+        return totalScore;
+    }
+
+    public float GetTotalWastedMeal()
+    {
+        return wastedMeal;
     }
 }
