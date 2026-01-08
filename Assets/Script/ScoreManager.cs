@@ -12,7 +12,7 @@ public class ScoreManager : MonoBehaviour
     // コンボボーナス
     int comboBonus = 0;
     // 袋の残ごはんペナルティ
-    int mealDifferencePenalty = 0;
+    //int mealDifferencePenalty = 0;
     // 無駄にしたごはん量ペナルティ
     int wastedPenalty = 0;
     // 無駄にしたごはん量
@@ -28,7 +28,8 @@ public class ScoreManager : MonoBehaviour
 
     [Header("リザルトUI")]
     public TextMeshProUGUI reactionScore_text;
-    public TextMeshProUGUI mealRemainPenalty_text;
+    //public TextMeshProUGUI mealRemainPenalty_text;
+    public TextMeshProUGUI wastedPenalty_text;
     public TextMeshProUGUI comboBonus_text;
     public TextMeshProUGUI totalScore_text;
 
@@ -58,7 +59,8 @@ public class ScoreManager : MonoBehaviour
     private void FindResultUI()
     {
         reactionScore_text = GameObject.Find("Cat_reaction")?.GetComponent<TextMeshProUGUI>();
-        mealRemainPenalty_text = GameObject.Find("mealRemainPenalty")?.GetComponent <TextMeshProUGUI>();
+        //mealRemainPenalty_text = GameObject.Find("mealRemainPenalty")?.GetComponent <TextMeshProUGUI>();
+        wastedPenalty_text = GameObject.Find("WastedPenalty")?.GetComponent<TextMeshProUGUI>();
         comboBonus_text = GameObject.Find("ComboBonus")?.GetComponent<TextMeshProUGUI>();
         totalScore_text = GameObject.Find("TotalScore")?.GetComponent<TextMeshProUGUI>();
     }
@@ -70,7 +72,8 @@ public class ScoreManager : MonoBehaviour
 
         reactionScore_text.text = $"{reactionScore}";
         comboBonus_text.text = $"{comboBonus}";
-        mealRemainPenalty_text.text = ($"{mealDifferencePenalty}");
+        //mealRemainPenalty_text.text = ($"{mealDifferencePenalty}");
+        wastedPenalty_text.text = ($"{wastedPenalty}");
         totalScore_text.text = ($"合計スコア：{totalScore}");
     }
 
@@ -117,13 +120,24 @@ public class ScoreManager : MonoBehaviour
         lastReaction = reaction;
     }
 
+    // 無駄にしたごはん量の分だけペナルティ
     public void WastedMealPenalty(float wasted)
     {
-        int penalty = Mathf.CeilToInt(wasted * 10);
-        wastedPenalty -= penalty;
-        wastedMeal += penalty;
+        // 「無駄にしたごはん量」を記録
+        wastedMeal += wasted;
 
-        Debug.Log($"ごはん量の差：{Mathf.CeilToInt(wasted)}");
+        // ペナルティを算出する
+        int penalty = wasted switch
+        {
+            <= 20f => 0,
+            <= 50f => -30,
+            <= 100f => -50,
+            <= 150f => -100,
+            _ => -200
+        };
+        wastedPenalty += penalty;
+
+        Debug.Log($"無駄にしたごはん量：{Mathf.CeilToInt(wasted)}");
     }
 
     /*
@@ -146,7 +160,7 @@ public class ScoreManager : MonoBehaviour
     // 合計スコア更新
     public void CalculateTotal()
     {
-        totalScore = reactionScore + comboBonus + mealDifferencePenalty;
+        totalScore = reactionScore + comboBonus + wastedPenalty;
 
         //ProgressManager.instance.SaveStageHighScore(GameManager.CurrentStage,totalScore);
     }
@@ -156,7 +170,9 @@ public class ScoreManager : MonoBehaviour
     {
         reactionScore = 0;
         comboBonus = 0;
-        mealDifferencePenalty = 0;
+        //mealDifferencePenalty = 0;
+        wastedPenalty = 0;
+        wastedMeal = 0;
         totalScore = 0;
 
         lastReaction = CatReaction.WITHIN_MARGIN;
