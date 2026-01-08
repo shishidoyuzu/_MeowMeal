@@ -9,14 +9,16 @@ public class ScoreManager : MonoBehaviour
     [Header("スコア")]
     // ねこの反応スコア
     int reactionScore = 0;
-    // 袋の残ごはんペナルティ
-    int mealDifferencePenalty;
     // コンボボーナス
     int comboBonus = 0;
-    // 合計スコア
-    int totalScore = 0;
+    // 袋の残ごはんペナルティ
+    int mealDifferencePenalty = 0;
+    // 無駄にしたごはん量ペナルティ
+    int wastedPenalty = 0;
     // 無駄にしたごはん量
     float wastedMeal = 0f;
+    // 合計スコア
+    int totalScore = 0;
 
     [Header("コンボ判定用")]
     // 直前のねこの反応1つだけ覚える
@@ -115,6 +117,16 @@ public class ScoreManager : MonoBehaviour
         lastReaction = reaction;
     }
 
+    public void WastedMealPenalty(float wasted)
+    {
+        int penalty = Mathf.CeilToInt(wasted * 10);
+        wastedPenalty -= penalty;
+        wastedMeal += penalty;
+
+        Debug.Log($"ごはん量の差：{Mathf.CeilToInt(wasted)}");
+    }
+
+    /*
     // ごはん量の差による減点
     public void AddMealAmountPenalty(float diff)
     {
@@ -129,6 +141,7 @@ public class ScoreManager : MonoBehaviour
 
         Debug.Log($"ごはん量の差：{Mathf.CeilToInt(diff)}");
     }
+    */
 
     // 合計スコア更新
     public void CalculateTotal()
