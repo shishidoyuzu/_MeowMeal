@@ -11,8 +11,6 @@ public class ScoreManager : MonoBehaviour
     int reactionScore = 0;
     // コンボボーナス
     int comboBonus = 0;
-    // 袋の残ごはんペナルティ
-    //int mealDifferencePenalty = 0;
     // 無駄にしたごはん量ペナルティ
     int wastedPenalty = 0;
     // 無駄にしたごはん量
@@ -28,7 +26,6 @@ public class ScoreManager : MonoBehaviour
 
     [Header("リザルトUI")]
     public TextMeshProUGUI reactionScore_text;
-    //public TextMeshProUGUI mealRemainPenalty_text;
     public TextMeshProUGUI wastedPenalty_text;
     public TextMeshProUGUI comboBonus_text;
     public TextMeshProUGUI totalScore_text;
@@ -59,7 +56,6 @@ public class ScoreManager : MonoBehaviour
     private void FindResultUI()
     {
         reactionScore_text = GameObject.Find("Cat_reaction")?.GetComponent<TextMeshProUGUI>();
-        //mealRemainPenalty_text = GameObject.Find("mealRemainPenalty")?.GetComponent <TextMeshProUGUI>();
         wastedPenalty_text = GameObject.Find("WastedPenalty")?.GetComponent<TextMeshProUGUI>();
         comboBonus_text = GameObject.Find("ComboBonus")?.GetComponent<TextMeshProUGUI>();
         totalScore_text = GameObject.Find("TotalScore")?.GetComponent<TextMeshProUGUI>();
@@ -72,7 +68,6 @@ public class ScoreManager : MonoBehaviour
 
         reactionScore_text.text = $"{reactionScore}";
         comboBonus_text.text = $"{comboBonus}";
-        //mealRemainPenalty_text.text = ($"{mealDifferencePenalty}");
         wastedPenalty_text.text = ($"{wastedPenalty}");
         totalScore_text.text = ($"合計スコア：{totalScore}");
     }
@@ -140,29 +135,10 @@ public class ScoreManager : MonoBehaviour
         Debug.Log($"無駄にしたごはん量：{Mathf.CeilToInt(wasted)}");
     }
 
-    /*
-    // ごはん量の差による減点
-    public void AddMealAmountPenalty(float diff)
-    {
-        if (diff != 0)
-        {
-            int penalty = Mathf.CeilToInt(diff * 10);
-            mealDifferencePenalty -= penalty; // ー「ごはん量の差」* 10
-            wastedMeal += penalty;
-        }
-        else
-            mealDifferencePenalty += 0; // ペナルティなし
-
-        Debug.Log($"ごはん量の差：{Mathf.CeilToInt(diff)}");
-    }
-    */
-
     // 合計スコア更新
     public void CalculateTotal()
     {
         totalScore = reactionScore + comboBonus + wastedPenalty;
-
-        //ProgressManager.instance.SaveStageHighScore(GameManager.CurrentStage,totalScore);
     }
 
     // スコアリセット
@@ -170,7 +146,6 @@ public class ScoreManager : MonoBehaviour
     {
         reactionScore = 0;
         comboBonus = 0;
-        //mealDifferencePenalty = 0;
         wastedPenalty = 0;
         wastedMeal = 0;
         totalScore = 0;
