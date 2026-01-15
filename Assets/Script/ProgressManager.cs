@@ -105,5 +105,16 @@ public class ProgressManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    public void DeleteAll()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
+    public void DeleteData()
+    {
+        PlayerPrefs.DeleteKey(UnlockKey);
+        PlayerPrefs.DeleteKey(StageHighScoreKey);
+        PlayerPrefs.DeleteKey(TotalWastedMealKey);
+    }
 
 }

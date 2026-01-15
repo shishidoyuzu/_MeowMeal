@@ -47,6 +47,9 @@ public class SoundManager : MonoBehaviour
     public const string BGM_VOL_KEY = "BGM_VOLUME";
     public const string SE_VOL_KEY  = "SE_VOLUME";
 
+    // 初回起動判定キー
+    public const string FIRST_RUN_KEY = "FIRST_RUN";
+
     [Header("AudioMixer")]
     [SerializeField] AudioMixer audioMixer;
 
@@ -60,6 +63,17 @@ public class SoundManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+        // 初回起動なら
+        if (!PlayerPrefs.HasKey(FIRST_RUN_KEY))
+        {
+            // 音量最大
+            PlayerPrefs.SetFloat(BGM_VOL_KEY, 1f);
+            PlayerPrefs.SetFloat(SE_VOL_KEY, 1f);
+
+            PlayerPrefs.SetInt(FIRST_RUN_KEY, 1);
+            ProgressManager.instance.SaveAll();
         }
 
         // 子要素の取得
@@ -92,8 +106,7 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        float v = Mathf.Clamp(volume, 0.0001f, 1f);
-        float VolumedB = Mathf.Log10(v) * 20f;
+        float VolumedB = Mathf.Log10(volume) * 20f;
 
         // BGMスライダーにある「OnValueChanged」に設定
         audioMixer.SetFloat("BGM", VolumedB);
@@ -111,8 +124,7 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        float v = Mathf.Clamp(volume, 0.0001f, 1f);
-        float VolumedB = Mathf.Log10(v) * 20f;
+        float VolumedB = Mathf.Log10(volume) * 20f;
 
         // SEスライダーにある「OnValueChanged」に設定
         audioMixer.SetFloat("SE", VolumedB);
