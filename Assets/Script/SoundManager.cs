@@ -7,17 +7,11 @@ public class SoundManager : MonoBehaviour
     public static SoundManager instance;
 
     [Header("BGM")]
-    [Tooltip("BGMボリュームバー")]
-    [SerializeField] private Slider BGMvol_Bar;
-    [Tooltip("BGMオーディオソース")]
     public AudioSource BGM_audioSource;
     // BGM
     public AudioClip BGM;
 
     [Header("SE")]
-    [Tooltip("SEボリュームバー")]
-    [SerializeField] private Slider SEvol_Bar;
-    [Tooltip("SEオーディオソース")]
     public AudioSource SE_audioSource;
     // SE
     [Tooltip("UI（ボタン）クリック")]
@@ -79,8 +73,8 @@ public class SoundManager : MonoBehaviour
         // 保存した音量の反映
         float bgmVol = PlayerPrefs.GetFloat(BGM_VOL_KEY, 0f);
         float seVol = PlayerPrefs.GetFloat(SE_VOL_KEY, 0f);
-        audioMixer.SetFloat("BGM", bgmVol);
-        audioMixer.SetFloat("SE", seVol);
+        SetBGMVol(bgmVol);
+        SetSEVol(seVol);
 
         // BGMの再生
         BGM_audioSource.clip = BGM;
@@ -89,15 +83,39 @@ public class SoundManager : MonoBehaviour
 
     public void SetBGMVol(float volume)
     {
+        // 音量が 0 or -0～ の時
+        if(volume <= 0f)
+        {
+            // 完全な無音にする
+            audioMixer.SetFloat("BGM", -80f);
+            PlayerPrefs.SetFloat(BGM_VOL_KEY, 0f);
+            return;
+        }
+
+        float v = Mathf.Clamp(volume, 0.0001f, 1f);
+        float VolumedB = Mathf.Log10(v) * 20f;
+
         // BGMスライダーにある「OnValueChanged」に設定
-        audioMixer.SetFloat("BGM",volume);
+        audioMixer.SetFloat("BGM", VolumedB);
         PlayerPrefs.SetFloat(BGM_VOL_KEY, volume);
     }
 
     public void SetSEVol(float volume)
     {
+        // 音量が 0 or -0～ の時
+        if (volume <= 0f)
+        {
+            // 完全な無音にする
+            audioMixer.SetFloat("SE", -80f);
+            PlayerPrefs.SetFloat(SE_VOL_KEY, 0f);
+            return;
+        }
+
+        float v = Mathf.Clamp(volume, 0.0001f, 1f);
+        float VolumedB = Mathf.Log10(v) * 20f;
+
         // SEスライダーにある「OnValueChanged」に設定
-        audioMixer.SetFloat("SE", volume);
+        audioMixer.SetFloat("SE", VolumedB);
         PlayerPrefs.SetFloat(SE_VOL_KEY,volume);
     }
 
