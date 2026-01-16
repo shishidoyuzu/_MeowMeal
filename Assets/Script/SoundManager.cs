@@ -49,6 +49,7 @@ public class SoundManager : MonoBehaviour
 
     // 初回起動判定キー
     public const string FIRST_RUN_KEY = "FIRST_RUN";
+    public const string FIRST_RUN_EDITOR_KEY = "FIRST_RUN_EDITOR";
 
     [Header("AudioMixer")]
     [SerializeField] AudioMixer audioMixer;
@@ -65,16 +66,32 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // 初回起動なら
-        if (!PlayerPrefs.HasKey(FIRST_RUN_KEY))
+
+        bool isFirstRun = false;
+
+        // エディター起動時
+#if UNITY_EDITOR
+        if (!PlayerPrefs.HasKey(FIRST_RUN_EDITOR_KEY))
         {
-            // 音量最大
+            isFirstRun = true;
+            PlayerPrefs.SetInt(FIRST_RUN_EDITOR_KEY, 1);
+        }
+#else
+    if (!PlayerPrefs.HasKey(FIRST_RUN_KEY))
+    {
+        isFirstRun = true;
+        PlayerPrefs.SetInt(FIRST_RUN_KEY, 1);
+    }
+#endif
+
+        // ゲーム起動時
+        if (isFirstRun)
+        {
             PlayerPrefs.SetFloat(BGM_VOL_KEY, 1f);
             PlayerPrefs.SetFloat(SE_VOL_KEY, 1f);
-
-            PlayerPrefs.SetInt(FIRST_RUN_KEY, 1);
-            ProgressManager.instance.SaveAll();
+            PlayerPrefs.Save();
         }
+
 
         // 子要素の取得
         BGMobj = transform.GetChild(0).gameObject;
