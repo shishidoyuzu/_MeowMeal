@@ -17,6 +17,8 @@ public class ScoreManager : MonoBehaviour
     float wastedMeal = 0f;
     // 合計スコア
     int totalScore = 0;
+    // 前回のハイスコア
+    int previousScore = 0;
 
     [Header("コンボ判定用")]
     // 直前のねこの反応1つだけ覚える
@@ -138,7 +140,11 @@ public class ScoreManager : MonoBehaviour
     // 合計スコア更新
     public void CalculateTotal()
     {
+        // 合計スコアの計算
         totalScore = reactionScore + comboBonus + wastedPenalty;
+
+        // 今回のスコアを次回用に保存しておく
+        previousScore = totalScore;
     }
 
     // スコアリセット
@@ -149,6 +155,8 @@ public class ScoreManager : MonoBehaviour
         wastedPenalty = 0;
         wastedMeal = 0;
         totalScore = 0;
+
+        previousScore = 0;
 
         lastReaction = CatReaction.WITHIN_MARGIN;
         comboCount = 0;

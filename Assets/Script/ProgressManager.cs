@@ -108,13 +108,15 @@ public class ProgressManager : MonoBehaviour
     public void DeleteAll()
     {
         PlayerPrefs.DeleteAll();
+        // DeleteAll()なら、初回起動キーも削除されてしまう
     }
 
     public void DeleteData()
     {
-        PlayerPrefs.DeleteKey(UnlockKey);
-        PlayerPrefs.DeleteKey(StageHighScoreKey);
-        PlayerPrefs.DeleteKey(TotalWastedMealKey);
+        PlayerPrefs.DeleteKey(UnlockKey);// ステージ解放の初期化
+        PlayerPrefs.DeleteKey(StageHighScoreKey);// ハイスコアの初期化
+        ScoreManager.Instance.ResetScore();
+        PlayerPrefs.DeleteKey(TotalWastedMealKey);// 無駄にしたごはん量のリセット
     }
 
 }

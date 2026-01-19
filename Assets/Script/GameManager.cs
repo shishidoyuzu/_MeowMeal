@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
 
 /*
 ・ステージ1（チュートリアル）… 誤差なし、誰でもクリア可能！
@@ -96,10 +95,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject MenuPanal;
 
     [Header("ねこの感情画像")]
-    //public GameObject cat_lovey;    // ぴったりのとき
-    //public GameObject cat_happy;    // 誤差以内のとき
-    //public GameObject cat_unhappy;  // 多い少ないのとき
-    //public GameObject cat_angry;    // 多すぎ少なすぎのとき
+    public GameObject cat_lovey;    // ぴったりのとき
+    public GameObject cat_happy;    // 誤差以内のとき
+    public GameObject cat_unhappy;  // 多い少ないのとき
+    public GameObject cat_angry;    // 多すぎ少なすぎのとき
 
     private Dictionary<string, string> catsName = new Dictionary<string, string>() {
         {"ノルウェージャン" ,"cat_norwegian"},
@@ -384,7 +383,7 @@ public class GameManager : MonoBehaviour
             // ぴったり
             Cat_emotion_Text.text = "ごはんがぴったり！\nやったね！";
             // 満面のにゃん
-            //cat_lovey.SetActive(true);
+            cat_lovey.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -399,7 +398,7 @@ public class GameManager : MonoBehaviour
             // 誤差の範囲内
             Cat_emotion_Text.text = "ちょうどいいごはんの量！";
             // にこにこ
-            //cat_happy.SetActive(true);
+            cat_happy.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -414,7 +413,7 @@ public class GameManager : MonoBehaviour
             // とてもすくない
             Cat_emotion_Text.text = "とてもごはんが少ない！";
             // ムッおこ
-            //cat_angry.SetActive(true);
+            cat_angry.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -429,7 +428,7 @@ public class GameManager : MonoBehaviour
             // とてもおおい
             Cat_emotion_Text.text = "とてもごはんが多い！";
             // ムッおこ
-            //cat_angry.SetActive(true);
+            cat_angry.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -444,7 +443,7 @@ public class GameManager : MonoBehaviour
             // すくない
             Cat_emotion_Text.text = "ごはんが少ない！";
             // しょんぼり
-            //cat_unhappy.SetActive(true);
+            cat_unhappy.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -459,7 +458,7 @@ public class GameManager : MonoBehaviour
             // おおい
             Cat_emotion_Text.text = "ごはんが多い！";
             // しょんぼり
-            //cat_unhappy.SetActive(true);
+            cat_unhappy.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -490,6 +489,12 @@ public class GameManager : MonoBehaviour
             // ネコがいない状態にする
             currentCat = null;
         }
+
+        // ねこの感情表現を削除
+        cat_lovey.SetActive(false);
+        cat_happy.SetActive(false);
+        cat_unhappy.SetActive(false);
+        cat_angry.SetActive(false);
 
         // 今のごはん量のリセット（Plateから呼び出し）
         Plate plate  = FindObjectOfType<Plate>();

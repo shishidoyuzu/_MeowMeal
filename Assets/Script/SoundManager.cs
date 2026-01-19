@@ -84,11 +84,13 @@ public class SoundManager : MonoBehaviour
     }
 #endif
 
-        // ゲーム起動時
+        // 初回起動なら
         if (isFirstRun)
         {
+            // 音量を最大に
             PlayerPrefs.SetFloat(BGM_VOL_KEY, 1f);
             PlayerPrefs.SetFloat(SE_VOL_KEY, 1f);
+            // 値を保存
             PlayerPrefs.Save();
         }
 

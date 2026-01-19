@@ -14,6 +14,9 @@ https://soundeffect-lab.info/
 
 ・On-Jin ～音人～
 https://on-jin.com/
+
+・ポケットサウンド
+https://pocket-se.info/
 ーーーーーーーーーーーーーーーーー
 
 
@@ -25,3 +28,7 @@ https://assetstore.unity.com/packages/tools/particles-effects/simple-fade-scene-
 【使用したフォント】
 ・無心
 https://modi.jpn.org/font_mushin.php
+
+
+【デザイナー】
+・りんてらす（仮）
