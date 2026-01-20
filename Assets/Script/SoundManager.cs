@@ -54,6 +54,41 @@ public class SoundManager : MonoBehaviour
     [Header("AudioMixer")]
     [SerializeField] AudioMixer audioMixer;
 
+    /*  BGM/SEの音量を保存する
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void Init()
+    {
+        bool isFirstRun;
+
+#if UNITY_EDITOR
+        isFirstRun = !PlayerPrefs.HasKey("FIRST_RUN_EDITOR");
+        if (isFirstRun)
+            PlayerPrefs.SetInt("FIRST_RUN_EDITOR", 1);
+#else
+    isFirstRun = !PlayerPrefs.HasKey(FIRST_RUN_KEY);
+    if (isFirstRun)
+        PlayerPrefs.SetInt(FIRST_RUN_KEY, 1);
+#endif
+
+        if (isFirstRun)
+        {
+            PlayerPrefs.SetFloat("BGM_VOLUME", 1f);
+            PlayerPrefs.SetFloat("SE_VOLUME", 1f);
+            PlayerPrefs.Save();
+        }
+
+        float bgmVol = PlayerPrefs.GetFloat("BGM_VOLUME", 1f);
+        float seVol = PlayerPrefs.GetFloat("SE_VOLUME", 1f);
+
+        AudioMixer mixer = Resources.Load<AudioMixer>("MainAudioMixer");
+        if (mixer == null) return;
+
+        mixer.SetFloat("BGM", bgmVol <= 0f ? -80f : Mathf.Log10(bgmVol) * 20f);
+        mixer.SetFloat("SE", seVol <= 0f ? -80f : Mathf.Log10(seVol) * 20f);
+    }
+    */
+
     private void Awake()
     {
         if (instance == null)
@@ -66,34 +101,12 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-
-        bool isFirstRun = false;
-
-        // エディター起動時
-#if UNITY_EDITOR
-        if (!PlayerPrefs.HasKey(FIRST_RUN_EDITOR_KEY))
-        {
-            isFirstRun = true;
-            PlayerPrefs.SetInt(FIRST_RUN_EDITOR_KEY, 1);
-        }
-#else
-    if (!PlayerPrefs.HasKey(FIRST_RUN_KEY))
-    {
-        isFirstRun = true;
-        PlayerPrefs.SetInt(FIRST_RUN_KEY, 1);
-    }
-#endif
-
-        // 初回起動なら
-        if (isFirstRun)
-        {
-            // 音量を最大に
-            PlayerPrefs.SetFloat(BGM_VOL_KEY, 1f);
-            PlayerPrefs.SetFloat(SE_VOL_KEY, 1f);
-            // 値を保存
-            PlayerPrefs.Save();
-        }
-
+        /* 不要な要素
+        // 確認用
+        //Debug.Log("EDITOR FIRST RUN = " + PlayerPrefs.HasKey(FIRST_RUN_EDITOR_KEY));
+        //Debug.Log("BGM_VOLUME = " + PlayerPrefs.GetFloat(BGM_VOL_KEY, -1f));
+        //Debug.Log("SE_VOLUME = "  + PlayerPrefs.GetFloat(SE_VOL_KEY , -1f));
+        */
 
         // 子要素の取得
         BGMobj = transform.GetChild(0).gameObject;
@@ -103,11 +116,17 @@ public class SoundManager : MonoBehaviour
         BGM_audioSource = BGMobj.GetComponent<AudioSource>();
         SE_audioSource  = SEobj.GetComponent<AudioSource>();
 
+        /* 不要な要素
         // 保存した音量の反映
         float bgmVol = PlayerPrefs.GetFloat(BGM_VOL_KEY, 0f);
         float seVol = PlayerPrefs.GetFloat(SE_VOL_KEY, 0f);
         SetBGMVol(bgmVol);
         SetSEVol(seVol);
+        */
+
+        // 音量を最大に強制
+        SetBGMVol(1f);
+        SetSEVol(1f);
 
         // BGMの再生
         BGM_audioSource.clip = BGM;
@@ -121,7 +140,7 @@ public class SoundManager : MonoBehaviour
         {
             // 完全な無音にする
             audioMixer.SetFloat("BGM", -80f);
-            PlayerPrefs.SetFloat(BGM_VOL_KEY, 0f);
+            //PlayerPrefs.SetFloat(BGM_VOL_KEY, 0f);
             return;
         }
 
@@ -129,7 +148,7 @@ public class SoundManager : MonoBehaviour
 
         // BGMスライダーにある「OnValueChanged」に設定
         audioMixer.SetFloat("BGM", VolumedB);
-        PlayerPrefs.SetFloat(BGM_VOL_KEY, volume);
+        //PlayerPrefs.SetFloat(BGM_VOL_KEY, volume);
     }
 
     public void SetSEVol(float volume)
@@ -139,7 +158,7 @@ public class SoundManager : MonoBehaviour
         {
             // 完全な無音にする
             audioMixer.SetFloat("SE", -80f);
-            PlayerPrefs.SetFloat(SE_VOL_KEY, 0f);
+            //PlayerPrefs.SetFloat(SE_VOL_KEY, 0f);
             return;
         }
 
@@ -147,7 +166,7 @@ public class SoundManager : MonoBehaviour
 
         // SEスライダーにある「OnValueChanged」に設定
         audioMixer.SetFloat("SE", VolumedB);
-        PlayerPrefs.SetFloat(SE_VOL_KEY,volume);
+        //PlayerPrefs.SetFloat(SE_VOL_KEY,volume);
     }
 
 }
