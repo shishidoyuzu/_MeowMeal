@@ -383,7 +383,7 @@ public class GameManager : MonoBehaviour
             // ぴったり
             Cat_emotion_Text.text = "ごはんがぴったり！\nやったね！";
             // 満面のにゃん
-            cat_lovey.SetActive(true);
+            //cat_lovey.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -398,7 +398,7 @@ public class GameManager : MonoBehaviour
             // 誤差の範囲内
             Cat_emotion_Text.text = "ちょうどいいごはんの量！";
             // にこにこ
-            cat_happy.SetActive(true);
+            //cat_happy.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -413,7 +413,7 @@ public class GameManager : MonoBehaviour
             // とてもすくない
             Cat_emotion_Text.text = "とてもごはんが少ない！";
             // ムッおこ
-            cat_angry.SetActive(true);
+            //cat_angry.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -428,7 +428,7 @@ public class GameManager : MonoBehaviour
             // とてもおおい
             Cat_emotion_Text.text = "とてもごはんが多い！";
             // ムッおこ
-            cat_angry.SetActive(true);
+            //cat_angry.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -443,7 +443,7 @@ public class GameManager : MonoBehaviour
             // すくない
             Cat_emotion_Text.text = "ごはんが少ない！";
             // しょんぼり
-            cat_unhappy.SetActive(true);
+            //cat_unhappy.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -458,7 +458,7 @@ public class GameManager : MonoBehaviour
             // おおい
             Cat_emotion_Text.text = "ごはんが多い！";
             // しょんぼり
-            cat_unhappy.SetActive(true);
+            //cat_unhappy.SetActive(true);
 
             // SEの再生
             if (SoundManager.instance != null)
@@ -491,10 +491,10 @@ public class GameManager : MonoBehaviour
         }
 
         // ねこの感情表現を削除
-        cat_lovey.SetActive(false);
-        cat_happy.SetActive(false);
-        cat_unhappy.SetActive(false);
-        cat_angry.SetActive(false);
+        //cat_lovey.SetActive(false);
+        //cat_happy.SetActive(false);
+        //cat_unhappy.SetActive(false);
+        //cat_angry.SetActive(false);
 
         // 今のごはん量のリセット（Plateから呼び出し）
         Plate plate  = FindObjectOfType<Plate>();
