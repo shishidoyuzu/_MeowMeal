@@ -108,6 +108,5 @@ public class ProgressManager : MonoBehaviour
     public void DeleteAll()
     {
         PlayerPrefs.DeleteAll();
-        // DeleteAll()なら、初回起動キーも削除されてしまう
     }
 }

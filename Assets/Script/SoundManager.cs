@@ -44,12 +44,12 @@ public class SoundManager : MonoBehaviour
     GameObject SEobj;
 
     // ボリューム保存用のキー
-    public const string BGM_VOL_KEY = "BGM_VOLUME";
-    public const string SE_VOL_KEY  = "SE_VOLUME";
+    //public const string BGM_VOL_KEY = "BGM_VOLUME";
+    //public const string SE_VOL_KEY  = "SE_VOLUME";
 
     // 初回起動判定キー
-    public const string FIRST_RUN_KEY = "FIRST_RUN";
-    public const string FIRST_RUN_EDITOR_KEY = "FIRST_RUN_EDITOR";
+    //public const string FIRST_RUN_KEY = "FIRST_RUN";
+    //public const string FIRST_RUN_EDITOR_KEY = "FIRST_RUN_EDITOR";
 
     [Header("AudioMixer")]
     [SerializeField] AudioMixer audioMixer;
@@ -99,6 +99,7 @@ public class SoundManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
 
         /* 不要な要素
@@ -168,5 +169,4 @@ public class SoundManager : MonoBehaviour
         audioMixer.SetFloat("SE", VolumedB);
         //PlayerPrefs.SetFloat(SE_VOL_KEY,volume);
     }
-
 }

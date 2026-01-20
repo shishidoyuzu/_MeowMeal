@@ -1449,7 +1449,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 220710157}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.4285715
+  m_Size: 0.42857143
   m_NumberOfSteps: 5
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1908,7 +1908,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &455901052
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6235,7 +6235,6 @@ GameObject:
   - component: {fileID: 1659205002}
   - component: {fileID: 1659205004}
   - component: {fileID: 1659205003}
-  - component: {fileID: 1659205005}
   m_Layer: 5
   m_Name: Music
   m_TagString: Untagged
@@ -6302,20 +6301,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1659205001}
   m_CullTransparentMesh: 1
---- !u!114 &1659205005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659205001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bc709836c1e7142a4e701eca9461e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgmSlider: {fileID: 681920144}
-  seSlider: {fileID: 1747132779}
 --- !u!1 &1681006919
 GameObject:
   m_ObjectHideFlags: 0
@@ -6527,6 +6512,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1705609172}
+  - component: {fileID: 1705609173}
   m_Layer: 5
   m_Name: Music_Slider
   m_TagString: Untagged
@@ -6555,6 +6541,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -15}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1705609173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705609171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1bc709836c1e7142a4e701eca9461e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmSlider: {fileID: 681920144}
+  seSlider: {fileID: 1747132779}
 --- !u!1 &1711614187
 GameObject:
   m_ObjectHideFlags: 0
