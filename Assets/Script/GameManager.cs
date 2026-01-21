@@ -297,7 +297,8 @@ public class GameManager : MonoBehaviour
     public void Count_CatfoodWasted(float food_Capa)
     {
         Catfood_Wasted += food_Capa;
-        Debug.Log($"無駄にしたごはん：{Catfood_Wasted}");
+        //Debug.Log($"無駄にしたごはん：{Catfood_Wasted}");
+        Debug.Log($"今回：{food_Capa} / 累計：{Catfood_Capa}");
     }
 
     void UpdateTimerUI()

@@ -14,7 +14,7 @@ public class ScoreManager : MonoBehaviour
     // 無駄にしたごはん量ペナルティ
     int wastedPenalty = 0;
     // 無駄にしたごはん量
-    float wastedMeal = 0f;
+    float wastedGram = 0f;
     // 合計スコア
     int totalScore = 0;
     // 前回のハイスコア
@@ -29,6 +29,7 @@ public class ScoreManager : MonoBehaviour
     [Header("リザルトUI")]
     public TextMeshProUGUI reactionScore_text;
     public TextMeshProUGUI wastedPenalty_text;
+    public TextMeshProUGUI wastedGram_text;
     public TextMeshProUGUI comboBonus_text;
     public TextMeshProUGUI totalScore_text;
 
@@ -59,6 +60,7 @@ public class ScoreManager : MonoBehaviour
     {
         reactionScore_text = GameObject.Find("Cat_reaction")?.GetComponent<TextMeshProUGUI>();
         wastedPenalty_text = GameObject.Find("WastedPenalty")?.GetComponent<TextMeshProUGUI>();
+        wastedGram_text = GameObject.Find("WastedGram")?.GetComponent<TextMeshProUGUI>();
         comboBonus_text = GameObject.Find("ComboBonus")?.GetComponent<TextMeshProUGUI>();
         totalScore_text = GameObject.Find("TotalScore")?.GetComponent<TextMeshProUGUI>();
     }
@@ -71,6 +73,7 @@ public class ScoreManager : MonoBehaviour
         reactionScore_text.text = $"{reactionScore}";
         comboBonus_text.text = $"{comboBonus}";
         wastedPenalty_text.text = ($"{wastedPenalty}");
+        wastedGram_text.text = ($"{wastedGram}g");
         totalScore_text.text = ($"合計スコア：{totalScore}");
     }
 
@@ -120,9 +123,13 @@ public class ScoreManager : MonoBehaviour
     // 無駄にしたごはん量の分だけペナルティ
     public void WastedMealPenalty(float wasted)
     {
-        // 「無駄にしたごはん量」を記録
-        wastedMeal += wasted;
+        // 「無駄にしたごはん量」の値を切り上げる
+        int wastedInt = Mathf.CeilToInt(wasted);
 
+        // 「無駄にしたごはん量」を記録
+        wastedGram += wastedInt;
+
+        /*
         // ペナルティを算出する
         int penalty = wasted switch
         {
@@ -132,9 +139,14 @@ public class ScoreManager : MonoBehaviour
             <= 150f => -100,
             _ => -200
         };
-        wastedPenalty += penalty;
+        //wastedPenalty += penalty;
+        */
 
-        Debug.Log($"無駄にしたごはん量：{Mathf.CeilToInt(wasted)}");
+        wastedPenalty -= wastedInt * 5;
+
+        Debug.Log($"今回:{wastedInt}g / 累計:{wastedGram}g");
+
+        //Debug.Log($"無駄にしたごはん量：{Mathf.CeilToInt(wastedInt)}");
     }
 
     // 合計スコア更新
@@ -153,7 +165,7 @@ public class ScoreManager : MonoBehaviour
         reactionScore = 0;
         comboBonus = 0;
         wastedPenalty = 0;
-        wastedMeal = 0;
+        wastedGram = 0;
         totalScore = 0;
 
         previousScore = 0;
@@ -169,6 +181,6 @@ public class ScoreManager : MonoBehaviour
 
     public float GetTotalWastedMeal()
     {
-        return wastedMeal;
+        return wastedGram;
     }
 }
