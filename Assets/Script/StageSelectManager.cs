@@ -89,14 +89,14 @@ public class StageSelectManager : MonoBehaviour
             }
         }
     }
-    
+
 
     public void UpdateStageIcons(int sNum)
     {
         for (int i = 0; i < StageIcons.Count; i++)
         {
             var icon = StageIcons[i];
-            
+
             // 選択されているステージと値が同じとき、「選択」されている
             bool isSelected = (i == sNum);
             // tureがあれば「開放」されている
@@ -148,7 +148,7 @@ public class StageSelectManager : MonoBehaviour
     public void MoveScrollview()
     {
         switch ((SelectStageNum + 1))
-        {   
+        {
             case 1:
                 Debug.Log("ステージ１を選択中");
                 scrollbar.value = 0.0f;

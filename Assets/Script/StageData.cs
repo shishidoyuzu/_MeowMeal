@@ -4,12 +4,24 @@ using UnityEngine;
 // ScriptableObject は Unity の“データ専用アセット”みたいなやつ。
 // ゲーム中で使う設定やパラメータを、コードじゃなくて外部ファイルとして保存できる箱に近い。
 
-public enum CatPersonality {
+public enum CatPersonality
+{
+    // 強制的に誤差を3g（文字の見栄え的に）にする
     Nervous,    // 神経質
+
+    // 誤差が10gになる
     Easygoing,  // 大雑把
+
+    // 反応するまでの時間が長くなる
     Lazy,       // 怠け者
+
+    // 反応しなくなる（内部で評価はされる）
     Moody,      // 気まぐれ
+
+    // 目標量が常に+10gされる
     Greedy,     // 食いしん坊
+
+    // 判定が高確率で「ぴったり」になる
     Lucky       // ラッキー
 };
 

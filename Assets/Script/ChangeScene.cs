@@ -18,7 +18,7 @@ public class ChangeScene : MonoBehaviour
     public void GotoSelectStage()
     {
         // 前のシーンがリザルトシーンのとき
-        if(SceneManager.GetActiveScene().name == "Result")
+        if (SceneManager.GetActiveScene().name == "Result")
         {
             int next = StageSelectManager.SelectStageNum + 1;
             // 次のステージを開放する
@@ -29,7 +29,7 @@ public class ChangeScene : MonoBehaviour
         string stage = "StageSelect";
         Initiate.Fade(stage, black, 1.0f);
     }
-    
+
     // ゲームシーンへ
     public void GotoGamePlay()
     {

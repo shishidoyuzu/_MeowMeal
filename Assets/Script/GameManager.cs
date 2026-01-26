@@ -16,6 +16,7 @@ using UnityEngine;
 ３：７．５ｇ　でぶ猫対応の３粒分
 ４：３ｇ　　　１粒分ならセーフ
 ５：０ｇ　　　ぴったりじゃないとダメ
+
 */
 
 public enum CatReaction {
@@ -245,6 +246,10 @@ public class GameManager : MonoBehaviour
         currentCat.SetCatData(name, meal);
 
         SpawnedCatCount++;
+
+        // ここで
+        // 普通のネコは「この鳴き声の中からランダムで」再生する、
+        // でぶネコは　「この鳴き声の中からランダムで」再生する、をしたい
 
         // UI更新 & タイマー開始 など
         SetupCatUI(name, meal);

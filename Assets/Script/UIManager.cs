@@ -4,8 +4,6 @@ public class UIManager : MonoBehaviour
 {
     private StageSelectManager StageSelectManager;
 
-
-
     void Start()
     {
         StageSelectManager = FindObjectOfType<StageSelectManager>();

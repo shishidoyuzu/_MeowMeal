@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -28,14 +29,19 @@ public class SoundManager : MonoBehaviour
     public AudioClip SE_meowUnhappy;
     [Tooltip("ねこリアクション：Angry")]
     public AudioClip SE_meowAngry;
-    [Tooltip("ねこの鳴き声")]
-    public AudioClip SE_meowVer1;
-    [Tooltip("ねこの鳴き声")]
-    public AudioClip SE_meowVer2;
-    [Tooltip("ねこの鳴き声")]
-    public AudioClip SE_meowVer3;
-    [Tooltip("ねこの鳴き声")]
-    public AudioClip SE_meowVer4;
+
+    // ゲームシーンに現れた時の鳴き声
+    [Header("普通のねこの鳴き声（全４種）")]
+    List<AudioClip> nomalCat_voice = new List<AudioClip>();
+    [Header("でぶねこの鳴き声（全４種）")]
+    List<AudioClip> fatCat_voice = new List<AudioClip>();
+
+    /*
+    ねこがゲームシーンに登場するごとに特定の鳴き声SEをランダムで再生させたい。
+
+    でぶねこ以外のねこが登場したときは、nomalCat_voiceに登録されてるSE全４種の中からランダムで再生
+    でぶねこが登場したときは、fatCat_voiceに登録されているSE全４種の中からランダムで再生
+     */
 
     [Tooltip("スコア表示")]
     public AudioClip SE_score;
@@ -169,4 +175,17 @@ public class SoundManager : MonoBehaviour
         audioMixer.SetFloat("SE", VolumedB);
         //PlayerPrefs.SetFloat(SE_VOL_KEY,volume);
     }
+    
+    // 普通のねこ鳴き声リストに登録されているAudioClipをランダムに再生する関数
+    public void RandomPlay_VCN()
+    {
+
+    }
+
+    // でぶねこ鳴き声リストに登録されているAudioClipをランダムに再生する関数
+    public void RandomPlay_VCF()
+    {
+
+    }
+
 }

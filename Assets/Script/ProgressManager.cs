@@ -20,7 +20,7 @@ public class ProgressManager : MonoBehaviour
         Application.targetFrameRate = 60;
 
         // インスタンス
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
@@ -71,7 +71,7 @@ public class ProgressManager : MonoBehaviour
         int currentHighScore = LoadStageHighScore(stageNum);
 
         // スコアが高い場合
-        if(score > currentHighScore)
+        if (score > currentHighScore)
         {
             //ハイスコア更新
             PlayerPrefs.SetInt(StageHighScoreKey + stageNum, score);

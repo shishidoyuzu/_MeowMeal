@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 public static class Initiate
 {
@@ -29,10 +28,11 @@ public static class Initiate
         scr.start = true;
         areWeFading = true;
         scr.InitiateFader();
-        
+
     }
 
-    public static void DoneFading() {
+    public static void DoneFading()
+    {
         areWeFading = false;
     }
 }
