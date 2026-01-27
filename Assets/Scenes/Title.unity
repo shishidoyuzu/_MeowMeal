@@ -1864,7 +1864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3eb167f7e7470944aee2b5f35a591ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnlockFlagList: 0101000000
+  UnlockFlagList: 0101010101
 --- !u!4 &1224891337
 Transform:
   m_ObjectHideFlags: 0
@@ -5225,6 +5225,14 @@ PrefabInstance:
       propertyPath: Cat_meow.Array.data[2]
       value: 
       objectReference: {fileID: 8300000, guid: d88dcb918e804c846be64efcbabb2ee5, type: 3}
+    - target: {fileID: 66747012353818984, guid: 8400a731850bd8246b66660571859a9d, type: 3}
+      propertyPath: fatCat_voices.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 66747012353818984, guid: 8400a731850bd8246b66660571859a9d, type: 3}
+      propertyPath: normalCat_voices.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 404929861102935108, guid: 8400a731850bd8246b66660571859a9d, type: 3}
       propertyPath: m_Name
       value: SoundManager

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
@@ -29,6 +28,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip SE_meowUnhappy;
     [Tooltip("ねこリアクション：Angry")]
     public AudioClip SE_meowAngry;
+    [Tooltip("スコア表示")]
+    public AudioClip SE_score;
 
     // ゲームシーンに現れた時の鳴き声
     [Header("普通のねこの鳴き声（全４種）")]
@@ -42,9 +43,6 @@ public class SoundManager : MonoBehaviour
     でぶねこ以外のねこが登場したときは、nomalCat_voiceに登録されてるSE全４種の中からランダムで再生
     でぶねこが登場したときは、fatCat_voiceに登録されているSE全４種の中からランダムで再生
      */
-
-    [Tooltip("スコア表示")]
-    public AudioClip SE_score;
 
     GameObject BGMobj;
     GameObject SEobj;

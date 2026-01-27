@@ -49,7 +49,8 @@ public class ScoreManager : MonoBehaviour
     [Header("ハイスコア更新画像")]
     [SerializeField] private GameObject highScoreEffect;
 
-
+    // ペナルティスコアにかかる倍率
+    private const int penaltyRate = 5;
     void Awake()
     {
         if (Instance == null)
@@ -84,6 +85,8 @@ public class ScoreManager : MonoBehaviour
     // スコアテキストを空白に
     private void ClearResultUI()
     {
+        if (!reactionScore_text) return;
+
         reactionScore_text.text = "";
         comboBonus_text.text    = "";
         wastedPenalty_text.text = "";
@@ -94,6 +97,8 @@ public class ScoreManager : MonoBehaviour
     // リザルト表示待機
     IEnumerator ResultSequence()
     {
+        if (!reactionScore_text) yield break;
+
         // 反応スコアを表示
         reactionScore_text.text = $"{reactionScore}";
         // SEを流す
@@ -109,18 +114,18 @@ public class ScoreManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // 無駄にしたごはん量を表示
-        //wastedGram_text.text = ($"{wastedGram}g ×5 ");
+        wastedGram_text.text = ($"{wastedGram}g ×{penaltyRate} ");
         // SEを流す
-        //PlayResultSE();
+        PlayResultSE();
         // 少しの間コルーチンを待機させる
-        //yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f);
 
         // ペナルティスコアを表示
         wastedPenalty_text.text = ($"{wastedPenalty}");
         // SEを流す
         PlayResultSE();
         // 少しの間コルーチンを待機させる
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.7f);
 
 
         // 合計スコアを表示
@@ -210,7 +215,7 @@ public class ScoreManager : MonoBehaviour
         //wastedPenalty += penalty;
         */
 
-        wastedPenalty -= wastedInt * 5;
+        wastedPenalty -= wastedInt * penaltyRate;
 
         Debug.Log($"今回:{wastedInt}g / 累計:{wastedGram}g");
 
@@ -235,7 +240,23 @@ public class ScoreManager : MonoBehaviour
         // 画像を表示する
         highScoreEffect.SetActive(true);
         // ふわふわアニメーションをつける
+        StartCoroutine(PlayRecordFloat());
+    }
 
+    // ふわふわアニメーション
+    IEnumerator PlayRecordFloat()
+    {
+        Vector3 startPos = highScoreEffect.transform.localPosition;
+
+        float height = 10.0f;
+        float speed = 1.5f;
+
+        while (true)
+        {
+            float y = Mathf.Sin(Time.time *  speed) * height;
+            highScoreEffect.transform.localPosition = startPos + Vector3.up * y;
+            yield return null;
+        }
     }
 
     // スコアリセット
