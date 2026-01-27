@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -45,8 +46,9 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI comboBonus_text;
     public TextMeshProUGUI totalScore_text;
 
-    [Header("カウント")]
-    private int reactionCount = 0;
+    [Header("ハイスコア更新画像")]
+    [SerializeField] private GameObject highScoreEffect;
+
 
     void Awake()
     {
@@ -64,7 +66,9 @@ public class ScoreManager : MonoBehaviour
     {
         // リザルトシーンに来たらUIを探す
         FindResultUI();
-        SetResultUI();
+        //SetResultUI();
+        ClearResultUI();
+        StartCoroutine(ResultSequence());
     }
 
     // リザルトUIを探す
@@ -77,7 +81,59 @@ public class ScoreManager : MonoBehaviour
         totalScore_text = GameObject.Find("TotalScore")?.GetComponent<TextMeshProUGUI>();
     }
 
-    // UI更新
+    // スコアテキストを空白に
+    private void ClearResultUI()
+    {
+        reactionScore_text.text = "";
+        comboBonus_text.text    = "";
+        wastedPenalty_text.text = "";
+        wastedGram_text.text    = "";
+        totalScore_text.text    = "";
+    }
+
+    // リザルト表示待機
+    IEnumerator ResultSequence()
+    {
+        // 反応スコアを表示
+        reactionScore_text.text = $"{reactionScore}";
+        // SEを流す
+        PlayResultSE();
+        // 少しの間コルーチンを待機させる
+        yield return new WaitForSeconds(0.5f);
+
+        // ボーナススコアを表示
+        comboBonus_text.text = $"{comboBonus}";
+        // SEを流す
+        PlayResultSE();
+        // 少しの間コルーチンを待機させる
+        yield return new WaitForSeconds(0.5f);
+
+        // 無駄にしたごはん量を表示
+        //wastedGram_text.text = ($"{wastedGram}g ×5 ");
+        // SEを流す
+        //PlayResultSE();
+        // 少しの間コルーチンを待機させる
+        //yield return new WaitForSeconds(0.5f);
+
+        // ペナルティスコアを表示
+        wastedPenalty_text.text = ($"{wastedPenalty}");
+        // SEを流す
+        PlayResultSE();
+        // 少しの間コルーチンを待機させる
+        yield return new WaitForSeconds(0.5f);
+
+
+        // 合計スコアを表示
+        totalScore_text.text = ($"合計スコア：{totalScore}");
+        PlayResultSE();
+
+        if (totalScore > previousScore)
+            ShowHighscoreEffect();
+
+        yield return null;
+    }
+
+    /*  // UI更新
     void SetResultUI()
     {
         if (!reactionScore_text) return;
@@ -88,6 +144,7 @@ public class ScoreManager : MonoBehaviour
         wastedGram_text.text = ($"{wastedGram}g");
         totalScore_text.text = ($"合計スコア：{totalScore}");
     }
+    */
 
     // ねこの反応スコア
     public void AddReactionScore(CatReaction reaction)
@@ -100,7 +157,6 @@ public class ScoreManager : MonoBehaviour
             CatReaction.LESS_MORE => 100,
             _ => 0 // 上記以外の反応はスコア０
         };
-        reactionCount++;
         reactionScore += score;
     }
 
@@ -171,6 +227,17 @@ public class ScoreManager : MonoBehaviour
         previousScore = totalScore;
     }
 
+    // ハイスコア更新時の演出
+    private void ShowHighscoreEffect()
+    {
+        if (highScoreEffect == null) return;
+        
+        // 画像を表示する
+        highScoreEffect.SetActive(true);
+        // ふわふわアニメーションをつける
+
+    }
+
     // スコアリセット
     public void ResetScore()
     {
@@ -188,11 +255,19 @@ public class ScoreManager : MonoBehaviour
 
     public int GetTotalScore()
     {
+        // 合計スコアをそのまま返す
         return totalScore;
     }
 
     public float GetTotalWastedMeal()
     {
+        // 無駄にしたごはん量をそのまま返す
         return wastedGram;
+    }
+
+    private void PlayResultSE()
+    {
+        // スコアSEを一回流す
+        SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_score);
     }
 }

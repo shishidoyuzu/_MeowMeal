@@ -32,9 +32,9 @@ public class SoundManager : MonoBehaviour
 
     // ゲームシーンに現れた時の鳴き声
     [Header("普通のねこの鳴き声（全４種）")]
-    List<AudioClip> nomalCat_voice = new List<AudioClip>();
+    [SerializeField] private List<AudioClip> normalCat_voices = new List<AudioClip>();
     [Header("でぶねこの鳴き声（全４種）")]
-    List<AudioClip> fatCat_voice = new List<AudioClip>();
+    [SerializeField] private List<AudioClip> fatCat_voices = new List<AudioClip>();
 
     /*
     ねこがゲームシーンに登場するごとに特定の鳴き声SEをランダムで再生させたい。
@@ -117,11 +117,11 @@ public class SoundManager : MonoBehaviour
 
         // 子要素の取得
         BGMobj = transform.GetChild(0).gameObject;
-        SEobj  = transform.GetChild(1).gameObject;
+        SEobj = transform.GetChild(1).gameObject;
 
         // AudioSourceの取得
         BGM_audioSource = BGMobj.GetComponent<AudioSource>();
-        SE_audioSource  = SEobj.GetComponent<AudioSource>();
+        SE_audioSource = SEobj.GetComponent<AudioSource>();
 
         /* 不要な要素
         // 保存した音量の反映
@@ -143,7 +143,7 @@ public class SoundManager : MonoBehaviour
     public void SetBGMVol(float volume)
     {
         // 音量が 0 or -0～ の時
-        if(volume <= 0f)
+        if (volume <= 0f)
         {
             // 完全な無音にする
             audioMixer.SetFloat("BGM", -80f);
@@ -175,17 +175,24 @@ public class SoundManager : MonoBehaviour
         audioMixer.SetFloat("SE", VolumedB);
         //PlayerPrefs.SetFloat(SE_VOL_KEY,volume);
     }
-    
+
     // 普通のねこ鳴き声リストに登録されているAudioClipをランダムに再生する関数
     public void RandomPlay_VCN()
     {
+        // 未登録ならスルー
+        if (normalCat_voices.Count == 0) return;
 
+        AudioClip clip = normalCat_voices[Random.Range(0, normalCat_voices.Count)];
+        SE_audioSource.PlayOneShot(clip);
     }
 
     // でぶねこ鳴き声リストに登録されているAudioClipをランダムに再生する関数
     public void RandomPlay_VCF()
     {
+        // 未登録ならスルー
+        if(fatCat_voices.Count == 0) return;
 
+        AudioClip clip = fatCat_voices[Random.Range(0, fatCat_voices.Count)];
+        SE_audioSource.PlayOneShot(clip);
     }
-
 }
