@@ -1995,8 +1995,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Meal_prefab: {fileID: 5237713541183580386, guid: d50ce11e16796f34e8a8a39f3ad2beb1, type: 3}
   Cup_pos: {fileID: 592485379}
-  dropInterval: 0.15
+  DropInterval: 0.15
   MealCapacity: 100
+  AfterDropTime: 0.5
   s_MealCapacity: {fileID: 2019371258}
 --- !u!1 &620593039
 GameObject:
@@ -2235,9 +2236,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reactionScore_text: {fileID: 0}
-  mealRemainPenalty_text: {fileID: 0}
+  wastedPenalty_text: {fileID: 0}
+  wastedGram_text: {fileID: 0}
   comboBonus_text: {fileID: 0}
   totalScore_text: {fileID: 0}
+  highScoreEffect: {fileID: 0}
 --- !u!224 &708415056
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4747,6 +4750,10 @@ MonoBehaviour:
   TimeLeft_Text: {fileID: 1872140593}
   MenuClose_Button: {fileID: 1475774714}
   MenuPanal: {fileID: 1829799648}
+  cat_lovey: {fileID: 0}
+  cat_happy: {fileID: 0}
+  cat_unhappy: {fileID: 0}
+  cat_angry: {fileID: 0}
 --- !u!1 &1829799648
 GameObject:
   m_ObjectHideFlags: 0

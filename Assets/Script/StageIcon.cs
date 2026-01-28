@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class StageIcon : MonoBehaviour
 {
     public Image iconImage;
@@ -15,7 +14,7 @@ public class StageIcon : MonoBehaviour
     {
         // --- 選択されている？ ---
         animate = isSelected;
-        transform.localScale = isSelected ? Vector3.one * 1.1f : Vector3.one * 0.7f;
+        transform.localScale = isSelected ? Vector3.one * 2.0f : Vector3.one * 1.5f;
 
         // --- アンロックされてる？ ---
         iconImage.color = isUnlocked ? Color.white : new Color(0.6f, 0.6f, 0.6f);
@@ -27,7 +26,7 @@ public class StageIcon : MonoBehaviour
         if (!animate) return;
 
         animTime += Time.deltaTime * 2f;
-        float scale = 1.1f + Mathf.Sin(animTime) * 0.05f;
+        float scale = 2.0f + Mathf.Sin(animTime) * 0.05f;
         transform.localScale = new Vector3(scale, scale, 1);
     }
 }

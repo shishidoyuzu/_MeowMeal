@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,16 +10,19 @@ public class Meal_Fall : MonoBehaviour
     // カップの位置
     public Transform Cup_pos;
     // ごはんを落とす間隔（秒）
-    public float dropInterval = 0.025f;
-
+    public float DropInterval = 0.15f;
     // ごはん袋の総容量
     public float MealCapacity = 100.0f;
-
     // ごはんを落とす時間を測るタイマー
     private float Mealtimer = 0f;
-
     // ごはんを一度だけあげるフラグ
-    private bool hasGivenMeal = false;
+    private bool HasGivenMeal = false;
+    // ごはんをあげ始めたか
+    bool HasStartedDrop = false;
+    // 離した後もごはんを落とす時間
+    [SerializeField] private float AfterDropTime = 0.5f;
+    // 余韻時間
+    private float AfterTimer = 0f;
 
     [SerializeField] Slider s_MealCapacity;
 
@@ -37,58 +41,77 @@ public class Meal_Fall : MonoBehaviour
 
     void Update()
     {
-        // 左クリックしたとき＆ごはん袋が０ｇになっていなかったら
-        if (Input.GetMouseButton(0) && MealCapacity > 0f)
+        // UIの上にカーソルが乗っていなかったら
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            // UIの上にカーソルが乗っていなかったら
-            if (!EventSystem.current.IsPointerOverGameObject())
+            // 右クリック
+            bool isHolding = Input.GetMouseButton(0);
+            // 左クリック
+            bool isRefill = Input.GetMouseButtonDown(1);
+            // ごはんが落ちているか
+            bool isCanFall = false;
+
+            // 左クリックしているとき
+            if (isHolding)
             {
-                // 経過時間を足していく
-                Mealtimer += Time.deltaTime;
-                // dropIntervalの値になると、ごはんを落としタイマーをリセット
-                if (Mealtimer >= dropInterval)
-                {
-                    DropMeal(); // ごはんを落とす
-                    Mealtimer = 0f; // 経過時間のリセット
-                }
+                // 押している間は余韻リセット
+                AfterTimer = AfterDropTime;
+                isCanFall = true;
+                HasStartedDrop = true;
             }
-        }
-        else
-        {
-            // クリックしてないときはタイマーリセット
-            Mealtimer = 0f;
-        }
+            else if (AfterTimer > 0f)
+            {
+                AfterTimer -= Time.deltaTime;
+                isCanFall = true;
+            }
+            else
+            {
+                Mealtimer = 0f;
+            }
 
-        // 右クリックしたとき
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log("ごはんを新しくするよ！");
-            // 残っているごはんをGameManagerに送る
-            GameManager.instance.Count_CatfoodWasted(MealCapacity);
-            // ごはん袋を満タンにする
-            RefillMealBag();
-            // 表示を更新
-            GameManager.instance.Show_CatfoodCapacity(MealCapacity);
-        }
-
-        // マウスから手を離したとき＆ごはんをあげてなかったら
-        if (Input.GetMouseButtonUp(0) && !hasGivenMeal)
-        {
-            // UIの上にカーソルが乗っていなかったら
-            if (!EventSystem.current.IsPointerOverGameObject())
+            // ごはんをあげれるとき
+            if (isCanFall)
+            {
+                HandleDrop();
+            }
+            // ごはんが落ち切った時
+            else if (HasStartedDrop && !HasGivenMeal)
             {
                 // 「ごはん量のズレ」によるネコの感情変化
                 GameManager.instance.Late_1s_CallEmotion();
                 // ごはんをこれ以上落とせないように
-                hasGivenMeal = true;
+                HasGivenMeal = true;
             }
+
+            // 右クリックしたとき
+            if (isRefill)
+            {
+                Debug.Log("ごはんを新しくするよ！");
+                // 残っているごはんをGameManagerに送る
+                GameManager.instance.Count_CatfoodWasted(MealCapacity);
+                // ごはん袋を満タンにする
+                RefillMealBag();
+                // 表示を更新
+                GameManager.instance.Show_CatfoodCapacity(MealCapacity);
+            }
+        }
+    }
+
+    void HandleDrop()
+    {
+        Mealtimer += Time.deltaTime;
+
+        if (Mealtimer >= DropInterval)
+        {
+            DropMeal();
+            Mealtimer = 0f;
         }
     }
 
     void DropMeal()
     {
         // hasGivenMealがtrueのとき、ごはんを落とさない
-        if (hasGivenMeal) return;
+        if (HasGivenMeal) return;
 
         // ごはん袋が動いていたら、落とさない
         if(updown.isMoving) return;
@@ -154,6 +177,7 @@ public class Meal_Fall : MonoBehaviour
 
     public void ResetMealFlag()
     {
-        hasGivenMeal = false;
+        HasGivenMeal = false;
+        HasStartedDrop = false;
     }
 }

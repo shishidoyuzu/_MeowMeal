@@ -16,8 +16,6 @@ MonoBehaviour:
   CatName:
   - "\u30B5\u30D0\u30C8\u30E9"
   - "\u30D9\u30F3\u30AC\u30EB"
-  - "\u30B9\u30B3\u30C6\u30A3\u30C3\u30B7\u30E5"
-  - "\u30C1\u30E3\u30C8\u30E9"
   Personalities: 
   margin: 15
   TimeLimit: 10

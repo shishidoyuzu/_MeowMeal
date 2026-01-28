@@ -199,7 +199,7 @@ public class GameManager : MonoBehaviour
         // ５ステージ終わったら
         if(CurrentStage == 5)
         {
-            //エンディングへ
+            // タイトルシーンに戻る
         }
     }
 
@@ -381,74 +381,73 @@ public class GameManager : MonoBehaviour
     {
         // Current_meal は「今のごはん量」、Target_meal  は「ねこの目標量」
 
+        // ぴったり
         if (Current_meal == Target_meal)
         {
-            // ぴったり
             Cat_emotion_Text.text = "ごはんがぴったり！\nやったね！";
-            //cat_lovey.SetActive(true);
-
             // SEの再生
             PlayCatVoiceSE(CatReaction.PERFECT);
+            //cat_lovey.SetActive(true);
 
             return CatReaction.PERFECT;
         }
+        // 誤差の範囲内
         else if (diff <= Cat_margin)
         {
-            // 誤差の範囲内
             Cat_emotion_Text.text = "ちょうどいいごはんの量！";
-            //cat_happy.SetActive(true);
-
             // SEの再生
             PlayCatVoiceSE(CatReaction.WITHIN_MARGIN);
+            //cat_happy.SetActive(true);
 
             return CatReaction.WITHIN_MARGIN;
         }
-        else if (diff < 20.0f)
+        // 誤差が２０ｇを超える
+        else if (diff >= 20.0f)
         {
-            // とてもすくない
-            Cat_emotion_Text.text = "とてもごはんが少ない！";
-            //cat_angry.SetActive(true);
+            // とても少ない
+            if (Current_meal < Target_meal)
+            {
+                Cat_emotion_Text.text = "とてもごはんが少ない！";
+                // SEの再生
+                PlayCatVoiceSE(CatReaction.LESS_MORE);
+                //cat_angry.SetActive(true);
 
-            // SEの再生
-            PlayCatVoiceSE(CatReaction.LESS_MORE);
+                return CatReaction.LESS_MORE;
+            }
+            // とても多い
+            else
+            {
+                Cat_emotion_Text.text = "とてもごはんが多い！";
+                // SEの再生
+                PlayCatVoiceSE(CatReaction.LESS_MORE);
+                //cat_angry.SetActive(true);
 
-            return CatReaction.LESS_MORE;
+                return CatReaction.LESS_MORE;
+            }
         }
-        else if (diff > 20.0f)
+        else
         {
-            // とてもおおい
-            Cat_emotion_Text.text = "とてもごはんが多い！";
-            //cat_angry.SetActive(true);
+            // 少ない
+            if (Current_meal < Target_meal)
+            {
+                Cat_emotion_Text.text = "ごはんが少ない！";
+                // SEの再生
+                PlayCatVoiceSE(CatReaction.FEW_MANY);
+                //cat_unhappy.SetActive(true);
 
-            // SEの再生
-            PlayCatVoiceSE(CatReaction.LESS_MORE);
+                return CatReaction.FEW_MANY;
+            }
+            // 多い
+            else
+            {
+                Cat_emotion_Text.text = "ごはんが多い！";
+                // SEの再生
+                PlayCatVoiceSE(CatReaction.FEW_MANY);
+                //cat_unhappy.SetActive(true);
 
-            return CatReaction.LESS_MORE;
+                return CatReaction.FEW_MANY;
+            }
         }
-        else if (Current_meal < Target_meal)
-        {
-            // すくない
-            Cat_emotion_Text.text = "ごはんが少ない！";
-            //cat_unhappy.SetActive(true);
-
-            // SEの再生
-            PlayCatVoiceSE(CatReaction.FEW_MANY);
-
-            return CatReaction.FEW_MANY;
-        }
-        else if (Current_meal > Target_meal)
-        {
-            // おおい
-            Cat_emotion_Text.text = "ごはんが多い！";
-            //cat_unhappy.SetActive(true);
-
-            // SEの再生
-            PlayCatVoiceSE(CatReaction.FEW_MANY);
-
-            return CatReaction.FEW_MANY;
-        }
-
-        return CatReaction.WITHIN_MARGIN; // ←保険
     }
 
     // ねこの反応に合わせて、SEを鳴らす
@@ -467,22 +466,23 @@ public class GameManager : MonoBehaviour
         switch (reaction)
         {
             case CatReaction.PERFECT:
-                clip = SoundManager.instance.SE_meowLovey;
+                //clip = SoundManager.instance.SE_meowLovey;
                 break;
             case CatReaction.WITHIN_MARGIN:
-                clip = SoundManager.instance.SE_meowHappy;
+                //clip = SoundManager.instance.SE_meowHappy;
                 break;
             case CatReaction.FEW_MANY:
-                clip = SoundManager.instance.SE_meowUnhappy;
+                //clip = SoundManager.instance.SE_meowUnhappy;
                 break;
             case CatReaction.LESS_MORE:
-                clip = SoundManager.instance.SE_meowAngry;
+                //clip = SoundManager.instance.SE_meowAngry;
                 break;
         }
 
         // clipに登録されているSEがあるときにのみ鳴らす
         if (clip != null)
-            SoundManager.instance.SE_audioSource.PlayOneShot(clip);
+            //SoundManager.instance.SE_audioSource.PlayOneShot(clip);
+            return;
     }
 
     // 次のネコの準備をする
