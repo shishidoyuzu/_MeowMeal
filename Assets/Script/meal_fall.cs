@@ -86,7 +86,7 @@ public class Meal_Fall : MonoBehaviour
             // 右クリックしたとき
             if (isRefill)
             {
-                Debug.Log("ごはんを新しくするよ！");
+                //Debug.Log("ごはんを新しくするよ！");
                 // 残っているごはんをGameManagerに送る
                 GameManager.instance.Count_CatfoodWasted(MealCapacity);
                 // ごはん袋を満タンにする
@@ -119,7 +119,7 @@ public class Meal_Fall : MonoBehaviour
         // 袋のごはんが0gを下回ったら
         if (MealCapacity <= 0f)
         {
-            Debug.Log("ごはんが無いよ！");
+            //Debug.Log("ごはんが無いよ！");
             // 0gにして、もうごはんが出ないようにする
             MealCapacity = 0.0f;
             return;

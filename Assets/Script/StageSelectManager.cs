@@ -61,8 +61,6 @@ public class StageSelectManager : MonoBehaviour
     {
         yield return null;  // 1 フレーム待つ
 
-        int stage = SelectStageNum;
-
         // スクロールバーの捜索＆取得
         scrollbar = GameObject.Find("Scrollbar Horizontal").GetComponent<Scrollbar>();
 
@@ -107,10 +105,17 @@ public class StageSelectManager : MonoBehaviour
 
     public void SetStageUI(int sNum)
     {
+        if (sNum < 0 || sNum >= AllStageData.Count)
+        {
+            Debug.LogError($"不正なステージ番号: {sNum}");
+            sNum = Mathf.Clamp(sNum, 0, AllStageData.Count - 1);
+            SelectStageNum = sNum;
+        }
+
         // SelectStageNumの更新
         var data = AllStageData[sNum];
 
-        //Debug.Log($"{sNum + 1}");
+        //Debug.Log($"ステージ：{sNum + 1}");
 
         // UIの更新
         // ｘ日目のテキスト

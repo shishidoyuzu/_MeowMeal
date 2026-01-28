@@ -174,7 +174,7 @@ public class ScoreManager : MonoBehaviour
         {
             comboCount++;
 
-            Debug.Log($"{comboCount}");
+            //Debug.Log($"{comboCount}");
 
             // コンボが３回のとき
             if (comboCount == 3)
@@ -217,7 +217,7 @@ public class ScoreManager : MonoBehaviour
 
         wastedPenalty -= wastedInt * penaltyRate;
 
-        Debug.Log($"今回:{wastedInt}g / 累計:{wastedGram}g");
+        //Debug.Log($"今回:{wastedInt}g / 累計:{wastedGram}g");
 
         //Debug.Log($"無駄にしたごはん量：{Mathf.CeilToInt(wastedInt)}");
     }

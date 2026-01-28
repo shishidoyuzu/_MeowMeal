@@ -65,10 +65,6 @@ public class GameManager : MonoBehaviour
     // 無駄にしたごはん量
     private float Catfood_Wasted;
 
-    [Header("ねこSE")]
-    
-
-
     [Header("ゲーム内テキスト")]
     // ごはん量テキスト
     [SerializeField] TextMeshProUGUI Meal_gram_Text;
@@ -156,7 +152,7 @@ public class GameManager : MonoBehaviour
         // 取得したデータをもとにネコを呼び出し！
         RandomSpawn_NextCat();
 
-        Debug.Log("Current StageData: " + stageData.name);
+        //Debug.Log("Current StageData: " + stageData.name);
         Debug.Log("CatName List: " + string.Join(", ", stageData.CatName));
     }
 
@@ -194,12 +190,6 @@ public class GameManager : MonoBehaviour
             TimeLeft = 0f; // ０秒に固定
             IsTimerActive = false; // タイマー動いてないよ！っていうフラグ
             OnTimeUp(); // 時間切れ時の処理
-        }
-
-        // ５ステージ終わったら
-        if(CurrentStage == 5)
-        {
-            // タイトルシーンに戻る
         }
     }
 
@@ -246,10 +236,6 @@ public class GameManager : MonoBehaviour
         currentCat.SetCatData(name, meal);
 
         SpawnedCatCount++;
-
-        // ここで
-        // 普通のネコは「この鳴き声の中からランダムで」再生する、
-        // でぶネコは　「この鳴き声の中からランダムで」再生する、をしたい
 
         // UI更新 & タイマー開始 など
         SetupCatUI(name, meal);
@@ -300,7 +286,7 @@ public class GameManager : MonoBehaviour
     {
         Catfood_Wasted += food_Capa;
         //Debug.Log($"無駄にしたごはん：{Catfood_Wasted}");
-        Debug.Log($"今回：{food_Capa} / 累計：{Catfood_Capa}");
+        //Debug.Log($"今回：{food_Capa} / 累計：{Catfood_Capa}");
     }
 
     void UpdateTimerUI()
@@ -320,8 +306,6 @@ public class GameManager : MonoBehaviour
         // 出てきたネコが３匹目なら
         if(SpawnedCatCount >= StageCatCount)
         {
-            //Debug.Log("全てのネコにごはんをあげた！");
-
             // ChangeSceneスクリプトを探して呼び出す(非アクティブ対応)
             ChangeScene cs = MenuPanal.GetComponentInChildren<ChangeScene>(true);
             if (cs != null)
@@ -453,7 +437,7 @@ public class GameManager : MonoBehaviour
     // ねこの反応に合わせて、SEを鳴らす
     void PlayCatVoiceSE(CatReaction reaction)
     {
-        if (SoundManager.instance = null)
+        if (SoundManager.instance == null)
         {
             Debug.LogWarning("SoundManagerが見つからないよ！");
             return;
@@ -536,5 +520,10 @@ public class GameManager : MonoBehaviour
             GameManager.instance.allStageData[CurrentStage - 1];
 
         return CurrentStage;
+    }
+
+    public bool isFinalStage()
+    {
+        return StageSelectManager.SelectStageNum >= allStageData.Count - 1;
     }
 }
