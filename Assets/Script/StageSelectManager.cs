@@ -115,8 +115,6 @@ public class StageSelectManager : MonoBehaviour
         // SelectStageNumの更新
         var data = AllStageData[sNum];
 
-        //Debug.Log($"ステージ：{sNum + 1}");
-
         // UIの更新
         // ｘ日目のテキスト
         Date_Text.text = ($"{sNum + 1}日目");

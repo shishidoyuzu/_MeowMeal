@@ -3,18 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/*
-スコアを表示するとき、一気に表示するのではなく１つずつ表示したい
-
-・反応スコア表示 SE鳴る
-・コンボスコア表示 SE鳴る
-・無駄にしたごはんペナ表示 SE鳴る
-・合計スコア表示 SE鳴る
-（ハイスコアの場合は「記録更新！」的な画像が
-　ふわふわアニメーションで、スコアの左上か右上に表示）
- */
-
-
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
