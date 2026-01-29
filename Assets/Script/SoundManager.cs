@@ -18,8 +18,6 @@ public class SoundManager : MonoBehaviour
     public AudioClip SE_UIclick;
     [Tooltip("UI（閉じる）クリック")]
     public AudioClip SE_UIclose;
-    [Tooltip("お皿にごはんが当たる音")]
-    public AudioClip SE_fallPlate;
     [Tooltip("ねこリアクション：Lovey")]
     public AudioClip SE_meowLovey;
     [Tooltip("ねこリアクション：Happy")]
@@ -30,6 +28,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip SE_meowAngry;
     [Tooltip("スコア表示")]
     public AudioClip SE_score;
+
+    [Header("お皿にごはんが当たる音")]
+    [SerializeField] private List<AudioClip> SE_HitPlateMeal = new List<AudioClip>();
 
     // ゲームシーンに現れた時の鳴き声
     [Header("普通のねこの鳴き声（全４種）")]
@@ -191,6 +192,16 @@ public class SoundManager : MonoBehaviour
         if(fatCat_voices.Count == 0) return;
 
         AudioClip clip = fatCat_voices[Random.Range(0, fatCat_voices.Count)];
+        SE_audioSource.PlayOneShot(clip);
+    }
+
+    // カラカラ音リストに登録されているAudioClipをランダムに再生する関数
+    public void RandomPlay_HPM()
+    {
+        // 未登録ならスルー
+        if(SE_HitPlateMeal.Count == 0) return;
+
+        AudioClip clip = SE_HitPlateMeal[Random.Range(0, SE_HitPlateMeal.Count)];
         SE_audioSource.PlayOneShot(clip);
     }
 }

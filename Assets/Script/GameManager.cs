@@ -82,23 +82,28 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject MenuClose_Button;
     [SerializeField] private GameObject MenuPanal;
 
-    [Header("ねこの感情画像")]
-    public GameObject cat_lovey;    // ぴったりのとき
-    public GameObject cat_happy;    // 誤差以内のとき
-    public GameObject cat_unhappy;  // 多い少ないのとき
-    public GameObject cat_angry;    // 多すぎ少なすぎのとき
+    [Header("ねこの感情Obj")]
+    private GameObject cat_lovey;    // ぴったりのとき
+    private GameObject cat_happy;    // 誤差以内のとき
+    private GameObject cat_unhappy;  // 多い少ないのとき
+    private GameObject cat_angry;    // 多すぎ少なすぎのとき
+
+    [Header("感情Prefabs")]
+    [SerializeField] GameObject catLoveyPrefab;
+    [SerializeField] GameObject catHappyPrefab;
+    [SerializeField] GameObject catUnhappyPrefab;
+    [SerializeField] GameObject catAngryPrefab;
+
+    [Header("感情UI Parent")]
+    [SerializeField] Transform uiParent;
 
     private Dictionary<string, string> catsName = new Dictionary<string, string>() {
         {"ノルウェージャン" ,"cat_norwegian"},
         {"ベンガル"         ,"cat_bengal"},
         {"サバトラ"         ,"cat_sabatora"},
-        {"チャトラ"         ,"cat_chatora"},
         {"ハチワレ"         ,"cat_hachiware"},
-        {"アメショー"       ,"cat_american"},
         {"マンチカン"       ,"cat_munchkin"},
-        {"スコティッシュ"   ,"cat_scottish"},
         {"でぶサバトラ"     ,"cat_fat_sabatora"},
-        {"でぶチャトラ"     ,"cat_fat_chatora"},
         {"でぶハチワレ"     ,"cat_fat_hachiware"},
     };
 
@@ -139,6 +144,9 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Cat_DataBase が見つかりません！シーン内にあるか確認して！");
             return;
         }
+
+        // 感情Prefab生成
+        CreateEmotionPrefab();
 
         // 取得したデータをもとにネコを呼び出し！
         RandomSpawn_NextCat();
@@ -215,7 +223,23 @@ public class GameManager : MonoBehaviour
         }
 
         // プレハブ検索
+        Cat chosenCat = null;
+
+        foreach (var cat in catPrefabs)
+        {
+            if (cat == null) continue;
+            if (cat.name == prefabKey)
+            {
+                chosenCat = cat;
+                break;
+            }
+        }
+
+        /*
         Cat chosenCat = System.Array.Find(catPrefabs, c => c.name == prefabKey);
+        Debug.Log(chosenCat);
+        Debug.Log(chosenCat == null);
+        */
         if (chosenCat == null)
         {
             Debug.LogError($"プレハブ「{prefabKey}」が見つかりません");
@@ -225,6 +249,16 @@ public class GameManager : MonoBehaviour
         // 生成
         currentCat = Instantiate(chosenCat, catSpawnPos.position, Quaternion.identity);
         currentCat.SetCatData(name, meal);
+
+        // 普通かでぶか判断
+        if(currentCat.name == "でぶハチワレ" || currentCat.name == "でぶサバトラ")
+        {
+            SoundManager.instance.RandomPlay_VCF();
+        }
+        else
+        {
+            SoundManager.instance.RandomPlay_VCN();
+        }
 
         SpawnedCatCount++;
 
@@ -362,7 +396,8 @@ public class GameManager : MonoBehaviour
             Cat_emotion_Text.text = "ごはんがぴったり！\nやったね！";
             // SEの再生
             PlayCatVoiceSE(CatReaction.PERFECT);
-            //cat_lovey.SetActive(true);
+            // 感情表現
+            ShowCatEmotion(CatReaction.PERFECT);
 
             return CatReaction.PERFECT;
         }
@@ -372,7 +407,8 @@ public class GameManager : MonoBehaviour
             Cat_emotion_Text.text = "ちょうどいいごはんの量！";
             // SEの再生
             PlayCatVoiceSE(CatReaction.WITHIN_MARGIN);
-            //cat_happy.SetActive(true);
+            // 感情表現
+            ShowCatEmotion(CatReaction.WITHIN_MARGIN);
 
             return CatReaction.WITHIN_MARGIN;
         }
@@ -385,7 +421,8 @@ public class GameManager : MonoBehaviour
                 Cat_emotion_Text.text = "とてもごはんが少ない！";
                 // SEの再生
                 PlayCatVoiceSE(CatReaction.LESS_MORE);
-                //cat_angry.SetActive(true);
+                // 感情表現
+                ShowCatEmotion(CatReaction.LESS_MORE);
 
                 return CatReaction.LESS_MORE;
             }
@@ -395,7 +432,8 @@ public class GameManager : MonoBehaviour
                 Cat_emotion_Text.text = "とてもごはんが多い！";
                 // SEの再生
                 PlayCatVoiceSE(CatReaction.LESS_MORE);
-                //cat_angry.SetActive(true);
+                // 感情表現
+                ShowCatEmotion(CatReaction.LESS_MORE);
 
                 return CatReaction.LESS_MORE;
             }
@@ -408,7 +446,8 @@ public class GameManager : MonoBehaviour
                 Cat_emotion_Text.text = "ごはんが少ない！";
                 // SEの再生
                 PlayCatVoiceSE(CatReaction.FEW_MANY);
-                //cat_unhappy.SetActive(true);
+                // 感情表現
+                ShowCatEmotion(CatReaction.FEW_MANY);
 
                 return CatReaction.FEW_MANY;
             }
@@ -418,7 +457,8 @@ public class GameManager : MonoBehaviour
                 Cat_emotion_Text.text = "ごはんが多い！";
                 // SEの再生
                 PlayCatVoiceSE(CatReaction.FEW_MANY);
-                //cat_unhappy.SetActive(true);
+                // 感情表現
+                ShowCatEmotion(CatReaction.FEW_MANY);
 
                 return CatReaction.FEW_MANY;
             }
@@ -441,23 +481,22 @@ public class GameManager : MonoBehaviour
         switch (reaction)
         {
             case CatReaction.PERFECT:
-                //clip = SoundManager.instance.SE_meowLovey;
+                clip = SoundManager.instance.SE_meowLovey;
                 break;
             case CatReaction.WITHIN_MARGIN:
-                //clip = SoundManager.instance.SE_meowHappy;
+                clip = SoundManager.instance.SE_meowHappy;
                 break;
             case CatReaction.FEW_MANY:
-                //clip = SoundManager.instance.SE_meowUnhappy;
+                clip = SoundManager.instance.SE_meowUnhappy;
                 break;
             case CatReaction.LESS_MORE:
-                //clip = SoundManager.instance.SE_meowAngry;
+                clip = SoundManager.instance.SE_meowAngry;
                 break;
         }
 
         // clipに登録されているSEがあるときにのみ鳴らす
         if (clip != null)
-            //SoundManager.instance.SE_audioSource.PlayOneShot(clip);
-            return;
+            SoundManager.instance.SE_audioSource.PlayOneShot(clip);
     }
 
     // 次のネコの準備をする
@@ -477,11 +516,8 @@ public class GameManager : MonoBehaviour
             currentCat = null;
         }
 
-        // ねこの感情表現を削除
-        //cat_lovey.SetActive(false);
-        //cat_happy.SetActive(false);
-        //cat_unhappy.SetActive(false);
-        //cat_angry.SetActive(false);
+        // 全ての感情表現を非表示に
+        WontShowCatEmotion();
 
         // 今のごはん量のリセット（Plateから呼び出し）
         Plate plate  = FindObjectOfType<Plate>();
@@ -495,6 +531,41 @@ public class GameManager : MonoBehaviour
 
         // 次のネコを呼び出す
         RandomSpawn_NextCat();
+    }
+
+    public void CreateEmotionPrefab()
+    {
+        // プレハブから生成する
+        cat_lovey = Instantiate(catLoveyPrefab, uiParent);
+        cat_happy = Instantiate(catHappyPrefab, uiParent);
+        cat_unhappy = Instantiate(catUnhappyPrefab, uiParent);
+        cat_angry = Instantiate(catAngryPrefab, uiParent);
+
+        WontShowCatEmotion();
+    }
+
+    public void WontShowCatEmotion()
+    {
+        // すべて非表示に
+        cat_lovey.SetActive(false);
+        cat_happy.SetActive(false);
+        cat_unhappy.SetActive(false);
+        cat_angry.SetActive(false);
+    }
+
+    public void ShowCatEmotion(CatReaction reaction)
+    {
+        // 一度全て消す
+        WontShowCatEmotion();
+
+        if (reaction == CatReaction.PERFECT)
+            cat_lovey.SetActive(true);
+        else if (reaction == CatReaction.WITHIN_MARGIN)
+            cat_happy.SetActive(true);
+        else if (reaction == CatReaction.FEW_MANY)
+            cat_unhappy.SetActive(true);
+        else if (reaction == CatReaction.LESS_MORE)
+            cat_angry.SetActive(true);
     }
 
     // リプレイ時

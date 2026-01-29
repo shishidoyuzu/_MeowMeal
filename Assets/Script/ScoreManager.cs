@@ -277,7 +277,6 @@ public class ScoreManager : MonoBehaviour
     private void PlayResultSE()
     {
         // ƒXƒRƒASE‚ðˆê‰ñ—¬‚·
-        //SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_score);
-        return;
+        SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_score);
     }
 }

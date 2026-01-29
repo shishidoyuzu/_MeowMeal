@@ -9,14 +9,11 @@ public class Plate : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        // ‚²‚Í‚ñ‚É‚ ‚½‚Á‚½
+        // ‚²‚Í‚ñ‚ª“–‚½‚Á‚½
         if (collision.gameObject.tag == "Meal")
         {
             // SE‚ÌÄ¶
-            if (SoundManager.instance != null)
-                SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_fallPlate);
-            else
-                Debug.LogWarning("SoundManager‚ªŒ©‚Â‚©‚ç‚È‚¢‚æI");
+            SoundManager.instance.RandomPlay_HPM();
 
             // ‚¨M‚É“–‚½‚é‚ÆA¡‚Ì‚²‚Í‚ñ—Ê‚É‚P—±‚ÌƒOƒ‰ƒ€‚ğ‘«‚µ‚Ä‚¢‚­
             Now_gram += Meal_weight;
