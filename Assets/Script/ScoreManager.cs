@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,8 @@ public class ScoreManager : MonoBehaviour
     int wastedPenalty = 0;
     // 無駄にしたごはん量
     float wastedGram = 0f;
+    // 各ねこの目標量との差
+    //List<int> mealDiffList = new List<int>();
     // 合計スコア
     int totalScore = 0;
     // 前回のハイスコア
@@ -34,11 +37,14 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI comboBonus_text;
     public TextMeshProUGUI totalScore_text;
 
+    //TextMeshProUGUI[] mealDiffTexts;
+
     [Header("ハイスコア更新画像")]
     [SerializeField] private GameObject highScoreEffect;
 
     // ペナルティスコアにかかる倍率
     private const int penaltyRate = 5;
+
     void Awake()
     {
         if (Instance == null)
@@ -68,6 +74,10 @@ public class ScoreManager : MonoBehaviour
         wastedGram_text = GameObject.Find("WastedGram")?.GetComponent<TextMeshProUGUI>();
         comboBonus_text = GameObject.Find("ComboBonus")?.GetComponent<TextMeshProUGUI>();
         totalScore_text = GameObject.Find("TotalScore")?.GetComponent<TextMeshProUGUI>();
+        //mealDiffTexts = new TextMeshProUGUI[3];
+        //mealDiffTexts[0] = GameObject.Find("MealDiff_1")?.GetComponent<TextMeshProUGUI>();
+        //mealDiffTexts[1] = GameObject.Find("MealDiff_2")?.GetComponent<TextMeshProUGUI>();
+        //mealDiffTexts[2] = GameObject.Find("MealDiff_3")?.GetComponent<TextMeshProUGUI>();
     }
 
     // スコアテキストを空白に
@@ -78,7 +88,7 @@ public class ScoreManager : MonoBehaviour
         reactionScore_text.text = "";
         comboBonus_text.text    = "";
         wastedPenalty_text.text = "";
-        wastedGram_text.text    = "";
+        //wastedGram_text.text    = "";
         totalScore_text.text    = "";
     }
 
@@ -102,11 +112,16 @@ public class ScoreManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // 無駄にしたごはん量を表示
-        wastedGram_text.text = ($"{wastedGram}g ×{penaltyRate} ");
+        //wastedGram_text.text = ($"{wastedGram}g ×{penaltyRate} ");
+        // 目標量との差を表示
+        //for (int i = 0; i < mealDiffList.Count; i++)
+        //{
+        //    mealDiffTexts[i].text = $"{mealDiffList[i]}g";
+        //}
         // SEを流す
-        PlayResultSE();
+        //PlayResultSE();
         // 少しの間コルーチンを待機させる
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
 
         // ペナルティスコアを表示
         wastedPenalty_text.text = ($"{wastedPenalty}");
@@ -190,24 +205,28 @@ public class ScoreManager : MonoBehaviour
         // 「無駄にしたごはん量」を記録
         wastedGram += wastedInt;
 
-        /*
-        // ペナルティを算出する
-        int penalty = wasted switch
-        {
-            <= 20f => 0,
-            <= 50f => -30,
-            <= 100f => -50,
-            <= 150f => -100,
-            _ => -200
-        };
-        //wastedPenalty += penalty;
-        */
-
         wastedPenalty -= wastedInt * penaltyRate;
 
-        //Debug.Log($"今回:{wastedInt}g / 累計:{wastedGram}g");
+        Debug.Log($"今回:{wastedInt}g / 累計:{wastedGram}g");
+    }
 
-        //Debug.Log($"無駄にしたごはん量：{Mathf.CeilToInt(wastedInt)}");
+    public void ApplyMealDiffPenalty(float wasted)
+    {
+        // 「目標量からの差」の値を切り上げる
+        int wastedInt = Mathf.CeilToInt(wasted);
+
+        // ペナルティを算出する
+        int penalty = wastedInt switch
+        {
+            <= 20 => 0,
+            <= 50 => -30,
+            <= 100 => -50,
+            <= 150 => -100,
+            _ => -200
+        };
+        wastedPenalty += penalty;
+
+        Debug.Log($"無駄にしたごはん量：{wastedInt}");
     }
 
     // 合計スコア更新
@@ -218,6 +237,17 @@ public class ScoreManager : MonoBehaviour
 
         // 今回のスコアを次回用に保存しておく
         previousScore = totalScore;
+    }
+
+    public void AddMealDiff(float diff)
+    {
+        int diffInt = Mathf.CeilToInt(diff);
+
+        // 表示用に保存
+        //mealDiffList.Add(diffInt);
+
+        // ペナルティ計算
+        ApplyMealDiffPenalty(diffInt);
     }
 
     // ハイスコア更新時の演出
@@ -260,6 +290,8 @@ public class ScoreManager : MonoBehaviour
 
         lastReaction = CatReaction.WITHIN_MARGIN;
         comboCount = 0;
+
+        //mealDiffList.Clear();
     }
 
     public int GetTotalScore()
@@ -274,8 +306,20 @@ public class ScoreManager : MonoBehaviour
         return wastedGram;
     }
 
-    private void PlayResultSE()
+    public void PlayResultSE()
     {
+        if (SoundManager.instance == null)
+        {
+            Debug.LogWarning("SoundManager.instance が null");
+            return;
+        }
+
+        if (SoundManager.instance.SE_audioSource == null)
+        {
+            Debug.LogWarning("SE_audioSource が null");
+            return;
+        }
+
         // スコアSEを一回流す
         SoundManager.instance.SE_audioSource.PlayOneShot(SoundManager.instance.SE_score);
     }

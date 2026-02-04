@@ -382,9 +382,13 @@ public class GameManager : MonoBehaviour
         ScoreManager.Instance.AddCombo(reaction);
 
         // 残りごはんペナルティを送る
-        ScoreManager.Instance.WastedMealPenalty(Catfood_Wasted);
-        //ScoreManager.Instance.AddMealAmountPenalty(diff);
+        //ScoreManager.Instance.WastedMealPenalty(Catfood_Wasted);
+        ScoreManager.Instance.ApplyMealDiffPenalty(diff);
+
+        // 差分をintにして送る
+        //ScoreManager.Instance.AddMealDiff(diff);
     }
+
     // 「ごはん量のズレ」によるネコの感情変化
     public CatReaction GetCatReaction(float diff)
     {
@@ -528,6 +532,8 @@ public class GameManager : MonoBehaviour
 
         // ねこが変わるとき、ごはんを落とせるように
         FindObjectOfType<Meal_Fall>()?.ResetMealFlag();
+        // ここで、袋の中のごはん量を満タンに
+        FindAnyObjectByType<Meal_Fall>()?.RefillMealBag();
 
         // 次のネコを呼び出す
         RandomSpawn_NextCat();

@@ -86,9 +86,8 @@ public class Meal_Fall : MonoBehaviour
             // 右クリックしたとき
             if (isRefill)
             {
-                //Debug.Log("ごはんを新しくするよ！");
                 // 残っているごはんをGameManagerに送る
-                GameManager.instance.Count_CatfoodWasted(MealCapacity);
+                // GameManager.instance.Count_CatfoodWasted(MealCapacity);
                 // ごはん袋を満タンにする
                 RefillMealBag();
                 // 表示を更新
@@ -165,7 +164,7 @@ public class Meal_Fall : MonoBehaviour
         GameManager.instance.Show_CatfoodCapacity(MealCapacity);
     }
 
-    void RefillMealBag()
+    public void RefillMealBag()
     {
         MealCapacity = 100.0f;
 
